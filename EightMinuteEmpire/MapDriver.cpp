@@ -28,6 +28,10 @@ int main()
 	c1->adjCountries->push_back(c2); //make usa and canada adjacent
 	c2->adjCountries->push_back(c1);
 
+	Continent* cont1 = new Continent("North America");
+
+	c1->parentContinent = cont1;
+
 
 	cout << map->mapCountries->at(0)->name->c_str() << endl; //print string from a coutry via map
 

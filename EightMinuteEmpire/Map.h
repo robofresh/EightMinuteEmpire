@@ -12,10 +12,13 @@ using namespace std;
 class Continent
 {
 public:
-	Continent();
+	Continent(string);
 	~Continent();
 
-//	vector<Country*>* containedCountries; //pointer to a vector of pointers to countries contained in continent
+	string* name;
+
+
+	//vector<Country*>* containedCountries; //pointer to a vector of pointers to countries contained in continent
 };
 
 

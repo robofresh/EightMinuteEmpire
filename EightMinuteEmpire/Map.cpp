@@ -19,6 +19,9 @@ Map::~Map()
 Country::Country(string inputName)
 {
 	name = new string(inputName);
+
+	adjCountries = new vector<Country*>();
+
 }
 
 
@@ -26,8 +29,9 @@ Country::~Country()
 {
 }
 
-Continent::Continent()
+Continent::Continent(string inputName)
 {
+	name = new string(inputName);
 }
 
 
