@@ -16,19 +16,18 @@ int main()
 
 	Map *map = new Map(); // make a map object
 
-	vector<Country*> allCountries; //start a vector of country pointers
-
 
 	//simulate input...
 	Country *c1 = new Country("Canada");
-	allCountries.push_back(c1); //add each new country pointer to the vector
+	map->mapCountries->push_back(c1); //add each new country pointer to the vector
 	Country *c2 = new Country("USA");
-	allCountries.push_back(c2);
+	map->mapCountries->push_back(c2);
 	Country *c3 = new Country("Russia");
-	allCountries.push_back(c3);
+	map->mapCountries->push_back(c3);
 
+	c1->adjCountries->push_back(c2); //make usa and canada adjacent
+	c2->adjCountries->push_back(c1);
 
-	map->mapCountries = &allCountries; //make the map's country vector pointer point to this vector
 
 	cout << map->mapCountries->at(0)->name->c_str() << endl; //print string from a coutry via map
 
