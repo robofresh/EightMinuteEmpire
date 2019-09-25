@@ -18,9 +18,11 @@ int main()
 
 
 	//simulate input...
+	//this will likely change and depending how a file is formated, the contient may add it's countries when created as a nested for loop
+
 	for (int i = 0; i < 10; i++)
 	{
-		Continent* cont = new Continent("Contitnent " + to_string(i/2), map);
+		Continent* cont = new Continent("Contitnent " + to_string(i/2), map); 
 		Country* country = new Country("Country " + to_string(i), cont, map);
 	}
 

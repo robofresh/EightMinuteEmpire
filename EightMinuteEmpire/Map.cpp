@@ -1,5 +1,5 @@
 #include "Map.h"
-#include <string>
+
 //with each country as a class, our map nodes will be pointers to those classes on the heap
 
 
@@ -27,8 +27,8 @@ Country::Country(string inputName, Continent* cont, Map* map)
 
 	name = new string(inputName);
 	parentContinent = cont;
-	adjCountries = new vector<Country*>(); //add to map
-	map->mapCountries->push_back(this);
+	adjCountries = new vector<Country*>(); 
+	map->mapCountries->push_back(this); //add to map
 
 }
 
