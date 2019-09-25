@@ -18,22 +18,25 @@ int main()
 
 
 	//simulate input...
-	Country *c1 = new Country("Canada");
-	map->mapCountries->push_back(c1); //add each new country pointer to the vector
-	Country *c2 = new Country("USA");
-	map->mapCountries->push_back(c2);
-	Country *c3 = new Country("Russia");
-	map->mapCountries->push_back(c3);
+	for (int i = 0; i < 10; i++)
+	{
+		Continent* cont = new Continent("Contitnent " + to_string(i/2), map);
+		Country* country = new Country("Country " + to_string(i), cont, map);
+	}
 
-	c1->adjCountries->push_back(c2); //make usa and canada adjacent
-	c2->adjCountries->push_back(c1);
-
-	Continent* cont1 = new Continent("North America");
-
-	c1->parentContinent = cont1;
+	for (int i = 0; i < map->mapCountries->size(); i++)
+	{
+		cout << map->mapCountries->at(i)->name->c_str() << endl;
+	}
 
 
-	cout << map->mapCountries->at(0)->name->c_str() << endl; //print string from a coutry via map
+	for (int i = 0; i < map->mapContinents->size(); i++)
+	{
+		cout << map->mapContinents->at(i)->name->c_str() << endl;
+	}
+
+
+	//cout << map->mapCountries->at(0)->name->c_str() << endl; //print string from a coutry via map
 
 
 }
