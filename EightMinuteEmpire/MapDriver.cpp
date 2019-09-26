@@ -22,13 +22,27 @@ int main()
 
 	for (int i = 0; i < 10; i++)
 	{
-		Continent* cont = new Continent("Contitnent " + to_string(i/2), map); 
-		Country* country = new Country("Country " + to_string(i), cont, map);
+		Continent* cont = map->createContinent("Contitnent " + to_string(i / 2));
+		Country* country = map->createCountry("Country "  , cont);
+
+		if (country != nullptr)
+		{
+			for (int j = 0; j < i; j += 2)
+			{
+				country->adjCountries->push_back(map->mapCountries->at(j));
+			}
+		}
+		
 	}
 
 	for (int i = 0; i < map->mapCountries->size(); i++)
 	{
-		cout << map->mapCountries->at(i)->name->c_str() << endl;
+		cout << map->mapCountries->at(i)->name->c_str();
+		for (int j = 0; j < map->mapCountries->at(i)->adjCountries->size(); j++)
+		{
+			cout << " -> " << map->mapCountries->at(i)->adjCountries->at(j)->name->c_str();
+		}
+		cout << endl;
 	}
 
 

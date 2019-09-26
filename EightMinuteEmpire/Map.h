@@ -3,6 +3,7 @@
 #include <vector> 
 #include <list>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -50,6 +51,8 @@ public:
 	Map();
 	~Map();
 
+	Country* createCountry(string, Continent*);
+	Continent* createContinent(string);
 
 	vector<Country*> *mapCountries; //pointer to a vector of pointers to all Countries
 	vector<Continent*>* mapContinents; //ditto for continents
