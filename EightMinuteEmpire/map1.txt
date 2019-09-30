@@ -1,0 +1,18 @@
+North America
+	Canada
+	USA
+	Mexico
+South America
+	Argentina
+	Bolivia
+	Brazil
+	Chile
+	Colombia
+	Ecuador
+	Guyana
+	Paraguay
+	Peru
+	Suriname
+	Uruguay
+	Venezuela
+Connections
