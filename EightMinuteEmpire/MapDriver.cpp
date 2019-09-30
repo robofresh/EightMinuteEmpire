@@ -23,7 +23,7 @@ int main()
 	for (int i = 0; i < 10; i++)
 	{
 		Continent* cont = map->createContinent("Contitnent " + to_string(i / 2));
-		Country* country = map->createCountry("Country "  , cont);
+		Country* country = map->createCountry("Country " + to_string(i) , cont);
 
 		if (country != nullptr)
 		{
