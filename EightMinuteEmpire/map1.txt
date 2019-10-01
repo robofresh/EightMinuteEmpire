@@ -16,14 +16,9 @@ Continents
 		Suriname
 		Uruguay
 		Venezuela
- 
-
 Connections
 	Canada
 		USA
 	USA
 		Canada
 		Mexico
-
-
- 

@@ -84,25 +84,19 @@ void processFile(ifstream* mapFile, Map* map)
 				if (fileString->at(0) != '\t')
 					break;
 
-				if (fileString->at(0) == '\t' && fileString->at(1) != '\t')
-				{
-					cleanString(fileString);
-
-					cont = map->createContinent(*fileString);
-					createdCont = true;
-					//cout << "new continent: " << *fileString << endl;
-					continue;
-				}
-
-
 				if (fileString->at(0) == '\t' && fileString->at(1) == '\t')
 				{
 					cleanString(fileString);
+					//cout << *fileString << endl;
 
-					Country* country = map->createCountry(*fileString, cont);
-					cont->containedCountries->push_back(country);
+					continue;
+				}
 
-					//cout << "\t" << "new country: " << *fileString << endl;
+				if (fileString->at(0) == '\t')
+				{
+					cleanString(fileString);
+					//cout << *fileString << " connects with: " << endl;
+
 					continue;
 				}
 			}
@@ -121,7 +115,7 @@ void cleanString(string* str)
 	//clean up line
 	for (int i = 0; i < str->length(); i++)
 	{
-		if (str->at(i) == '\t' || str->at(i) == '\n' || str->at(i) == ' ')
+		if (str->at(i) == '\t' || str->at(i) == '\n')
 		{
 			str->erase(i, 1);
 		}

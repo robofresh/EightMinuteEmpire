@@ -22,10 +22,13 @@ void Map::print()
 
 	for (int i = 0; i < mapCountries->size(); i++)
 	{
-		cout << mapCountries->at(i)->name->c_str() << " is connected to te countries: " << endl;
-		for (int j = 0; j < mapCountries->at(i)->adjCountries->size(); j++)
+		if (mapCountries->at(i)->adjCountries->size() > 1)
 		{
-			cout << '\t' << mapCountries->at(i)->adjCountries->at(j)->name->c_str() << endl;
+			cout << mapCountries->at(i)->name->c_str() << " is connected to the countries: " << endl;
+			for (int j = 0; j < mapCountries->at(i)->adjCountries->size(); j++)
+			{
+				cout << '\t' << mapCountries->at(i)->adjCountries->at(j)->name->c_str() << endl;
+			}
 		}
 	}
 }
