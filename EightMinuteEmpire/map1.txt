@@ -1,18 +1,29 @@
-North America
-	Canada
-	USA
-	Mexico
-South America
-	Argentina
-	Bolivia
-	Brazil
-	Chile
-	Colombia
-	Ecuador
-	Guyana
-	Paraguay
-	Peru
-	Suriname
-	Uruguay
-	Venezuela
+Continents
+	North America
+		Canada
+		USA
+		Mexico
+	South America
+		Argentina
+		Bolivia
+		Brazil
+		Chile
+		Colombia
+		Ecuador
+		Guyana
+		Paraguay
+		Peru
+		Suriname
+		Uruguay
+		Venezuela
+ 
+
 Connections
+	Canada
+		USA
+	USA
+		Canada
+		Mexico
+
+
+ 

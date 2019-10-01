@@ -29,6 +29,9 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapLoader.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="map1.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{191A4FA2-C23D-40C6-8DFD-E489AEE58C29}</ProjectGuid>
