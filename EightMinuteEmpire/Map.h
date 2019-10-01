@@ -57,6 +57,9 @@ public:
 	vector<Country*> *mapCountries; //pointer to a vector of pointers to all Countries
 	vector<Continent*>* mapContinents; //ditto for continents
 
+	Country* getCountry(string);
+	Continent* getContinent(string);
+
 	void print();
 
 };
