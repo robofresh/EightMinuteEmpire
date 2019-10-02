@@ -13,10 +13,10 @@ void Map::print()
 {
 	for (int i = 0; i < mapContinents->size(); i++)
 	{
-		cout << mapContinents->at(i)->name->c_str() << " has the countries: " << endl;
+		cout << "\'" << mapContinents->at(i)->name->c_str() << "\'" << " has the countries: " << endl;
 		for (int j = 0; j < mapContinents->at(i)->containedCountries->size(); j++)
 		{
-			cout << "\t" << mapContinents->at(i)->containedCountries->at(j)->name->c_str() << endl;
+			cout << "\t" << "\'" << mapContinents->at(i)->containedCountries->at(j)->name->c_str() << "\'" << endl;
 		}
 	}
 
@@ -27,7 +27,7 @@ void Map::print()
 			cout << mapCountries->at(i)->name->c_str() << " is connected to the countries: " << endl;
 			for (int j = 0; j < mapCountries->at(i)->adjCountries->size(); j++)
 			{
-				cout << "\t" << mapCountries->at(i)->adjCountries->at(j)->name->c_str() << endl;
+				cout << "\t" <<  "\'"<< mapCountries->at(i)->adjCountries->at(j)->name->c_str() << "\'" << endl;
 			}
 		}
 	}

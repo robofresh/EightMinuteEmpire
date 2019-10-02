@@ -3,7 +3,7 @@
 
 void cleanString(string*);
 void processFile(ifstream*, Map*);
-
+bool validateString(string*);
 
 MapLoader::MapLoader(string file, Map* map)
 {
@@ -45,6 +45,10 @@ void processFile(ifstream* mapFile, Map* map)
 				if (fileString->at(0) == '\t' && fileString->at(1) != '\t')
 				{
 					cleanString(fileString);
+
+					if (!validateString(fileString))
+						continue;
+
 					if (map->getContinent(*fileString) == nullptr)
 					{
 						cont = map->createContinent(*fileString);
@@ -56,13 +60,14 @@ void processFile(ifstream* mapFile, Map* map)
 					}
 
 					continue;
-
 				}
-
 
 				if (fileString->at(0) == '\t' && fileString->at(1) == '\t' && createdCont)
 				{
 					cleanString(fileString);
+
+					if (!validateString(fileString))
+						continue;
 
 					if (map->getCountry(*fileString) == nullptr)
 					{
@@ -99,6 +104,9 @@ void processFile(ifstream* mapFile, Map* map)
 				{
 					cleanString(fileString);
 
+					if (!validateString(fileString))
+						continue;
+
 					if (map->getCountry(*fileString) != nullptr)
 					{
 						insideCountry = true;
@@ -115,6 +123,9 @@ void processFile(ifstream* mapFile, Map* map)
 				{
 					cleanString(fileString);
 
+					if (!validateString(fileString))
+						continue;
+
 					if (map->getCountry(*fileString) != nullptr)
 					{
 						country->adjCountries->push_back(map->getCountry(*fileString));
@@ -125,7 +136,6 @@ void processFile(ifstream* mapFile, Map* map)
 					}
 					continue;
 				}
-
 
 			}
 		}
@@ -140,6 +150,7 @@ void cleanString(string* str)
 	if (str->length() == 0)
 		return;
 
+
 	//clean up line
 	for (int i = 0; i < str->length(); )
 	{
@@ -150,6 +161,16 @@ void cleanString(string* str)
 		}
 		i++;
 	}
+}
+
+bool validateString(string* str)
+{
+	size_t found = str->find_first_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	if (found == string::npos)
+	{
+		return false;
+	}
+	return true;
 }
 
 MapLoader::~MapLoader()
