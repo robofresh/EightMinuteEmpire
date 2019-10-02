@@ -20,6 +20,7 @@ void processFile(ifstream* mapFile, Map* map)
 {
 
 	string* fileString = new string;
+	bool contOrder = false;
 
 	while (getline(*mapFile, *fileString, '\n'))
 	{
@@ -33,6 +34,8 @@ void processFile(ifstream* mapFile, Map* map)
 
 		if (string("Continents").compare(*fileString) == 0)
 		{
+			contOrder = true;
+
 			while (getline(*mapFile, *fileString, '\n'))
 			{
 				if (fileString->length() == 1 || fileString->length() == 0)
@@ -91,6 +94,12 @@ void processFile(ifstream* mapFile, Map* map)
 
 		if (string("Connections").compare(*fileString) == 0)
 		{
+			if (!contOrder)
+			{
+				cout << "The map file is incorrectly formatted. Be sure \'Continents\' comes before \'Connections\'." << endl;
+				return;
+			}
+
 			while (getline(*mapFile, *fileString, '\n'))
 			{
 				if (fileString->length() == 1 || fileString->length() == 0)
