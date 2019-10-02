@@ -150,6 +150,10 @@ void cleanString(string* str)
 	if (str->length() == 0)
 		return;
 
+	if (str->back() == ' ')
+	{
+		str->pop_back();
+	}
 
 	//clean up line
 	for (int i = 0; i < str->length(); )
