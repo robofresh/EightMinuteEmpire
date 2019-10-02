@@ -2,14 +2,9 @@
 #include "Map.h"
 
 Army::Army(Player* newPlayer, int newId)
-{
-	player = newPlayer;
-	id = new int(newId);
-}
+	: player(newPlayer), id(new int(newId)), occupiedCountry() {}
 
-Army::~Army()
-{
-}
+Army::~Army() {}
 
 void Army::setOccupiedCountry(Country* country)
 {
@@ -17,23 +12,19 @@ void Army::setOccupiedCountry(Country* country)
 }
 
 City::City(Player* newPlayer, int newId)
-{
-	player = newPlayer;
-	id = new int(newId);
-}
+	: player(newPlayer), id(new int(newId)), occupiedCountry() {}
 
-City::~City()
-{
-}
+City::~City() {}
 
 void City::setOccupiedCountry(Country* country)
 {
 	country = country;
 }
 
-Player::Player(string inputName, int coinAmount, string selectedColor)
+Player::Player(string inputName, int inputAge, int coinAmount, string selectedColor)
 {
 	name = new string(inputName);
+	age = new int(inputAge);
 	numCoins = new int(coinAmount);
 	color = new string(selectedColor);
 	armies = new vector<Army*>();
@@ -44,15 +35,13 @@ Player::Player(string inputName, int coinAmount, string selectedColor)
 	// biddingFacility = new BidingFacility()	// Part 5
 }
 
-Player::~Player()
-{
-}
+Player::~Player() {}
 
 void Player::createArmies()
 {
 	for (int i = 0; i < 14; i++) {
 		Army* army = new Army(this, i);
-		// Find solution to pushing new Army pointer to armies vector
+		this->armies->push_back(army);
 	}
 }
 
@@ -60,36 +49,36 @@ void Player::createCities()
 {
 	for (int i = 0; i < 3; i++) {
 		City* city = new City(this, i);
-		// Find solution to pushing new City pointer to cities vector
+		this->cities->push_back(city);
 	}
 }
 
-void Player::BuildCity(Country* country)
+void Player::buildCity(Country* country)
 {
 	// Add city to a country (assign country to city obj)
 }
 
-void Player::DestroyArmy(Country* country)
+void Player::destroyArmy(Country* country)
 {
 	// Remove army from a country (remove country ref)
 }
 
-void Player::MoveArmies()
+void Player::moveArmies()
 {
 	// Change country ref of army
 }
 
-void Player::MoveOverLand()
+void Player::moveOverLand()
 {
 	// Change country ref of army
 }
 
-void Player::PayCoin(int amount)
+void Player::payCoin(int amount)
 {
 	// Decrease numCoin; add coin to supply?
 }
 
-void Player::PlaceNewArmies()
+void Player::placeNewArmies()
 {
 	// Ref country in army obj, add army to country 
 }

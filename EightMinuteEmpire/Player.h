@@ -41,10 +41,11 @@ public:
 class Player
 {
 public:
-	Player(string, int, string);
+	Player(string, int, int, string);
 	~Player();
 
 	string* name;
+	int* age;
 	int* numCoins;
 	string* color;
 	vector<Army*>* armies;
@@ -57,10 +58,10 @@ public:
 	void createArmies();
 	void createCities();
 
-	void PayCoin(int);
-	void PlaceNewArmies();
-	void MoveArmies();
-	void MoveOverLand();
-	void BuildCity(Country*);
-	void DestroyArmy(Country*);
+	void payCoin(int);
+	void placeNewArmies();
+	void moveArmies();
+	void moveOverLand();
+	void buildCity(Country*);
+	void destroyArmy(Country*);
 };
