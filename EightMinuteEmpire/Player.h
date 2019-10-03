@@ -57,11 +57,15 @@ public:
 
 	void createArmies();
 	void createCities();
+	int availableCities();
+	int availableArmies();
+	City* getAvailableCity();
+	Army* getAvailableArmy();
 
-	void payCoin(int);
-	void placeNewArmies();
-	void moveArmies();
+	void payCoin(int, int*);
+	void placeNewArmies(Country*, int);
+	void moveArmies(Country*);
 	void moveOverLand();
 	void buildCity(Country*);
-	void destroyArmy(Country*);
+	void destroyArmy(Country*, Player*);
 };

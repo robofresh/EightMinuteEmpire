@@ -21,6 +21,54 @@ void City::setOccupiedCountry(Country* country)
 	country = country;
 }
 
+int Player::availableCities()
+{
+	int numCities = 0;
+	for (int i = 0; i < cities->size(); i++)
+	{
+		if (cities->at(i)->occupiedCountry == nullptr)
+		{
+			numCities++;
+		}
+	}
+	return numCities;
+}
+
+City* Player::getAvailableCity()
+{
+	for (int j = 0; j < cities->size(); j++)
+	{
+		if (cities->at(j)->occupiedCountry == nullptr)
+		{
+			return cities->at(j);
+		}
+	}
+}
+
+int Player::availableArmies()
+{
+	int numArmies = 0;
+	for (int i = 0; i < armies->size(); i++)
+	{
+		if (armies->at(i)->occupiedCountry == nullptr)
+		{
+			numArmies++;
+		}
+	}
+	return numArmies;
+}
+
+Army* Player::getAvailableArmy()
+{
+	for (int j = 0; j < armies->size(); j++)
+	{
+		if (cities->at(j)->occupiedCountry == nullptr)
+		{
+			return armies->at(j);
+		}
+	}
+}
+
 Player::Player(string inputName, int inputAge, int coinAmount, string selectedColor)
 {
 	name = new string(inputName);
@@ -55,15 +103,18 @@ void Player::createCities()
 
 void Player::buildCity(Country* country)
 {
-	// Add city to a country (assign country to city obj)
+	City* availableCity = this->getAvailableCity();
+	availableCity->occupiedCountry = country;		// Assigns country to the city's occupiedCountry var
+	// Country should be updated with the new city ref (Part 1?)
 }
 
-void Player::destroyArmy(Country* country)
+void Player::destroyArmy(Country* country, Player* otherPlayer)
 {
-	// Remove army from a country (remove country ref)
+	// Find army in Country where player === otherPlayer 
+	// Country should be updated with the new city ref (Part 1?)
 }
 
-void Player::moveArmies()
+void Player::moveArmies(Country* country)
 {
 	// Change country ref of army
 }
@@ -73,12 +124,18 @@ void Player::moveOverLand()
 	// Change country ref of army
 }
 
-void Player::payCoin(int amount)
+void Player::payCoin(int amount, int* supply)
 {
-	// Decrease numCoin; add coin to supply?
+	*(this)->numCoins = *(this)->numCoins - amount;	// Decrease numCoin by amount
+	*supply = *supply + amount;	// Increase supply by amount
 }
 
-void Player::placeNewArmies()
+void Player::placeNewArmies(Country* country, int amount)
 {
-	// Ref country in army obj, add army to country 
+	for (amount; amount > 0; amount--)
+	{
+		Army* availableArmy = this->getAvailableArmy();
+		availableArmy->occupiedCountry = country;		// Assigns country to the army's occupiedCountry var
+		// Country should be updated with the new army ref (Part 1?)
+	}
 }
