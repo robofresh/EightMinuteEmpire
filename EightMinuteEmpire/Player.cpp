@@ -31,17 +31,25 @@ void City::setOccupiedCountry(Country* country)
 	country = country;
 }
 
-Player::Player(string inputName, int coinAmount, string selectedColor)
+//Player::Player(string inputName, int coinAmount, string selectedColor)
+//{
+//	name = new string(inputName);
+//	numCoins = new int(coinAmount);
+//	color = new string(selectedColor);
+//	armies = new vector<Army*>();
+//	cities = new vector<City*>();
+//	ownedCountries = new vector<Country*>();
+//	 hand = new vector<Card*>()				// Part 4
+//	 goods = new vector<Good*>()				// Part 4
+//	 biddingFacility = new BidingFacility()	// Part 5
+//}
+
+//Constructor for Biding Facility testing purpose
+Player::Player(string inputName, int coinAmount, int playerAge)
 {
 	name = new string(inputName);
 	numCoins = new int(coinAmount);
-	color = new string(selectedColor);
-	armies = new vector<Army*>();
-	cities = new vector<City*>();
-	ownedCountries = new vector<Country*>();
-	// hand = new vector<Card*>()				// Part 4
-	// goods = new vector<Good*>()				// Part 4
-	// biddingFacility = new BidingFacility()	// Part 5
+	age = new int(playerAge);
 }
 
 Player::~Player()

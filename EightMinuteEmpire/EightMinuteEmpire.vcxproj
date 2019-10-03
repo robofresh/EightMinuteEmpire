@@ -19,13 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BidingFacility.cpp" />
     <ClCompile Include="EightMinuteEmpire.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MapDriver.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BidingFacility.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>

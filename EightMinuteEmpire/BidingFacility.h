@@ -2,29 +2,36 @@
 
 #include <string>
 #include <iostream>
-#include <Player.h>
+#include <vector>
+#include "Player.h"
 
 using namespace std;
 
 class BidingFacility;
+class Player;
+
 
 class BidingFacility
 {
 public:
 	// Biding facility is run once
 	// Everyone has a bidingFacility
-	static int* numberOfPlayer;
+
 	static int* supply;// Supply is shared among all players
-	static Player* winner;
+	static Player* winner;// Winner pays the amount to the supply
+	static vector<Player*>* players;
+	static vector<int>* bidingAmount;
 	
-	int* age;
-	int* maxCoins;
-	int* bidCoins;
+	int* amountBid;
 
 	//Not sure about those methods 
-	void pickUp(maxCoins);
-	void bid(bidCoins);
+	BidingFacility(Player*);
+	~BidingFacility();
+
 	string* reveal();//Shows everyone's bid
 	Player* revealWinner(); //return the winner?
-
+	Player* determineYoungest();//Called only if multiple highest bid
+	
+	void giveToSupply(Player*);
+	void bidCoins(int);
 };
