@@ -11,21 +11,16 @@ using namespace std;
 
 //Initialize static attributes
 int* BidingFacility::supply = new int(0);
-vector<SimplePlayer*>* BidingFacility::players = new vector<SimplePlayer*>();
+int* largestBid;
+vector<Player*>* BidingFacility::players = new vector<Player*>();
+vector<int>* BidingFacility::allBids = new vector<int>();
 Player* BidingFacility::winner = NULL;
 
-BidingFacility::BidingFacility(string name, int age, int maxCoins)
+BidingFacility::BidingFacility()
 {
 	
-	amountBid = new int(bidCoins());
-	SimplePlayer* playerTempPtr = new SimplePlayer(name, age, maxCoins, amountBid);
-	players->push_back(playerTempPtr);
+	amountBid = NULL;
 	
-	delete playerTempPtr;
-	playerTempPtr = NULL;
-
-
-	//bidingAmount->push_back(*amountBid);
 }
 
 BidingFacility::~BidingFacility(){}
@@ -56,21 +51,14 @@ void BidingFacility::giveToSupply(Player* winPay)
 
 //Player bit an amount
 //TODO: Handle exception no negative number
-int BidingFacility::bidCoins()
+void BidingFacility::bidCoins(Player* playerBid)
 {
 	cout << "Please enter your bid :" << endl;
 	int inputBid;
 	cin>>inputBid;
-	return inputBid;
+	amountBid = new int(inputBid);
+	players->push_back(playerBid);
+	allBids->push_back(*amountBid);
+	
 } 
 
-SimplePlayer::SimplePlayer(string name, int age, int amountMax, int amountBid)
-{
-	pName = new string(name);
-	pAge = new int(age);
-	pAmountCoins = new int(amountMax);
-	bidAmount = new int(amountBid);
-
-}
-
-SimplePlayer::~SimplePlayer() {}
