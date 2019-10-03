@@ -10,6 +10,17 @@ using namespace std;
 class BidingFacility;
 class Player;
 
+class SimplePlayer
+{
+public:
+	string* pName;
+	int* pAge;
+	int* pAmountCoins;
+	int* bidAmount;
+
+	SimplePlayer(string, int, int,int);
+	~SimplePlayer();
+};
 
 class BidingFacility
 {
@@ -19,7 +30,7 @@ public:
 
 	static int* supply;// Supply is shared among all players
 	static Player* winner;// Winner pays the amount to the supply
-	static vector<Player*>* players;
+	static vector<SimplePlayer*>* players;
 	static vector<int>* bidingAmount;
 	
 	int* amountBid;
@@ -33,6 +44,6 @@ public:
 	Player* determineYoungest();//Called only if multiple highest bid
 	
 	void giveToSupply(Player*);
-	void bidCoins(int);
+	int bidCoins();
 	
 };
