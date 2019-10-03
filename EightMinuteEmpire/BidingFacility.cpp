@@ -19,7 +19,7 @@ Player* BidingFacility::winner = NULL;
 BidingFacility::BidingFacility()
 {
 	
-	amountBid = NULL;
+	amountBid = new int(0);
 	
 }
 
@@ -28,18 +28,43 @@ BidingFacility::~BidingFacility(){}
 
 string* BidingFacility::reveal()
 {
+
+	for (int i = 0; i < players->size(); i++)
+	{
+		cout << "Player : " + *(players->at(i)->name) << endl;
+		cout << "bids: " + std::to_string(allBids->at(i)) << endl;
+	}
 	return NULL;
 }
 
 Player* BidingFacility::revealWinner()
 {
-	return NULL;
+	for (int i = 0; i < players->size(); i++) {
+		if (largestBid == NULL) 
+		{
+			largestBid = new int (*players->at(i)->bidFacObj->amountBid);
+			winner = players->at(i);
+		}
+		else if (*largestBid < (*players->at(i)->bidFacObj->amountBid))
+		{
+			largestBid = (players->at(i)->bidFacObj->amountBid);
+			winner = players->at(i);
+		}
+		else if (*largestBid == (*players->at(i)->bidFacObj->amountBid))
+		{
+			winner= determineYoungest(players->at(i), winner);
+		}
+	}
+	return winner;
 }
 
-Player* BidingFacility::determineYoungest()
+Player* BidingFacility::determineYoungest(Player* player1, Player* player2)
 {
+	if (*(player1->age) < *(player2->age))
+		return player1;
+	else
+		return player2;
 
-	return NULL;
 }
 
 //The winner gives his coins to the supply

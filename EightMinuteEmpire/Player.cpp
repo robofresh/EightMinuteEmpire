@@ -41,7 +41,7 @@ Player::Player(string inputName, int coinAmount, int inputAge)
 	name = new string(inputName);
 	age = new int(inputAge);
 	numCoins = new int(coinAmount);
-	bidFacObj = new BidingFacility(inputName, inputAge, coinAmount);
+	bidFacObj = new BidingFacility();
 
 }
 
