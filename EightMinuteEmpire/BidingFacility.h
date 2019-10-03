@@ -25,7 +25,7 @@ public:
 	int* amountBid;
 
 	//Not sure about those methods 
-	BidingFacility(Player*);
+	BidingFacility(string, int, int);
 	~BidingFacility();
 
 	string* reveal();//Shows everyone's bid
@@ -34,4 +34,5 @@ public:
 	
 	void giveToSupply(Player*);
 	void bidCoins(int);
+	
 };
