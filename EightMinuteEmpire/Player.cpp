@@ -2,7 +2,7 @@
 #include "Map.h"
 
 Army::Army(Player* newPlayer, int newId)
-	: player(newPlayer), id(new int(newId)), occupiedCountry() {}
+	: player(newPlayer), id(new int(newId)), occupiedCountry(nullptr) {}
 
 Army::~Army() {}
 
@@ -12,7 +12,7 @@ void Army::setOccupiedCountry(Country* country)
 }
 
 City::City(Player* newPlayer, int newId)
-	: player(newPlayer), id(new int(newId)), occupiedCountry() {}
+	: player(newPlayer), id(new int(newId)), occupiedCountry(nullptr) {}
 
 City::~City() {}
 
@@ -62,7 +62,7 @@ Army* Player::getAvailableArmy()
 {
 	for (int j = 0; j < armies->size(); j++)
 	{
-		if (cities->at(j)->occupiedCountry == nullptr)
+		if (armies->at(j)->occupiedCountry == nullptr)
 		{
 			return armies->at(j);
 		}
@@ -126,8 +126,8 @@ void Player::moveOverLand()
 
 void Player::payCoin(int amount, int* supply)
 {
-	*(this)->numCoins = *(this)->numCoins - amount;	// Decrease numCoin by amount
-	*supply = *supply + amount;	// Increase supply by amount
+	*(this->numCoins) = *(this->numCoins) - amount;	// Decrease numCoin by amount
+	*supply = *supply + amount;						// Increase supply by amount
 }
 
 void Player::placeNewArmies(Country* country, int amount)
