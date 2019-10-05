@@ -80,8 +80,9 @@ Player* BidingFacility::determineYoungest(Player* player1, Player* player2)
 //The winner gives his coins to the supply
 void BidingFacility::giveToSupply(Player* winPay)
 {
-	supply= new int(*supply + *amountBid);
-	(winPay->numCoins) = new int (*(winPay->numCoins) - *amountBid);
+	int amount = *(winPay->bidFacObj->amountBid);
+	supply= new int(*supply + amount);
+	(winPay->numCoins) = new int (*(winPay->numCoins) - amount);
 }
 
 //Player bit an amount
