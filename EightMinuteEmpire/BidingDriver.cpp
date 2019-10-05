@@ -7,13 +7,14 @@
 int main()
 {
 
-	Player* player1 = new Player("John", 10, 10);
+	Player* player1 = new Player("John", 5, 10);
 	Player* player2 = new Player("Ray", 10, 20);
 
 	player1->bidFacObj->bidCoins(player1);
 	player2->bidFacObj->bidCoins(player2);
 
 	player1->bidFacObj->reveal();
+	player1->bidFacObj->revealWinner();
 
 	//// Testing of bidCoins and giveToSupply
 	//(player1->bidFacObj->bidCoins(10));

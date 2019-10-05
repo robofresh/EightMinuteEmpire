@@ -17,10 +17,8 @@ vector<int>* BidingFacility::allBids = new vector<int>();
 Player* BidingFacility::winner = NULL;
 
 BidingFacility::BidingFacility()
-{
-	
-	amountBid = new int(0);
-	
+{	
+	amountBid = new int(0);	
 }
 
 BidingFacility::~BidingFacility(){}
@@ -28,7 +26,6 @@ BidingFacility::~BidingFacility(){}
 
 string* BidingFacility::reveal()
 {
-
 	for (int i = 0; i < players->size(); i++)
 	{
 		cout << "Player : " + *(players->at(i)->name) << endl;
@@ -55,6 +52,7 @@ Player* BidingFacility::revealWinner()
 			winner= determineYoungest(players->at(i), winner);
 		}
 	}
+	cout << *(winner->name) +" is the winner!" << endl;
 	return winner;
 }
 
@@ -78,9 +76,21 @@ void BidingFacility::giveToSupply(Player* winPay)
 //TODO: Handle exception no negative number
 void BidingFacility::bidCoins(Player* playerBid)
 {
-	cout << "Please enter your bid :" << endl;
 	int inputBid;
-	cin>>inputBid;
+	try
+	{
+		//do
+		//{
+			cout << *(playerBid->name) + ", please enter your bid :" << endl;
+			cin >> inputBid;
+		//} while ((inputBid > *(playerBid->numCoins) || inputBid < 0));
+	}
+	catch (const std::exception&)
+	{
+		cout << "Your bid was invalid, please enter an integer from 0 to " + *(playerBid->numCoins) << endl;
+	}
+
+	
 	amountBid = new int(inputBid);
 	players->push_back(playerBid);
 	allBids->push_back(*amountBid);
