@@ -7,26 +7,14 @@
 int main()
 {
 
-	Player* player1 = new Player("John", 5, 10);
+	Player* player1 = new Player("John", 5, 20);
 	Player* player2 = new Player("Ray", 10, 20);
+	Player* player3 = new Player("Scott", 10, 20);
+	Player* player4 = new Player("Sam", 15, 20);
 
-	player1->bidFacObj->bidCoins(player1);
-	player2->bidFacObj->bidCoins(player2);
 
-	player1->bidFacObj->reveal();
-	player1->bidFacObj->revealWinner();
+	player1->bidFacObj->startBidProcess();
 
-	//// Testing of bidCoins and giveToSupply
-	//(player1->bidFacObj->bidCoins(10));
 
-	//cout << *player1->bidFacObj->amountBid << endl;//print the amount bid by player 1
-
-	//(player1->bidFacObj->giveToSupply(player1));
-
-	//cout << "coin left by player 1 is : " << endl;
-	//cout << *player1->numCoins << endl; //print amount of coins left
-	//cout << *(BidingFacility::supply) << endl;// print supply
-
-	////END testing of bidCoins and giveToSupply
 
 }

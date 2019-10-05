@@ -24,15 +24,16 @@ public:
 	
 	int* amountBid;
 
-	//Not sure about those methods 
 	BidingFacility();
 	~BidingFacility();
 
-	string* reveal();//Shows everyone's bid
 	Player* revealWinner(); //return the winner?
 	Player* determineYoungest(Player*,Player*);//Called only if multiple highest bid
 	
-	void giveToSupply(Player*);
-	void bidCoins(Player*);
+	void startBidProcess();//Start the bidding process, This method should be the only one used in driver
+	void reveal();//Shows everyone's bid
+	void giveToSupply(Player*);//Player gives its coins to the supply
+	void bidCoins(Player*);// Player bids
+	void showDetails();//Shows all players and their attributes for testing purposes
 	
 };

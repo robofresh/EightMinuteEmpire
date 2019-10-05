@@ -36,12 +36,13 @@
 //}
 
 //Constructor for Biding Facility testing purpose
-Player::Player(string inputName, int coinAmount, int inputAge)
+Player::Player(string inputName, int inputAge, int coinAmount)
 {
 	name = new string(inputName);
 	age = new int(inputAge);
 	numCoins = new int(coinAmount);
 	bidFacObj = new BidingFacility();
+	bidFacObj->bidCoins(this);
 
 }
 

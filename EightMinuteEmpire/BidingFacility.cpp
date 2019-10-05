@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <exception>
 #include "BidingFacility.h"
 #include "Player.h"
 
@@ -16,22 +17,32 @@ vector<Player*>* BidingFacility::players = new vector<Player*>();
 vector<int>* BidingFacility::allBids = new vector<int>();
 Player* BidingFacility::winner = NULL;
 
+//Input Exception 
+struct InputException : public exception
+{
+	const char* what() const throw()
+	{
+		return "Your input is invalid.";
+	}
+};
+
+//Default constructor
 BidingFacility::BidingFacility()
 {	
 	amountBid = new int(0);	
 }
 
+//Destructor
 BidingFacility::~BidingFacility(){}
 
 
-string* BidingFacility::reveal()
+void BidingFacility::reveal()
 {
 	for (int i = 0; i < players->size(); i++)
 	{
 		cout << "Player : " + *(players->at(i)->name) << endl;
 		cout << "bids: " + std::to_string(allBids->at(i)) << endl;
 	}
-	return NULL;
 }
 
 Player* BidingFacility::revealWinner()
@@ -52,17 +63,18 @@ Player* BidingFacility::revealWinner()
 			winner= determineYoungest(players->at(i), winner);
 		}
 	}
+	giveToSupply(winner);
 	cout << *(winner->name) +" is the winner!" << endl;
 	return winner;
 }
 
+//Compare two players and return the youngest
 Player* BidingFacility::determineYoungest(Player* player1, Player* player2)
 {
 	if (*(player1->age) < *(player2->age))
 		return player1;
 	else
 		return player2;
-
 }
 
 //The winner gives his coins to the supply
@@ -73,27 +85,65 @@ void BidingFacility::giveToSupply(Player* winPay)
 }
 
 //Player bit an amount
-//TODO: Handle exception no negative number
 void BidingFacility::bidCoins(Player* playerBid)
 {
 	int inputBid;
 	try
 	{
-		//do
-		//{
 			cout << *(playerBid->name) + ", please enter your bid :" << endl;
 			cin >> inputBid;
-		//} while ((inputBid > *(playerBid->numCoins) || inputBid < 0));
+			if (!(inputBid < *(playerBid->numCoins) && inputBid >= 0))
+				throw InputException();
 	}
-	catch (const std::exception&)
+	catch (InputException& e)
 	{
-		cout << "Your bid was invalid, please enter an integer from 0 to " + *(playerBid->numCoins) << endl;
+		cout <<e.what()<<endl;
+		cout << "Game will close down!" << endl;
+		exit(0);
 	}
-
 	
 	amountBid = new int(inputBid);
-	players->push_back(playerBid);
+	players->push_back(playerBid); 
 	allBids->push_back(*amountBid);
+
 	
 } 
+
+//Prints out details about players
+void BidingFacility::showDetails()
+{
+	cout << "Details about players" << endl;
+
+	for (int i = 0; i < (players->size()); i++)
+	{
+		cout << *(players->at(i)->name) + " is " + to_string(*(players->at(i)->age))
+			+ " , has " + to_string(*(players->at(i)->numCoins)) + " coins." << endl;
+	}
+
+	cout << "Content of the supply: " + to_string(*supply) << endl;
+
+}
+
+//Method to start the bidding process which occurs only once at the beginning of the game
+//TODO: Attempting to make this a static method
+ void BidingFacility::startBidProcess()
+{
+	//Iterate through players to bid
+	//for (int i = 0; i < (players->size()); i++)
+	//{
+	//	this->bidCoins((players->at(i)));
+	//}
+
+	//Reveal all biddings
+	reveal();
+
+	//Reveal the Winner
+	revealWinner();
+
+	showDetails();
+
+}
+
+
+
 
