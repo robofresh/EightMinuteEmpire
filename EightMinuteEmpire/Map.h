@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include <iostream>
+#include "Player.h"
 
 using namespace std;
 
@@ -38,10 +39,10 @@ public:
 	vector<Country*> *adjCountries; //pointer to a vector of pointers to all adjacent countries
 	Continent* parentContinent;
 
-	int* numOfArmies;
+	vector<Army*>* occupyingArmies;
+	vector<Player*>* occupyingPlayers;
+	Player* owner;
 
-	//country is supposed to have a pointer to the owned player??? 
-	//obviously the player class will be defined in part 3
 };
 
 
