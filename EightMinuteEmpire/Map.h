@@ -40,7 +40,6 @@ public:
 	Continent* parentContinent;
 
 	vector<Army*>* occupyingArmies;
-	vector<City*>* cities;
 	vector<Player*>* occupyingPlayers;
 	Player* owner;
 
