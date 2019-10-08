@@ -98,6 +98,10 @@ Country::Country(string inputName, Continent* cont, Map* map)
 	parentContinent = cont;
 	adjCountries = new vector<Country*>(); 
 	map->mapCountries->push_back(this); //add to map
+	cities = new vector<City*>();
+	occupyingArmies = new vector<Army*>;
+	owningPlayer = nullptr;
+
 }
 
 Country::~Country()

@@ -44,8 +44,6 @@ public:
 	vector<City*>* cities;
 	Player* owningPlayer;
 
-	int* numOfArmies;
-
 	//country is supposed to have a pointer to the owned player??? 
 	//obviously the player class will be defined in part 3
 };
