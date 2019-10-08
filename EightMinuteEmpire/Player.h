@@ -51,7 +51,7 @@ public:
 	vector<Army*>* armies;
 	vector<City*>* cities;
 	vector<Country*>* ownedCountries;	// Part 1
-	// vector<Card*>* hand;				// Part 4
+	// Hand* hand;				// Part 4
 	// vector<Good*>* goods				// Part 4
 	//BidingFacility* bidingFacility;	// Part 5
 
@@ -64,8 +64,8 @@ public:
 
 	void payCoin(int, int*);
 	void placeNewArmies(Country*, int);
-	void moveArmies(Country*);
-	void moveOverLand();
+	void moveArmies(Country*, Country*, int);
+	void moveOverLand(Country*, Country*);
 	void buildCity(Country*);
 	void destroyArmy(Country*, Player*);
 };
