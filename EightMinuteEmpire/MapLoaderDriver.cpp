@@ -7,7 +7,7 @@ int main()
 {
 	Map* map = new Map();
 
-	MapLoader *mapLoader = new MapLoader("map1.txt", map);
+	MapLoader *mapLoader = new MapLoader("map1.map", map);
 
 	map->print();
 
