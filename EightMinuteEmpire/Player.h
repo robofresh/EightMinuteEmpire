@@ -50,10 +50,10 @@ public:
 	string* color;
 	vector<Army*>* armies;
 	vector<City*>* cities;
-	vector<Country*>* ownedCountries;	// Part 1
-	// Hand* hand;				// Part 4
-	// vector<Good*>* goods				// Part 4
-	//BidingFacility* bidingFacility;	// Part 5
+	vector<Country*>* ownedCountries;
+	//Hand* hand;						Part 4
+	//vector<Good*>* goods				Part 4
+	//BidingFacility* bidingFacility;	Part 5
 
 	void createArmies();
 	void createCities();
@@ -61,6 +61,7 @@ public:
 	int availableArmies();
 	City* getAvailableCity();
 	Army* getAvailableArmy();
+	void printPlayer();
 
 	void payCoin(int, int*);
 	void placeNewArmies(Country*, int);

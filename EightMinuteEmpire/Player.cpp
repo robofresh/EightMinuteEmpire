@@ -103,6 +103,16 @@ void Player::createCities()
 	}
 }
 
+void Player::printPlayer()
+{
+	cout << "Player: " << *(this->name) << ", age " << *(this->age) << ", color " << *(this->color) << endl;
+	cout << "\tWith:" << endl;
+	cout << "\t\t" << *(this->numCoins) << " coins." << endl;
+	cout << "\t\t" << this->armies->size() << " armies (wooden cubes)." << endl;
+	cout << "\t\t" << this->cities->size() << " cities (discs)." << endl;
+	cout << "\t\t" << this->ownedCountries->size() << " countries owned.\n" << endl;
+}
+
 void Player::buildCity(Country* country)
 {
 	City* availableCity = this->getAvailableCity();
