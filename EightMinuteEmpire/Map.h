@@ -11,6 +11,9 @@ using namespace std;
 
 class Country;
 class Map;
+class Army;
+class City;
+class Player;
 
 //not sure how continents will work because "subgraph" is unclear
 class Continent
@@ -37,8 +40,13 @@ public:
 
 	vector<Country*> *adjCountries; //pointer to a vector of pointers to all adjacent countries
 	Continent* parentContinent;
+	vector<Army*>* occupyingArmies;
+	vector<City*>* cities;
+	Player* owningPlayer;
 
 	int* numOfArmies;
+
+	Army* getArmy(Player*);
 
 	//country is supposed to have a pointer to the owned player??? 
 	//obviously the player class will be defined in part 3
