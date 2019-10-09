@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Map.h"
+#include "BidingFacility.h"
 
 Army::Army(Player* newPlayer, int newId)
 	: player(newPlayer), id(new int(newId)), occupiedCountry(nullptr) {}
@@ -43,6 +44,7 @@ City* Player::getAvailableCity()
 			return cities->at(j);
 		}
 	}
+	return nullptr;
 }
 
 int Player::availableArmies()
@@ -67,6 +69,7 @@ Army* Player::getAvailableArmy()
 			return armies->at(j);
 		}
 	}
+	return nullptr;
 }
 
 Player::Player(string inputName, int inputAge, int coinAmount, string selectedColor)
@@ -74,16 +77,29 @@ Player::Player(string inputName, int inputAge, int coinAmount, string selectedCo
 	name = new string(inputName);
 	age = new int(inputAge);
 	numCoins = new int(coinAmount);
+
+
 	color = new string(selectedColor);
 	armies = new vector<Army*>();
 	cities = new vector<City*>();
 	ownedCountries = new vector<Country*>();
-	// hand = new vector<Card*>()				// Part 4
+	// hand = new Hand()				// Part 4
 	// goods = new vector<Good*>()				// Part 4
-	// biddingFacility = new BidingFacility()	// Part 5
+	bidFacObj = new BidingFacility(this);
+	//bidFacObj->bidCoins(this);// Automatic bid with input implemented but not for demo
 }
 
-Player::~Player() {}
+Player::~Player() 
+{
+	//delete bidFacObj;
+	delete name, age, numCoins, color, armies, cities, ownedCountries;
+	name = color = NULL;
+	age = numCoins = NULL;
+	armies = NULL;
+	cities = NULL;
+	ownedCountries = NULL;
+	//bidFacObj = NULL;
+}
 
 void Player::createArmies()
 {
@@ -101,33 +117,56 @@ void Player::createCities()
 	}
 }
 
+void Player::printPlayer()
+{
+	cout << "Player: " << *(this->name) << ", age " << *(this->age) << ", color " << *(this->color) << endl;
+	cout << "\tWith:" << endl;
+	cout << "\t\t" << *(this->numCoins) << " coins." << endl;
+	cout << "\t\t" << this->armies->size() << " armies (wooden cubes)." << endl;
+	cout << "\t\t" << this->cities->size() << " cities (discs)." << endl;
+	cout << "\t\t" << this->ownedCountries->size() << " countries owned.\n" << endl;
+}
+
 void Player::buildCity(Country* country)
 {
 	City* availableCity = this->getAvailableCity();
-	availableCity->occupiedCountry = country;		// Assigns country to the city's occupiedCountry var
-	// Country should be updated with the new city ref (Part 1?)
+	availableCity->occupiedCountry = country;
+	country->cities->push_back(availableCity);
 }
 
 void Player::destroyArmy(Country* country, Player* otherPlayer)
 {
-	// Find army in Country where player === otherPlayer 
-	// Country should be updated with the new city ref (Part 1?)
+	Army* selectedArmy = country->getArmy(otherPlayer);
+	selectedArmy->occupiedCountry = nullptr;
+	auto it = find(country->occupyingArmies->begin(), country->occupyingArmies->end(), selectedArmy);
+	if (it != country->occupyingArmies->end()) { country->occupyingArmies->erase(it); }	
 }
 
-void Player::moveArmies(Country* country)
+void Player::moveArmies(Country* initCountry, Country* finalCountry, int amount)
 {
-	// Change country ref of army
+	for (amount; amount > 0; amount--)
+	{
+		Army* selectedArmy = initCountry->getArmy(this);
+		selectedArmy->occupiedCountry = finalCountry;
+		finalCountry->occupyingArmies->push_back(selectedArmy);
+		auto it = find(initCountry->occupyingArmies->begin(), initCountry->occupyingArmies->end(), selectedArmy);
+		if (it != initCountry->occupyingArmies->end()) { initCountry->occupyingArmies->erase(it); }
+	}
 }
 
-void Player::moveOverLand()
+void Player::moveOverLand(Country* initCountry, Country* finalCountry)
 {
-	// Change country ref of army
+	Army* selectedArmy = initCountry->getArmy(this);
+	selectedArmy->occupiedCountry = finalCountry;
+	finalCountry->occupyingArmies->push_back(selectedArmy);
+	auto it = find(initCountry->occupyingArmies->begin(), initCountry->occupyingArmies->end(), selectedArmy);
+	if (it != initCountry->occupyingArmies->end()) { initCountry->occupyingArmies->erase(it); }
 }
 
 void Player::payCoin(int amount, int* supply)
 {
-	*(this->numCoins) = *(this->numCoins) - amount;	// Decrease numCoin by amount
-	*supply = *supply + amount;						// Increase supply by amount
+	*(this->numCoins) = *(this->numCoins) - amount;
+	*supply = *supply + amount;
 }
 
 void Player::placeNewArmies(Country* country, int amount)
@@ -135,7 +174,7 @@ void Player::placeNewArmies(Country* country, int amount)
 	for (amount; amount > 0; amount--)
 	{
 		Army* availableArmy = this->getAvailableArmy();
-		availableArmy->occupiedCountry = country;		// Assigns country to the army's occupiedCountry var
-		// Country should be updated with the new army ref (Part 1?)
+		availableArmy->occupiedCountry = country;
+		country->occupyingArmies->push_back(availableArmy);
 	}
 }

@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "Player.h"
 
 //with each country as a class, our map nodes will be pointers to those classes on the heap
 
@@ -106,6 +107,18 @@ Country::Country(string inputName, Continent* cont, Map* map)
 
 Country::~Country()
 {
+}
+
+Army* Country::getArmy(Player* ofPlayer)
+{
+	for (int i = 0; i < occupyingArmies->size(); i++)
+	{
+		if (occupyingArmies->at(i)->player == ofPlayer)
+		{
+			return occupyingArmies->at(i);
+		}
+	}
+	return nullptr;
 }
 
 //not meant to be directly called
