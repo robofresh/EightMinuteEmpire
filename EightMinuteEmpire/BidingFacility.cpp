@@ -29,7 +29,14 @@ struct InputException : public exception
 //Default constructor
 BidingFacility::BidingFacility()
 {	
-	amountBid = new int(0);	
+	//amountBid = new int(0);	
+
+	//This does not work
+	int value = 0;
+	*amountBid = value;
+
+	//This does not work 
+	*amountBid = 0;
 }
 
 //Destructor
@@ -43,6 +50,7 @@ void BidingFacility::reveal()
 		cout << "Player : " + *(players->at(i)->name) << endl;
 		cout << "bids: " + std::to_string(allBids->at(i)) << endl;
 	}
+	
 }
 
 Player* BidingFacility::revealWinner()
@@ -129,11 +137,6 @@ void BidingFacility::showDetails()
 //TODO: Attempting to make this a static method
  void BidingFacility::startBidProcess()
 {
-	//Iterate through players to bid
-	//for (int i = 0; i < (players->size()); i++)
-	//{
-	//	this->bidCoins((players->at(i)));
-	//}
 
 	//Reveal all biddings
 	reveal();
