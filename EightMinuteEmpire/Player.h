@@ -33,6 +33,13 @@ public:
 	City(Player*, int);
 	~City();
 
+	int* id;
+	Player* player;
+	Country* occupiedCountry;
+
+	void setOccupiedCountry(Country*);
+};
+
 class Player
 {
 public:
@@ -48,7 +55,7 @@ public:
 	vector<Country*>* ownedCountries;
 	//Hand* hand;						Part 4
 	//vector<Good*>* goods				Part 4
-	//BidingFacility* bidingFacility;	Part 5
+	BidingFacility* bidFacObj;
 
 	void createArmies();
 	void createCities();

@@ -1,32 +1,13 @@
 #include "Player.h"
 #include "Map.h"
 #include "BidingFacility.h"
-//
-//Army::Army(Player* newPlayer, int newId)
-//	: player(newPlayer), id(new int(newId)), occupiedCountry() {}
-//
-//Army::~Army() {}
-//
-//void Army::setOccupiedCountry(Country* country)
-//{
-//	country = country;
-//}
-//
-//City::City(Player* newPlayer, int newId)
-//	: player(newPlayer), id(new int(newId)), occupiedCountry() {}
-//
-//City::~City() {}
-//
-//void City::setOccupiedCountry(Country* country)
-//{
-//	country = country;
-//}
 
 Army::Army(Player* newPlayer, int newId)
 	: player(newPlayer), id(new int(newId)), occupiedCountry(nullptr) {}
 
-//Constructor for Biding Facility testing purpose
-Player::Player(string inputName, int inputAge, int coinAmount)
+Army::~Army() {}
+
+void Army::setOccupiedCountry(Country* country)
 {
 	country = country;
 }
@@ -96,8 +77,7 @@ Player::Player(string inputName, int inputAge, int coinAmount, string selectedCo
 	name = new string(inputName);
 	age = new int(inputAge);
 	numCoins = new int(coinAmount);
-	bidFacObj = new BidingFacility();
-	bidFacObj->bidCoins(this);
+
 
 	color = new string(selectedColor);
 	armies = new vector<Army*>();
@@ -105,10 +85,21 @@ Player::Player(string inputName, int inputAge, int coinAmount, string selectedCo
 	ownedCountries = new vector<Country*>();
 	// hand = new Hand()				// Part 4
 	// goods = new vector<Good*>()				// Part 4
-	// biddingFacility = new BidingFacility()	// Part 5
+	bidFacObj = new BidingFacility(this);
+	//bidFacObj->bidCoins(this);// Automatic bid with input implemented but not for demo
 }
 
-Player::~Player() {}
+Player::~Player() 
+{
+	//delete bidFacObj;
+	delete name, age, numCoins, color, armies, cities, ownedCountries;
+	name = color = NULL;
+	age = numCoins = NULL;
+	armies = NULL;
+	cities = NULL;
+	ownedCountries = NULL;
+	//bidFacObj = NULL;
+}
 
 void Player::createArmies()
 {

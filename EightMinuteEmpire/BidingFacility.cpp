@@ -12,7 +12,7 @@ using namespace std;
 
 //Initialize static attributes
 int* BidingFacility::supply = new int(0);
-int* largestBid;
+int* BidingFacility::largestBid = NULL;
 vector<Player*>* BidingFacility::players = new vector<Player*>();
 vector<int>* BidingFacility::allBids = new vector<int>();
 Player* BidingFacility::winner = NULL;
@@ -27,28 +27,32 @@ struct InputException : public exception
 };
 
 //Default constructor
-BidingFacility::BidingFacility()
+BidingFacility::BidingFacility(Player* player)
 {	
-	//amountBid = new int(0);	
+	amountBid = NULL;	
+	this->player = player;
 
-	//This does not work
-	int value = 0;
-	*amountBid = value;
-
-	//This does not work 
-	*amountBid = 0;
 }
 
 //Destructor
-BidingFacility::~BidingFacility(){}
+BidingFacility::~BidingFacility()
+{
+
+
+	delete amountBid;
+
+	amountBid = NULL;
+	player = NULL;
+
+}
 
 
 void BidingFacility::reveal()
 {
 	for (int i = 0; i < players->size(); i++)
 	{
-		cout << "Player : " + *(players->at(i)->name) << endl;
-		cout << "bids: " + std::to_string(allBids->at(i)) << endl;
+		cout << "Player : " + *(players->at(i)->name) + 
+		" bids " + std::to_string(allBids->at(i)) + " coins." << endl;
 	}
 	
 }
@@ -72,7 +76,7 @@ Player* BidingFacility::revealWinner()
 		}
 	}
 	giveToSupply(winner);
-	cout << *(winner->name) +" is the winner!" << endl;
+	cout << *(winner->name) +" is the winner! \n" << endl;
 	return winner;
 }
 
@@ -89,19 +93,20 @@ Player* BidingFacility::determineYoungest(Player* player1, Player* player2)
 void BidingFacility::giveToSupply(Player* winPay)
 {
 	int amount = *(winPay->bidFacObj->amountBid);
-	supply= new int(*supply + amount);
+	int value = *supply + amount;
+	*supply= value;
 	(winPay->numCoins) = new int (*(winPay->numCoins) - amount);
 }
 
-//Player bit an amount
-void BidingFacility::bidCoins(Player* playerBid)
+//Player bit an amount WITH AN INPUT
+void BidingFacility::bidCoins()
 {
 	int inputBid;
 	try
 	{
-			cout << *(playerBid->name) + ", please enter your bid :" << endl;
+			cout << *(this->player->name) + ", please enter your bid :" << endl;
 			cin >> inputBid;
-			if (!(inputBid < *(playerBid->numCoins) && inputBid >= 0))
+			if (!(inputBid < *(this->player->numCoins) && inputBid >= 0))
 				throw InputException();
 	}
 	catch (InputException& e)
@@ -112,11 +117,33 @@ void BidingFacility::bidCoins(Player* playerBid)
 	}
 	
 	amountBid = new int(inputBid);
-	players->push_back(playerBid); 
+	players->push_back(this->player); 
 	allBids->push_back(*amountBid);
 
 	
 } 
+
+//Player bit an amount with an argument
+void BidingFacility::bidCoins(int inputBid)
+{
+	try
+	{
+		if (!(inputBid <= *(this->player->numCoins) && inputBid >= 0))
+			throw InputException();
+	}
+	catch (InputException & e)
+	{
+		cout << e.what() << endl;
+		cout << "Game will close down!" << endl;
+		exit(0);
+	}
+
+	amountBid = new int(inputBid);
+	players->push_back(this->player);
+	allBids->push_back(*amountBid);
+
+
+}
 
 //Prints out details about players
 void BidingFacility::showDetails()
@@ -126,10 +153,10 @@ void BidingFacility::showDetails()
 	for (int i = 0; i < (players->size()); i++)
 	{
 		cout << *(players->at(i)->name) + " is " + to_string(*(players->at(i)->age))
-			+ " , has " + to_string(*(players->at(i)->numCoins)) + " coins." << endl;
+			+ " years old, and has " + to_string(*(players->at(i)->numCoins)) + " coins." << endl;
 	}
 
-	cout << "Content of the supply: " + to_string(*supply) << endl;
+	cout << "Content of the supply: " + to_string(*supply) + " coins.\n" << endl;
 
 }
 
@@ -147,6 +174,20 @@ void BidingFacility::showDetails()
 	showDetails();
 
 }
+
+ void BidingFacility::clearBidingFacility()
+ {
+	 delete supply;
+	 supply = new int (0);
+
+	 winner = NULL;//No need to delete, will mem deallocated with delete player
+
+	 delete largestBid;
+	 largestBid = NULL;
+
+	 players->clear();
+	 allBids->clear();
+ }
 
 
 
