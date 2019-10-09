@@ -5,12 +5,14 @@
 #include <string>
 #include <iostream>
 #include "Map.h"
+#include "BidingFacility.h"
 
 using namespace std;
 
 class Army;
 class City;
 class Player;
+class BidingFacility;
 
 class Army
 {
@@ -53,7 +55,7 @@ public:
 	vector<Country*>* ownedCountries;
 	//Hand* hand;						Part 4
 	//vector<Good*>* goods				Part 4
-	//BidingFacility* bidingFacility;	Part 5
+	BidingFacility* bidFacObj;
 
 	void createArmies();
 	void createCities();

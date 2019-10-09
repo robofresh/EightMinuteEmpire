@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Map.h"
+#include "BidingFacility.h"
 
 Army::Army(Player* newPlayer, int newId)
 	: player(newPlayer), id(new int(newId)), occupiedCountry(nullptr) {}
@@ -76,16 +77,29 @@ Player::Player(string inputName, int inputAge, int coinAmount, string selectedCo
 	name = new string(inputName);
 	age = new int(inputAge);
 	numCoins = new int(coinAmount);
+
+
 	color = new string(selectedColor);
 	armies = new vector<Army*>();
 	cities = new vector<City*>();
 	ownedCountries = new vector<Country*>();
 	// hand = new Hand()				// Part 4
 	// goods = new vector<Good*>()				// Part 4
-	// biddingFacility = new BidingFacility()	// Part 5
+	bidFacObj = new BidingFacility(this);
+	//bidFacObj->bidCoins(this);// Automatic bid with input implemented but not for demo
 }
 
-Player::~Player() {}
+Player::~Player() 
+{
+	//delete bidFacObj;
+	delete name, age, numCoins, color, armies, cities, ownedCountries;
+	name = color = NULL;
+	age = numCoins = NULL;
+	armies = NULL;
+	cities = NULL;
+	ownedCountries = NULL;
+	//bidFacObj = NULL;
+}
 
 void Player::createArmies()
 {
