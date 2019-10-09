@@ -1,19 +1,20 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stack>
 
 using namespace std;
 
-class Card;
+class Cards;
 class Deck;
 class Hand;
 
 class Cards
 {
 public:
-	Cards(string, string);
+	Cards(string, string); //1st string for good(resources), 2nd string for action
 	~Cards();
-	string* good;
+	string* good; //there are different good(resources) including crystal, lumber,	carrot,	anvil, coal, joker.
 	string* action; //there are actions that gives choice to the player. this needs to be discussed on how to be implemented among us. 
 };
 
@@ -23,8 +24,8 @@ public:
 	Deck();
 	~Deck();
 	Hand* drawingcards;
-	void draw();
-	stack <Cards*>* stackofCards;
+	Cards* draw();
+	stack<Cards*>* stackofCards;
 };
 
 class Hand
@@ -32,16 +33,9 @@ class Hand
 public:
 	Hand();
 	~Hand();
-	void exchange();
-	int* numOnHand;
-	vector<Cards*>* faceupcards;
-	int const* cost[];
+	void exchange(int index);
+	void initialDraw();
+	//int* numOnHand; //numOnHand has to be six all the time
+	vector<Cards*>* faceupcards; //6 cards are poped from stack and revealed (faced-up)
+	int const* cost[]; //cost of card is fixed depending on the index, 0 1 1 2 2 3 respectively
 };
-
-/*
-1. The deck object is composed of as many cards of the Eight-minute empire cards (e.g. 42).
-2. Each card gives goods and action.
-3. The deck must have a draw() method that allows a player to draw a card from the cards remaining in the deck and place it in with the cards space
-4. The hand object is a collection of cards that has an exchange() method that allows the player to select the card from its position in the row and 
-pay the coin cost listed at the top of the board
-*/
