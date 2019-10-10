@@ -10,10 +10,57 @@ Map::Map()
 	mapContinents = new vector<Continent*>();
 }
 
+void Map::print()
+{
+	for (int i = 0; i < mapContinents->size(); i++)
+	{
+		cout << "\'" << mapContinents->at(i)->name->c_str() << "\'" << " has the countries: " << endl;
+		for (int j = 0; j < mapContinents->at(i)->containedCountries->size(); j++)
+		{
+			cout << "\t" << "\'" << mapContinents->at(i)->containedCountries->at(j)->name->c_str() << "\'" << endl;
+		}
+	}
+
+	for (int i = 0; i < mapCountries->size(); i++)
+	{
+		if (mapCountries->at(i)->adjCountries->size() > 0)
+		{
+			cout << "\'" << mapCountries->at(i)->name->c_str() << "\'" << " is connected to the countries: " << endl;
+			for (int j = 0; j < mapCountries->at(i)->adjCountries->size(); j++)
+			{
+				cout << "\t" <<  "\'"<< mapCountries->at(i)->adjCountries->at(j)->name->c_str() << "\'" << endl;
+			}
+		}
+	}
+}
 
 Map::~Map()
 {
 }
+
+Country* Map::getCountry(string str)
+{
+	for (int i = 0; i < mapCountries->size(); i++)
+	{
+		if (mapCountries->at(i)->name->compare(str) == 0)
+		{
+			return mapCountries->at(i);
+		}
+	}
+	return nullptr;
+}
+
+Continent* Map::getContinent(string str)
+{
+	for (int i = 0; i < mapContinents->size(); i++)
+	{
+		if (mapContinents->at(i)->name->compare(str) == 0)
+			return mapContinents->at(i);
+	}
+	return nullptr;
+}
+
+
 
 Country* Map::createCountry(string inputName, Continent* cont)
 {
@@ -52,9 +99,10 @@ Country::Country(string inputName, Continent* cont, Map* map)
 	parentContinent = cont;
 	adjCountries = new vector<Country*>(); 
 	map->mapCountries->push_back(this); //add to map
-	occupyingArmies = new vector<Army*>();
 	cities = new vector<City*>();
+	occupyingArmies = new vector<Army*>;
 	owningPlayer = nullptr;
+
 }
 
 Country::~Country()
