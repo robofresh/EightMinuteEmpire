@@ -13,6 +13,7 @@ Map::Map()
 
 Map::~Map()
 {
+	delete mapCountries, mapContinents;
 }
 
 Country* Map::createCountry(string inputName, Continent* cont)
@@ -59,6 +60,7 @@ Country::Country(string inputName, Continent* cont, Map* map)
 
 Country::~Country()
 {
+	delete name, parentContinent, adjCountries, occupyingArmies, cities, owningPlayer;
 }
 
 Army* Country::getArmy(Player* ofPlayer)
@@ -83,4 +85,5 @@ Continent::Continent(string inputName, Map* map)
 
 Continent::~Continent()
 {
+	delete name, containedCountries;
 }

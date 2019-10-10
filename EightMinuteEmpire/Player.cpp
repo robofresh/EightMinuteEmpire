@@ -2,20 +2,30 @@
 #include "Map.h"
 #include "BidingFacility.h"
 
-Army::Army(Player* newPlayer, int newId)
-	: player(newPlayer), id(new int(newId)), occupiedCountry(nullptr) {}
+Army::Army(Player* newPlayer)
+	: player(newPlayer), occupiedCountry(nullptr) {}
 
-Army::~Army() {}
+Army::~Army()
+{
+	player = NULL;
+	occupiedCountry = NULL;
+	delete player, occupiedCountry;
+}
 
 void Army::setOccupiedCountry(Country* country)
 {
 	country = country;
 }
 
-City::City(Player* newPlayer, int newId)
-	: player(newPlayer), id(new int(newId)), occupiedCountry(nullptr) {}
+City::City(Player* newPlayer)
+	: player(newPlayer), occupiedCountry(nullptr) {}
 
-City::~City() {}
+City::~City() 
+{
+	player = NULL;
+	occupiedCountry = NULL;
+	delete player, occupiedCountry;
+}
 
 void City::setOccupiedCountry(Country* country)
 {
@@ -77,34 +87,36 @@ Player::Player(string inputName, int inputAge, int coinAmount, string selectedCo
 	name = new string(inputName);
 	age = new int(inputAge);
 	numCoins = new int(coinAmount);
-
-
 	color = new string(selectedColor);
 	armies = new vector<Army*>();
 	cities = new vector<City*>();
 	ownedCountries = new vector<Country*>();
 	// hand = new Hand()				// Part 4
-	// goods = new vector<Good*>()				// Part 4
+	// goods = new vector<Good*>()		// Part 4
 	bidFacObj = new BidingFacility(this);
-	//bidFacObj->bidCoins(this);// Automatic bid with input implemented but not for demo
+
+	this->createArmies();
+	this->createCities();
 }
 
-Player::~Player() 
+Player::~Player()
 {
-	//delete bidFacObj;
-	delete name, age, numCoins, color, armies, cities, ownedCountries;
-	name = color = NULL;
-	age = numCoins = NULL;
-	armies = NULL;
-	cities = NULL;
-	ownedCountries = NULL;
-	//bidFacObj = NULL;
+	for (int i = 0; i < armies->size(); i++)
+	{
+		delete armies->at(i);
+	}
+	for (int i = 0; i < cities->size(); i++)
+	{
+		delete cities->at(i);
+	}
+	// delete hand, goods
+	delete name, age, numCoins, color, armies, cities, ownedCountries, bidFacObj;
 }
 
 void Player::createArmies()
 {
 	for (int i = 0; i < 14; i++) {
-		Army* army = new Army(this, i);
+		Army* army = new Army(this);
 		this->armies->push_back(army);
 	}
 }
@@ -112,7 +124,7 @@ void Player::createArmies()
 void Player::createCities()
 {
 	for (int i = 0; i < 3; i++) {
-		City* city = new City(this, i);
+		City* city = new City(this);
 		this->cities->push_back(city);
 	}
 }
@@ -125,6 +137,8 @@ void Player::printPlayer()
 	cout << "\t\t" << this->armies->size() << " armies (wooden cubes)." << endl;
 	cout << "\t\t" << this->cities->size() << " cities (discs)." << endl;
 	cout << "\t\t" << this->ownedCountries->size() << " countries owned.\n" << endl;
+	//cout << "\t\t" << this->goods->size() << " goods.\n" << endl;
+	//cout << "\t\t" << this->hand->size() << " goods.\n" << endl;
 }
 
 void Player::buildCity(Country* country)
@@ -138,6 +152,7 @@ void Player::destroyArmy(Country* country, Player* otherPlayer)
 {
 	Army* selectedArmy = country->getArmy(otherPlayer);
 	selectedArmy->occupiedCountry = nullptr;
+	// Reference for following lines [1]
 	auto it = find(country->occupyingArmies->begin(), country->occupyingArmies->end(), selectedArmy);
 	if (it != country->occupyingArmies->end()) { country->occupyingArmies->erase(it); }	
 }
@@ -178,3 +193,6 @@ void Player::placeNewArmies(Country* country, int amount)
 		country->occupyingArmies->push_back(availableArmy);
 	}
 }
+
+// References
+// [1] https://thispointer.com/c-how-to-find-an-element-in-vector-and-get-its-index/

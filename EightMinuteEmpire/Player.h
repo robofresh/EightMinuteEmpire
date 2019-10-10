@@ -17,10 +17,9 @@ class BidingFacility;
 class Army
 {
 public:
-	Army(Player*, int);
+	Army(Player*);
 	~Army();
 
-	int* id;
 	Player* player;
 	Country* occupiedCountry;
 
@@ -30,10 +29,9 @@ public:
 class City
 {
 public:
-	City(Player*, int);
+	City(Player*);
 	~City();
 
-	int* id;
 	Player* player;
 	Country* occupiedCountry;
 
@@ -64,7 +62,6 @@ public:
 	City* getAvailableCity();
 	Army* getAvailableArmy();
 	void printPlayer();
-
 	void payCoin(int, int*);
 	void placeNewArmies(Country*, int);
 	void moveArmies(Country*, Country*, int);
