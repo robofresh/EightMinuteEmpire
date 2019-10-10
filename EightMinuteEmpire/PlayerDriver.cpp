@@ -18,14 +18,12 @@ int main()
 	cout << "Creating player 1." << endl;
 	Player *player1 = new Player("John", 26, 7, "Red");
 	player1->printPlayer();
-
 	cout << "Creating player 2." << endl;
 	Player* player2 = new Player("Jane", 25, 7, "Blue");
 	player2->printPlayer();
 
 	cout << "\n*****Test 2 : Using Method payCoin() to Pay 2 Coins from Player 1*****" << endl;
 	player1->payCoin(2, supply);
-	cout << "Player 1 now has " << *(player1->numCoins) << " coins." << endl;
 	cout << "Supply is now at " << *supply << " coins.\n" << endl;
 
 	cout << "\n*****Test 3 : Using Method buildCity() to Place Cities*****" << endl;
@@ -33,57 +31,28 @@ int main()
 	player1->buildCity(map->mapCountries->at(0));
 	cout << "Placing a city of Player 2's in Country 0." << endl;
 	player2->buildCity(map->mapCountries->at(0));
-	cout << "Reviewing cities in Country 0:" << endl;
-	for (int k = 0; k < map->mapCountries->at(0)->cities->size(); k++)
-	{
-		cout << "\tA city owned by " << *(map->mapCountries->at(0)->cities->at(k)->player->name) << " was found in Country 0." << endl;
-	}
 
-	cout << endl;
 	cout << "\n*****Test 4 : Using Method placeNewArmies()*****" << endl;
 	cout << "Placing a single Army of Player 1's in Country 0" << endl;
 	player1->placeNewArmies(map->mapCountries->at(0), 1);
 	cout << "Placing two Armies of Player 2's in Country 0" << endl;
 	player2->placeNewArmies(map->mapCountries->at(0), 2);
-	cout << "Reviewing armies in Country 0:" << endl;
-	for (int k = 0; k < map->mapCountries->at(0)->occupyingArmies->size(); k++)
-	{
-		cout << "\tAn army owned by " << *(map->mapCountries->at(0)->occupyingArmies->at(k)->player->name) << " was found in Country 0." << endl;
-	}
 
-	cout << endl;
 	cout << "\n*****Test 5 : Using Method destroyArmy()*****" << endl;
 	cout << "Remove a single Army of Player 2's in Country 0 by Player 1." << endl;
 	player1->destroyArmy(map->mapCountries->at(0), player2);
-	cout << "Reviewing armies in Country 0:" << endl;
-	for (int k = 0; k < map->mapCountries->at(0)->occupyingArmies->size(); k++)
-	{
-		cout << "\tAn army owned by " << *(map->mapCountries->at(0)->occupyingArmies->at(k)->player->name) << " was found in Country 0." << endl;
-	}
 
-	cout << endl;
-	cout << "\n***** Test 6 : Using Method moveArmies()*****" << endl;
+	cout << "\n*****Test 6 : Using Method moveArmies()*****" << endl;
 	cout << "Move a single Army of Player 1's from Country 0 to Country 1." << endl;
 	cout << "Country 0 and Country 1 are adjacent countries in North America." << endl;
 	player1->moveArmies(map->mapCountries->at(0), map->mapCountries->at(1), 1);
-	cout << "Reviewing armies in Country 1:" << endl;
-	for (int k = 0; k < map->mapCountries->at(1)->occupyingArmies->size(); k++)
-	{
-		cout << "\tAn army owned by " << *(map->mapCountries->at(1)->occupyingArmies->at(k)->player->name) << " was found in Country 1." << endl;
-	}
 
-	cout << endl;
-	cout << "\n***** Test 6 : Using Method moveOverLand()*****" << endl;
+	cout << "\n*****Test 7 : Using Method moveOverLand()*****" << endl;
 	cout << "Move a single Army of Player 2's from Country 0 to Country 2." << endl;
 	cout << "Country 0 is in North America, and Country 2 is in South America." << endl;
 	player2->moveOverLand(map->mapCountries->at(0), map->mapCountries->at(2));
-	cout << "Reviewing armies in Country 2:" << endl;
-	for (int k = 0; k < map->mapCountries->at(2)->occupyingArmies->size(); k++)
-	{
-		cout << "\tAn army owned by " << *(map->mapCountries->at(2)->occupyingArmies->at(k)->player->name) << " was found in Country 2." << endl;
-	}
 
-	cout << "\n***** Clean-up*****" << endl;
+	cout << "\n*****Clean-up*****" << endl;
 	delete supply;
 	delete player2;
 	delete player1;
@@ -93,6 +62,4 @@ int main()
 	delete cont1;
 	delete cont0;
 	delete map;
-
-	//exit(0);
 }

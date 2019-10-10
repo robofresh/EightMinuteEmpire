@@ -146,6 +146,7 @@ void Player::buildCity(Country* country)
 	City* availableCity = this->getAvailableCity();
 	availableCity->occupiedCountry = country;
 	country->cities->push_back(availableCity);
+	cout << *(this->name) << " now has a city built in " << *(country->name) << endl;
 }
 
 void Player::destroyArmy(Country* country, Player* otherPlayer)
@@ -155,6 +156,7 @@ void Player::destroyArmy(Country* country, Player* otherPlayer)
 	// Reference for following lines [1]
 	auto it = find(country->occupyingArmies->begin(), country->occupyingArmies->end(), selectedArmy);
 	if (it != country->occupyingArmies->end()) { country->occupyingArmies->erase(it); }	
+	cout << *(this->name) << " destroyed an army of " << *(otherPlayer->name) << "'s in " << *(country->name) << endl;
 }
 
 void Player::moveArmies(Country* initCountry, Country* finalCountry, int amount)
@@ -167,6 +169,7 @@ void Player::moveArmies(Country* initCountry, Country* finalCountry, int amount)
 		auto it = find(initCountry->occupyingArmies->begin(), initCountry->occupyingArmies->end(), selectedArmy);
 		if (it != initCountry->occupyingArmies->end()) { initCountry->occupyingArmies->erase(it); }
 	}
+	cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;
 }
 
 void Player::moveOverLand(Country* initCountry, Country* finalCountry)
@@ -176,12 +179,14 @@ void Player::moveOverLand(Country* initCountry, Country* finalCountry)
 	finalCountry->occupyingArmies->push_back(selectedArmy);
 	auto it = find(initCountry->occupyingArmies->begin(), initCountry->occupyingArmies->end(), selectedArmy);
 	if (it != initCountry->occupyingArmies->end()) { initCountry->occupyingArmies->erase(it); }
+	cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;
 }
 
 void Player::payCoin(int amount, int* supply)
 {
 	*(this->numCoins) = *(this->numCoins) - amount;
 	*supply = *supply + amount;
+	cout << *(this->name) << " now has " << *(this->numCoins) << " coins." << endl;
 }
 
 void Player::placeNewArmies(Country* country, int amount)
@@ -191,6 +196,7 @@ void Player::placeNewArmies(Country* country, int amount)
 		Army* availableArmy = this->getAvailableArmy();
 		availableArmy->occupiedCountry = country;
 		country->occupyingArmies->push_back(availableArmy);
+		cout << *(this->name) << " now has an army in " << *(country->name) << endl;
 	}
 }
 
