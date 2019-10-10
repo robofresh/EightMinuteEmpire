@@ -36,7 +36,7 @@
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="map1.txt" />
+    <None Include="map1.map" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

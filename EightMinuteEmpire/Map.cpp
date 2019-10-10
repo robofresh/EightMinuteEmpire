@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "Player.h"
 
 //with each country as a class, our map nodes will be pointers to those classes on the heap
 
@@ -24,7 +25,7 @@ void Map::print()
 	{
 		if (mapCountries->at(i)->adjCountries->size() > 0)
 		{
-			cout << mapCountries->at(i)->name->c_str() << " is connected to the countries: " << endl;
+			cout << "\'" << mapCountries->at(i)->name->c_str() << "\'" << " is connected to the countries: " << endl;
 			for (int j = 0; j < mapCountries->at(i)->adjCountries->size(); j++)
 			{
 				cout << "\t" <<  "\'"<< mapCountries->at(i)->adjCountries->at(j)->name->c_str() << "\'" << endl;
@@ -98,10 +99,26 @@ Country::Country(string inputName, Continent* cont, Map* map)
 	parentContinent = cont;
 	adjCountries = new vector<Country*>(); 
 	map->mapCountries->push_back(this); //add to map
+	cities = new vector<City*>();
+	occupyingArmies = new vector<Army*>;
+	owningPlayer = nullptr;
+
 }
 
 Country::~Country()
 {
+}
+
+Army* Country::getArmy(Player* ofPlayer)
+{
+	for (int i = 0; i < occupyingArmies->size(); i++)
+	{
+		if (occupyingArmies->at(i)->player == ofPlayer)
+		{
+			return occupyingArmies->at(i);
+		}
+	}
+	return nullptr;
 }
 
 //not meant to be directly called

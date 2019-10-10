@@ -33,6 +33,12 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BidingDriver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BidingFacility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PlayerDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,8 +64,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="map1.txt">
-      <Filter>Header Files</Filter>
-    </Text>
+    <None Include="map1.map">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
