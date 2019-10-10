@@ -27,7 +27,7 @@ void Deck::draw()
 {
 	Cards* temp = stackofCards->top(); 
 	drawingcards->faceupcards->push_back(temp);
-	stackofCards->pop(); //it should head to the last index of Hand object
+	stackofCards->pop();
 }
 
 //destructor
@@ -35,7 +35,6 @@ Deck::~Deck(){}
 
 Hand::Hand(Deck* deck)
 {
-	//int numOnHand = 0;
 	faceupcards = new vector <Cards*>();
 	mainDeck = deck;
 }
