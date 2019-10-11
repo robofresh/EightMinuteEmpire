@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Map.h"
 #include "BidingFacility.h"
+#include "cards.h"
 
 using namespace std;
 
@@ -17,10 +18,9 @@ class BidingFacility;
 class Army
 {
 public:
-	Army(Player*, int);
+	Army(Player*);
 	~Army();
 
-	int* id;
 	Player* player;
 	Country* occupiedCountry;
 
@@ -30,10 +30,9 @@ public:
 class City
 {
 public:
-	City(Player*, int);
+	City(Player*);
 	~City();
 
-	int* id;
 	Player* player;
 	Country* occupiedCountry;
 
@@ -53,8 +52,8 @@ public:
 	vector<Army*>* armies;
 	vector<City*>* cities;
 	vector<Country*>* ownedCountries;
-	//Hand* hand;						Part 4
-	//vector<Good*>* goods				Part 4
+	Hand* hand;
+	vector<string*>* goods;
 	BidingFacility* bidFacObj;
 
 	void createArmies();
@@ -64,7 +63,6 @@ public:
 	City* getAvailableCity();
 	Army* getAvailableArmy();
 	void printPlayer();
-
 	void payCoin(int, int*);
 	void placeNewArmies(Country*, int);
 	void moveArmies(Country*, Country*, int);
