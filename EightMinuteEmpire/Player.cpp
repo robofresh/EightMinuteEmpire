@@ -91,8 +91,8 @@ Player::Player(string inputName, int inputAge, int coinAmount, string selectedCo
 	armies = new vector<Army*>();
 	cities = new vector<City*>();
 	ownedCountries = new vector<Country*>();
-	// hand = new Hand()				// Part 4
-	// goods = new vector<Good*>()		// Part 4
+	hand = nullptr;
+	goods = new vector<string*>();
 	bidFacObj = new BidingFacility(this);
 
 	this->createArmies();
@@ -109,8 +109,7 @@ Player::~Player()
 	{
 		delete cities->at(i);
 	}
-	// delete hand, goods
-	delete name, age, numCoins, color, armies, cities, ownedCountries, bidFacObj;
+	delete name, age, numCoins, color, armies, cities, ownedCountries, hand, goods, bidFacObj;
 }
 
 void Player::createArmies()
@@ -137,8 +136,9 @@ void Player::printPlayer()
 	cout << "\t\t" << this->armies->size() << " armies (wooden cubes)." << endl;
 	cout << "\t\t" << this->cities->size() << " cities (discs)." << endl;
 	cout << "\t\t" << this->ownedCountries->size() << " countries owned.\n" << endl;
-	//cout << "\t\t" << this->goods->size() << " goods.\n" << endl;
-	//cout << "\t\t" << this->hand->size() << " goods.\n" << endl;
+	cout << "\t\t" << this->goods->size() << " goods.\n" << endl;
+	cout << "\t\t no hand of cards.\n" << endl;
+	cout << "\t\t a bidding facility.\n" << endl;
 }
 
 void Player::buildCity(Country* country)

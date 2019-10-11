@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Map.h"
 #include "BidingFacility.h"
+#include "Cards.h"
 
 using namespace std;
 
@@ -51,8 +52,8 @@ public:
 	vector<Army*>* armies;
 	vector<City*>* cities;
 	vector<Country*>* ownedCountries;
-	//Hand* hand;						Part 4
-	//vector<Good*>* goods				Part 4
+	Hand* hand;
+	vector<string*>* goods;
 	BidingFacility* bidFacObj;
 
 	void createArmies();
