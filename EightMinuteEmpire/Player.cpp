@@ -135,10 +135,10 @@ void Player::printPlayer()
 	cout << "\t\t" << *(this->numCoins) << " coins." << endl;
 	cout << "\t\t" << this->armies->size() << " armies (wooden cubes)." << endl;
 	cout << "\t\t" << this->cities->size() << " cities (discs)." << endl;
-	cout << "\t\t" << this->ownedCountries->size() << " countries owned.\n" << endl;
-	cout << "\t\t" << this->goods->size() << " goods.\n" << endl;
-	cout << "\t\t no hand of cards.\n" << endl;
-	cout << "\t\t a bidding facility.\n" << endl;
+	cout << "\t\t" << this->ownedCountries->size() << " countries owned." << endl;
+	cout << "\t\t" << this->goods->size() << " goods." << endl;
+	cout << "\t\tno hand of cards." << endl;
+	cout << "\t\ta bidding facility.\n" << endl;
 }
 
 void Player::buildCity(Country* country)
