@@ -83,5 +83,4 @@ int main()
 	player1 = NULL;
 	player2 = NULL;
 	player3 = NULL;
-
 }

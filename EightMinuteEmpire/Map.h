@@ -44,8 +44,6 @@ public:
 	vector<City*>* cities;
 	Player* owningPlayer;
 
-	int* numOfArmies;
-
 	Army* getArmy(Player*);
 
 	//country is supposed to have a pointer to the owned player??? 
@@ -64,6 +62,11 @@ public:
 
 	vector<Country*> *mapCountries; //pointer to a vector of pointers to all Countries
 	vector<Continent*>* mapContinents; //ditto for continents
+
+	Country* getCountry(string);
+	Continent* getContinent(string);
+
+	void print();
 
 };
 

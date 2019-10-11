@@ -1,13 +1,13 @@
 #include <iostream>
 #include "Player.h"
 
-int main()
+	int main()
 {
 	// Creating a supply for testing purpose. 
 	int* supply = new int(0);
 
 	// Make a map object and populate map object with Countries and Continents, for testing purpose. 
-	Map* map = new Map(); 
+	Map* map = new Map();
 	Continent* cont0 = map->createContinent("North America");
 	Continent* cont1 = map->createContinent("South America");
 	Country* country0 = map->createCountry("Country 0", cont0);
@@ -16,7 +16,7 @@ int main()
 
 	cout << "\n*****Test 1 : Creating Players*****" << endl;
 	cout << "Creating player 1." << endl;
-	Player *player1 = new Player("John", 26, 7, "Red");
+	Player* player1 = new Player("John", 26, 7, "Red");
 	player1->printPlayer();
 	cout << "Creating player 2." << endl;
 	Player* player2 = new Player("Jane", 25, 7, "Blue");
