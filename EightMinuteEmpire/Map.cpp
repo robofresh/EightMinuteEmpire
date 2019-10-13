@@ -2,8 +2,6 @@
 #include "Player.h"
 
 //with each country as a class, our map nodes will be pointers to those classes on the heap
-
-
 Map::Map()
 {
 	mapCountries = new vector<Country*>();
@@ -12,6 +10,7 @@ Map::Map()
 
 void Map::print()
 {
+	//go through all continents and print their containedCountries
 	for (int i = 0; i < mapContinents->size(); i++)
 	{
 		cout << "\'" << mapContinents->at(i)->name->c_str() << "\'" << " has the countries: " << endl;
@@ -20,7 +19,8 @@ void Map::print()
 			cout << "\t" << "\'" << mapContinents->at(i)->containedCountries->at(j)->name->c_str() << "\'" << endl;
 		}
 	}
-
+	
+	//go through all countries and print their adjCountries as well
 	for (int i = 0; i < mapCountries->size(); i++)
 	{
 		if (mapCountries->at(i)->adjCountries->size() > 0)
@@ -39,6 +39,7 @@ Map::~Map()
 	delete mapCountries, mapContinents;
 }
 
+//check if their is already a country in the map by the same name and return a pointer to it
 Country* Map::getCountry(string str)
 {
 	for (int i = 0; i < mapCountries->size(); i++)
@@ -51,6 +52,7 @@ Country* Map::getCountry(string str)
 	return nullptr;
 }
 
+//check if their is already a continent in the map by the same name and return a pointer to it
 Continent* Map::getContinent(string str)
 {
 	for (int i = 0; i < mapContinents->size(); i++)
@@ -61,8 +63,7 @@ Continent* Map::getContinent(string str)
 	return nullptr;
 }
 
-
-
+//create a country and add it to the map
 Country* Map::createCountry(string inputName, Continent* cont)
 {
 	//check if country already exists in map
@@ -77,7 +78,7 @@ Country* Map::createCountry(string inputName, Continent* cont)
 	return new Country(inputName, cont, this);
 }
 
-
+//create a continent and add it to the map
 Continent* Map::createContinent(string inputName)
 {
 	//check if continent already exists in map

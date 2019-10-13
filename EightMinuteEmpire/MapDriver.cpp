@@ -16,7 +16,7 @@ int main()
 
 	Map *map = new Map(); // make a map object
 
-	//simulate input...
+	//simulate input... just meant to give different continent and country names quickly and add adjCountries as well
 	//this will likely change and depending how a file is formated, the contient may add it's countries when created as a nested for loop
 
 	for (int i = 0; i < 10; i++)
@@ -34,6 +34,7 @@ int main()
 		
 	}
 
+	//print our countries and their adjCountries
 	for (int i = 0; i < map->mapCountries->size(); i++)
 	{
 		cout << map->mapCountries->at(i)->name->c_str();
@@ -44,7 +45,7 @@ int main()
 		cout << endl;
 	}
 
-
+	//print the continents
 	for (int i = 0; i < map->mapContinents->size(); i++)
 	{
 		cout << map->mapContinents->at(i)->name->c_str() << endl;

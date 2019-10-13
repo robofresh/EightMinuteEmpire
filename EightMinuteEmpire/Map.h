@@ -7,15 +7,12 @@
 
 using namespace std;
 
-//i have pointers to vectors of pointers... assign said everything had to be a pointer
-
 class Country;
 class Map;
 class Army;
 class City;
 class Player;
 
-//not sure how continents will work because "subgraph" is unclear
 class Continent
 {
 public:
@@ -40,14 +37,12 @@ public:
 
 	vector<Country*> *adjCountries; //pointer to a vector of pointers to all adjacent countries
 	Continent* parentContinent;
-	vector<Army*>* occupyingArmies;
-	vector<City*>* cities;
-	Player* owningPlayer;
+	vector<Army*>* occupyingArmies; //vector of all armies in the country
+	vector<City*>* cities; //vector of all cities in the country
+	Player* owningPlayer; //pointer to the owning player
 
 	Army* getArmy(Player*);
 
-	//country is supposed to have a pointer to the owned player??? 
-	//obviously the player class will be defined in part 3
 };
 
 
@@ -63,7 +58,7 @@ public:
 	vector<Country*> *mapCountries; //pointer to a vector of pointers to all Countries
 	vector<Continent*>* mapContinents; //ditto for continents
 
-	Country* getCountry(string);
+	Country* getCountry(string); //explained in .cpp
 	Continent* getContinent(string);
 
 	void print();
