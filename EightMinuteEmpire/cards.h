@@ -14,10 +14,10 @@ class Hand;
 class Cards
 {
 public:
-	Cards(string, string); //1st string for good(resources), 2nd string for action
+	Cards(string, vector<string*>*); //1st string for good(resources), 2nd string for action
 	~Cards();
 	string* good; //there are different good(resources) including crystal, lumber,	carrot,	anvil, coal, joker.
-	string* action; //there are actions that gives choice to the player. this needs to be discussed on how to be implemented among us. 
+	vector<string*>* actions; //there are actions that gives choice to the player. this needs to be discussed on how to be implemented among us. 
 };
 
 class Deck
