@@ -75,6 +75,18 @@ void Deck::initialDraw() //one time only, when the game is started
 
 void addCards(Deck* deck)
 {
+	//wild, create 2 armies
+	deck->stackofCards->push
+	(
+		new Cards(
+			"wild",
+			new vector<string*>
+			{
+				new string("waterMove"), new string("2")
+			}
+		)
+	);
+
 	//gem, create 2 armies
 	deck->stackofCards->push
 	(
@@ -87,11 +99,65 @@ void addCards(Deck* deck)
 		)
 	);
 
-	//gem, create 2 armies
 	deck->stackofCards->push
 	(
 		new Cards(
 			"coal",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"coal",
+			new vector<string*>
+			{
+				new string("waterMove"), new string("2")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"coal",
+			new vector<string*>
+			{
+				new string("waterMove"), new string("2")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"coal",
+			new vector<string*>
+			{
+				new string("waterMove"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"coal",
+			new vector<string*>
+			{
+				new string("move"), new string("2")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"gem",
 			new vector<string*>
 			{
 				new string("createArmies"), new string("2")
@@ -99,11 +165,76 @@ void addCards(Deck* deck)
 		)
 	);
 
-	//gem, create 2 armies
 	deck->stackofCards->push
 	(
 		new Cards(
 			"coal",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("2"), new string("OR"), new string("createCity"), nullptr
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"coal",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot",
+			new vector<string*>
+			{
+				new string("move"), new string("5")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot",
+			new vector<string*>
+			{
+				new string("move"), new string("4")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"tree",
+			new vector<string*>
+			{
+				new string("move"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"wild",
 			new vector<string*>
 			{
 				new string("createArmies"), new string("2")
@@ -111,44 +242,32 @@ void addCards(Deck* deck)
 		)
 	);
 
-	//gem, create 2 armies
 	deck->stackofCards->push
 	(
 		new Cards(
-			"coal",
+			"carrot",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("2")
+				new string("creatCity"), nullptr
 			}
 		)
 	);
-	//gem, create 2 armies
+
 	deck->stackofCards->push
 	(
 		new Cards(
-			"coal",
+			"carrot",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("2")
+				new string("destroyArmies"), new string("1"), new string("AND"), new string("createArmies"), new string("1")
 			}
 		)
 	);
-	//gem, create 2 armies
+
 	deck->stackofCards->push
 	(
 		new Cards(
-			"coal",
-			new vector<string*>
-			{
-				new string("createArmies"), new string("2")
-			}
-		)
-	);
-	//gem, create 2 armies
-	deck->stackofCards->push
-	(
-		new Cards(
-			"coal",
+			"gem",
 			new vector<string*>
 			{
 				new string("createArmies"), new string("2")
@@ -156,4 +275,256 @@ void addCards(Deck* deck)
 		)
 	);
 
+	deck->stackofCards->push
+	(
+		new Cards(
+			"gem",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("1")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"gem",
+			new vector<string*>
+			{
+				new string("move"), new string("2")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"tree",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("2"), new string("OR"), new string("move"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"tree",
+			new vector<string*>
+			{
+				new string("destroyArmies"), new string("1"), new string("OR"), new string("createCity"), nullptr
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"tree",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"tree",
+			new vector<string*>
+			{
+				new string("move"), new string("6")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"tree",
+			new vector<string*>
+			{
+				new string("waterMove"), new string("4")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"tree",
+			new vector<string*>
+			{
+				new string("createCity"), nullptr
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"tree",
+			new vector<string*>
+			{
+				new string("waterMove"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"anvil",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"anvil",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"anvil",
+			new vector<string*>
+			{
+				new string("move"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"anvil",
+			new vector<string*>
+			{
+				new string("createCity"), nullptr
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"anvil",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("3"), new string("OR"), new string("move"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"anvil",
+			new vector<string*>
+			{
+				new string("move"), new string("4")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"anvil",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("3"), new string("OR"), new string("move"), new string("4")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"anvil",
+			new vector<string*>
+			{
+				new string("move"), new string("5")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"anvil2",
+			new vector<string*>
+			{
+				new string("move"), new string("4")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot",
+			new vector<string*>
+			{
+				new string("createCity"), nullptr
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot",
+			new vector<string*>
+			{
+				new string("move"), new string("4")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("4"), new string("OR"), new string("move"), new string("2")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot",
+			new vector<string*>
+			{
+				new string("moveWater"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot2",
+			new vector<string*>
+			{
+				new string("createArmies"), new string("3")
+			}
+		)
+	);
 }
