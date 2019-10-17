@@ -11,7 +11,6 @@
 using namespace std;
 
 //Initialize static attributes
-int* BidingFacility::supply = new int(0);
 int* BidingFacility::largestBid = NULL;
 vector<Player*>* BidingFacility::players = new vector<Player*>();
 vector<int>* BidingFacility::allBids = new vector<int>();
@@ -75,7 +74,6 @@ Player* BidingFacility::revealWinner()
 			winner= determineYoungest(players->at(i), winner);
 		}
 	}
-	giveToSupply(winner);
 	cout << *(winner->name) +" is the winner! \n" << endl;
 	return winner;
 }
@@ -90,11 +88,11 @@ Player* BidingFacility::determineYoungest(Player* player1, Player* player2)
 }
 
 //The winner gives his coins to the supply
-void BidingFacility::giveToSupply(Player* winPay)
+void BidingFacility::giveToSupply(Player* winPay, int* supply)
 {
 	int amount = *(winPay->bidFacObj->amountBid);
 	int value = *supply + amount;
-	*supply= value;
+	*supply = value;
 	(winPay->numCoins) = new int (*(winPay->numCoins) - amount);
 }
 
@@ -145,24 +143,9 @@ void BidingFacility::bidCoins(int inputBid)
 
 }
 
-//Prints out details about players
-void BidingFacility::showDetails()
-{
-	cout << "Details about players" << endl;
-
-	for (int i = 0; i < (players->size()); i++)
-	{
-		cout << *(players->at(i)->name) + " is " + to_string(*(players->at(i)->age))
-			+ " years old, and has " + to_string(*(players->at(i)->numCoins)) + " coins." << endl;
-	}
-
-	cout << "Content of the supply: " + to_string(*supply) + " coins.\n" << endl;
-
-}
-
 //Method to start the bidding process which occurs only once at the beginning of the game
 //TODO: Attempting to make this a static method
- void BidingFacility::startBidProcess()
+ void BidingFacility::startBidProcess(int* supply)
 {
 
 	//Reveal all biddings
@@ -171,15 +154,12 @@ void BidingFacility::showDetails()
 	//Reveal the Winner
 	revealWinner();
 
-	showDetails();
-
+	//Add winners bid to supply
+	giveToSupply(winner, supply);
 }
 
  void BidingFacility::clearBidingFacility()
  {
-	 delete supply;
-	 supply = new int (0);
-
 	 winner = NULL;//No need to delete, will mem deallocated with delete player
 
 	 delete largestBid;

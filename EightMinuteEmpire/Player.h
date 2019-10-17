@@ -58,6 +58,7 @@ public:
 
 	void createArmies();
 	void createCities();
+	void initializeHand(Deck*);
 	int availableCities();
 	int availableArmies();
 	City* getAvailableCity();

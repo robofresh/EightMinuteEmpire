@@ -17,7 +17,6 @@ public:
 	// Biding facility is run once
 	// Everyone has a bidingFacility
 
-	static int* supply;// Supply is shared among all players
 	static Player* winner;// Winner pays the amount to the supply
 	static int* largestBid;//Largest amount bid
 	static vector<Player*>* players;
@@ -32,11 +31,10 @@ public:
 	Player* revealWinner(); //return the winner?
 	Player* determineYoungest(Player*,Player*);//Called only if multiple highest bid
 	
-	void startBidProcess();//Start the bidding process, This method should be the only one used in driver
+	void startBidProcess(int*);//Start the bidding process, This method should be the only one used in driver
 	void reveal();//Shows everyone's bid
-	void giveToSupply(Player*);//Player gives its coins to the supply
+	void giveToSupply(Player*, int*);//Player gives its coins to the supply
 	void bidCoins();// Player bids with input value
 	void bidCoins(int);// Player bids
-	void showDetails();//Shows all players and their attributes for testing purposes
 	static void clearBidingFacility();
 };
