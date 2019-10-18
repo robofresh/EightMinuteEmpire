@@ -4,6 +4,8 @@
 
 int main()
 {
+	int supplyVal = 100;
+	int* supply = &supplyVal; 
 
 	// Test 1: Highest bid wins
 	cout << "*****Test 1 : Player who bid the most coins wins!*****"<<endl;
@@ -23,7 +25,7 @@ int main()
 	player2->bidFacObj->bidCoins(4);
 	player3->bidFacObj->bidCoins(5);
 
-	player1->bidFacObj->startBidProcess();
+	player1->bidFacObj->startBidProcess(supply);
 
 	player1->bidFacObj->clearBidingFacility();
 	delete player1, player2, player3;
@@ -49,7 +51,7 @@ int main()
 	player2->bidFacObj->bidCoins(5);
 	player3->bidFacObj->bidCoins(5);
 
-	player1->bidFacObj->startBidProcess();
+	player1->bidFacObj->startBidProcess(supply);
 
 	player1->bidFacObj->clearBidingFacility();
 	delete player1, player2, player3;
@@ -76,7 +78,7 @@ int main()
 	player2->bidFacObj->bidCoins(0);
 	player3->bidFacObj->bidCoins(0);
 
-	player1->bidFacObj->startBidProcess();
+	player1->bidFacObj->startBidProcess(supply);
 
 	player1->bidFacObj->clearBidingFacility();
 	delete player1, player2, player3;
