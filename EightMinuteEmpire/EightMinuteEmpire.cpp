@@ -60,11 +60,13 @@ string getMapFileName()
 
 	cout << "The following map choices exist for the game:" << endl;
 	cout << "\t[1] map1.map" << endl;
+	cout << "\t[2] invalidMap.map" << endl;
+	cout << "\t[3] nonexistantMap.map" << endl;
 	while (true)
 	{
 		cout << "Enter the number of the map to use for the game: ";
 		cin >> fileSelectInput;
-		if (fileSelectInput != 1)
+		if (fileSelectInput < 1 || fileSelectInput > 3)
 		{
 			cout << "You've entered a number outside of the correct range. Try again." << endl;
 			cin.clear();
@@ -80,6 +82,12 @@ string getMapFileName()
 	{
 	case 1:
 		mapFileName = "map1.map";
+		break;
+	case 2:
+		mapFileName = "invalidMap.map";
+		break;
+	case 3:
+		mapFileName = "nonexistantMap.map";
 		break;
 	default:
 		break;
@@ -97,8 +105,7 @@ void createPlayers(const int numPlayers, const int numCoinsPerPlayer, vector<Pla
 		cin >> name;
 		cout << "Enter your age: ";
 		cin >> age;
-		Player* player = new Player(name, age, numCoinsPerPlayer, colors[i]);
-		player->initializeHand(deck);
+		Player* player = new Player(name, age, numCoinsPerPlayer, colors[i], deck);
 		players->push_back(player);
 		player->printPlayer();
 	}
@@ -158,8 +165,23 @@ int main()
 
 	// Select map from list of files.
 	Map* map = new Map();
-	string mapFileName = getMapFileName();
-	MapLoader* mapLoader = new MapLoader(mapFileName, map);
+	MapLoader* mapLoader = nullptr;
+	while (true)
+	{
+		string mapFileName = getMapFileName();
+		try
+		{
+			mapLoader = new MapLoader(mapFileName, map);
+			break;
+		}
+		catch (const MapLoaderException& e)
+		{
+			cout << e.message << endl;
+			cout << "Try again." << endl;
+			cout << endl;
+			delete mapLoader;
+		}
+	}
 	cout << "You've selected the following map: " << endl;
 	map->print();
 	cout << endl;
@@ -195,8 +217,6 @@ int main()
 	// Place 3 armies of each player on the starting country.
 	placeInitialPlayerArmies(players, startingCountry);
 
-	// There's the 2 player contraint... placing armies of 3rd non-player armies? Will look into this. 
-
 	// Bidding process
 	Player* currentPlayer;
 	int* currentPlayerIndex = new int(0);
@@ -206,7 +226,7 @@ int main()
 	auto it = find(players->begin(), players->end(), currentPlayer);
 	if (it != players->end())
 	{ 
-		*currentPlayerIndex = distance(players->begin(), it);
+		*currentPlayerIndex = static_cast<int>(distance(players->begin(), it));
 	}
 	players->at(0)->bidFacObj->clearBidingFacility();
 
@@ -274,7 +294,6 @@ int main()
 	delete map;
 	map = NULL;
 	startingCountry = NULL;
-	delete supply;
 	supply = NULL;
 	currentPlayer = NULL;
 	delete currentPlayerIndex;
