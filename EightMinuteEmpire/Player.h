@@ -70,4 +70,5 @@ public:
 	void moveOverLand(Country*, Country*);
 	void buildCity(Country*);
 	void destroyArmy(Country*, Player*);
+	void pickUpCard(Cards*, int, int*);
 };

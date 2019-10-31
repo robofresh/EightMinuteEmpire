@@ -178,6 +178,9 @@ int main()
 	const string COLORS[5] = { "Red", "Blue", "Green", "Yellow", "White" };
 	createPlayers(NUM_PLAYERS, NUM_COINS_PER_PLAYER, players, deck, COLORS);
 
+	//Other details for setting up the game
+	bool endGame = false;
+
 	// #################################################
 	//				Part 2: Startup Phase
 	// #################################################
@@ -217,7 +220,7 @@ int main()
 	//				Part 3: Main Game Loop
 	// #################################################
 
-	while (true)
+	while (!endGame)
 	{
 		//Increasing the index position is clockwise 
 		delete currentPlayerIndex;
@@ -229,6 +232,16 @@ int main()
 		cout << "Supply is now at " << *(supply) << " coins." << endl;
 		cout << "Current player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
 		cout << "Current player index is " << *currentPlayerIndex << "\n" << endl;
+
+		//Current user takes one face-up card & pay the cost of the card
+		Cards* chosenCard;
+		int cardPosition;
+		cout << "Select one of the face-up cards" << endl;
+		cin >> cardPosition;
+		chosenCard = faceupcards->at(--cardPosition); 
+		currentPlayer->pickUpCard(chosenCard, cardPosition, supply);
+
+		//Display current player's action
 
 	}
 

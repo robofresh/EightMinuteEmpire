@@ -202,5 +202,30 @@ void Player::placeNewArmies(Country* country, int amount)
 	}
 }
 
+void Player::pickUpCard(Cards* card,int position, int* supply)
+{
+	switch (position)
+	{
+	case '0':
+		this->payCoin(0,supply);
+		break;
+	case '1':
+	case '2':
+		this->payCoin(1,supply);
+		break;
+	case '3':
+	case '4':
+		this->payCoin(2,supply);
+		break;
+	case '5':
+		this->payCoin(3,supply);
+		break;
+	default:
+		cout << "invalid input" << endl;
+		break;
+	}
+	
+}
+
 // References
 // [1] https://thispointer.com/c-how-to-find-an-element-in-vector-and-get-its-index/
