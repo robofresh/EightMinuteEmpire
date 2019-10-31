@@ -29,6 +29,7 @@ public:
 	Hand* drawingcards;
 	void draw();
 	stack<Cards*>* stackofCards;
+	void print();
 };
 
 class Hand
@@ -37,7 +38,8 @@ public:
 	Hand(Deck*);
 	~Hand();
 	Deck* mainDeck;
-	void exchange(int index);
+	Cards* exchange(int index);
 	vector<Cards*>* faceupcards; //6 cards are poped from stack and revealed (faced-up)
 	int const* cost[]; //cost of card is fixed depending on the index, 0 1 1 2 2 3 respectively
+	void print();
 };

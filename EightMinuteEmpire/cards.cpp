@@ -36,6 +36,7 @@ Deck::Deck()
 	drawingcards = new Hand(this);
 	stackofCards = new stack <Cards*>; //in deck, there are 42 cards. they will be stacked
 	addCards(this);
+	//print();
 }
 
 void Deck::draw()
@@ -57,11 +58,21 @@ Hand::Hand(Deck* deck)
 //destructor
 Hand::~Hand(){}
 
-void Hand::exchange(int index)
+Cards* Hand::exchange(int index)
 {
 	cout << "selected " << index << endl;
+	Cards* tmp = faceupcards->at(index);
 	faceupcards->erase(faceupcards->begin() + index);
 	mainDeck->draw();
+	return tmp;
+}
+
+void Hand::print()
+{
+	for (int i = 0; i < 6; i++)
+	{
+		cout << *faceupcards->at(i)->good << endl;
+	}
 }
 
 void Deck::initialDraw() //one time only, when the game is started
@@ -71,6 +82,16 @@ void Deck::initialDraw() //one time only, when the game is started
 	}
 }
 
+void Deck::print()
+{
+	stack<Cards*> tmp;
+	tmp = *stackofCards;
+	while(!tmp.empty()) // this is messed up
+	{
+		cout << *tmp.top()->good << endl;
+		tmp.pop();
+	}
+}
 
 
 void addCards(Deck* deck)
@@ -94,7 +115,7 @@ void addCards(Deck* deck)
 			"gem", 
 			new vector<string*>  
 			{
-				new string("createArmies"), new string("2")
+				new string("placeArmies"), new string("2")
 			}
 		)
 	);
@@ -105,7 +126,7 @@ void addCards(Deck* deck)
 			"coal",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("3")
+				new string("placeArmies"), new string("3")
 			}
 		)
 	);
@@ -160,7 +181,7 @@ void addCards(Deck* deck)
 			"gem",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("2")
+				new string("placeArmies"), new string("2")
 			}
 		)
 	);
@@ -171,7 +192,7 @@ void addCards(Deck* deck)
 			"coal",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("2"), new string("OR"), new string("createCity"), nullptr
+				new string("placeArmies"), new string("2"), new string("OR"), new string("createCity"),  new string("1")
 			}
 		)
 	);
@@ -182,7 +203,7 @@ void addCards(Deck* deck)
 			"coal",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("3")
+				new string("placeArmies"), new string("3")
 			}
 		)
 	);
@@ -215,7 +236,7 @@ void addCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("3")
+				new string("placeArmies"), new string("3")
 			}
 		)
 	);
@@ -237,7 +258,7 @@ void addCards(Deck* deck)
 			"wild",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("2")
+				new string("placeArmies"), new string("2")
 			}
 		)
 	);
@@ -259,7 +280,7 @@ void addCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
-				new string("destroyArmies"), new string("1"), new string("AND"), new string("createArmies"), new string("1")
+				new string("destroyArmies"), new string("1"), new string("AND"), new string("placeArmies"), new string("1")
 			}
 		)
 	);
@@ -270,7 +291,7 @@ void addCards(Deck* deck)
 			"gem",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("2")
+				new string("placeArmies"), new string("2")
 			}
 		)
 	);
@@ -281,7 +302,7 @@ void addCards(Deck* deck)
 			"gem",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("1")
+				new string("placeArmies"), new string("1")
 			}
 		)
 	);
@@ -303,7 +324,7 @@ void addCards(Deck* deck)
 			"tree",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("2"), new string("OR"), new string("move"), new string("3")
+				new string("placeArmies"), new string("2"), new string("OR"), new string("move"), new string("3")
 			}
 		)
 	);
@@ -314,7 +335,7 @@ void addCards(Deck* deck)
 			"tree",
 			new vector<string*>
 			{
-				new string("destroyArmies"), new string("1"), new string("OR"), new string("createCity"), nullptr
+				new string("destroyArmies"), new string("1"), new string("OR"), new string("createCity"), new string("1")
 			}
 		)
 	);
@@ -325,7 +346,7 @@ void addCards(Deck* deck)
 			"tree",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("3")
+				new string("placeArmies"), new string("3")
 			}
 		)
 	);
@@ -358,7 +379,7 @@ void addCards(Deck* deck)
 			"tree",
 			new vector<string*>
 			{
-				new string("createCity"), nullptr
+				new string("createCity"), new string("1")
 			}
 		)
 	);
@@ -380,7 +401,7 @@ void addCards(Deck* deck)
 			"anvil",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("3")
+				new string("placeArmies"), new string("3")
 			}
 		)
 	);
@@ -391,7 +412,7 @@ void addCards(Deck* deck)
 			"anvil",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("3")
+				new string("placeArmies"), new string("3")
 			}
 		)
 	);
@@ -413,7 +434,7 @@ void addCards(Deck* deck)
 			"anvil",
 			new vector<string*>
 			{
-				new string("createCity"), nullptr
+				new string("createCity"), new string("1")
 			}
 		)
 	);
@@ -424,7 +445,7 @@ void addCards(Deck* deck)
 			"anvil",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("3"), new string("OR"), new string("move"), new string("3")
+				new string("placeArmies"), new string("3"), new string("OR"), new string("move"), new string("3")
 			}
 		)
 	);
@@ -446,7 +467,7 @@ void addCards(Deck* deck)
 			"anvil",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("3"), new string("OR"), new string("move"), new string("4")
+				new string("placeArmies"), new string("3"), new string("OR"), new string("move"), new string("4")
 			}
 		)
 	);
@@ -479,7 +500,42 @@ void addCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
-				new string("createCity"), nullptr
+				new string("createCity"), new string("1")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot",
+			new vector<string*>
+			{
+				new string("move"), new string("4")
+			}
+		)
+	);
+
+
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot",
+			new vector<string*>
+			{
+				new string("moveWater"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot2",
+			new vector<string*>
+			{
+				new string("placeArmies"), new string("3")
 			}
 		)
 	);
@@ -501,7 +557,7 @@ void addCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
-				new string("createArmies"), new string("4"), new string("OR"), new string("move"), new string("2")
+				new string("createCity"), new string("1")
 			}
 		)
 	);
@@ -512,18 +568,7 @@ void addCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
-				new string("moveWater"), new string("3")
-			}
-		)
-	);
-
-	deck->stackofCards->push
-	(
-		new Cards(
-			"carrot2",
-			new vector<string*>
-			{
-				new string("createArmies"), new string("3")
+				new string("placeArmies"), new string("4"), new string("OR"), new string("move"), new string("2")
 			}
 		)
 	);

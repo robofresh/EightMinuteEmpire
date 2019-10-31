@@ -14,7 +14,7 @@ Army::~Army()
 
 void Army::setOccupiedCountry(Country* country)
 {
-	country = country;
+	Army::occupiedCountry = country;
 }
 
 City::City(Player* newPlayer)
@@ -29,7 +29,7 @@ City::~City()
 
 void City::setOccupiedCountry(Country* country)
 {
-	country = country;
+	City::occupiedCountry = country;
 }
 
 int Player::availableCities()
@@ -134,7 +134,31 @@ void Player::printPlayer()
 	cout << "\tWith:" << endl;
 	cout << "\t\t" << *(this->numCoins) << " coins." << endl;
 	cout << "\t\t" << this->armies->size() << " armies (wooden cubes)." << endl;
+	for (int i = 0; i < armies->size(); i++)
+	{
+		if (armies->at(i)->occupiedCountry == nullptr)
+		{
+			cout << "\t\t\t" << "Army " << i+1 << " has not been placed." << endl;
+		} 
+		else
+		{
+			cout << "\t\t\t" << "Army " << i+1 << " is in " << *armies->at(i)->occupiedCountry->name << endl;
+		}
+
+	}
 	cout << "\t\t" << this->cities->size() << " cities (discs)." << endl;
+	for (int i = 0; i < cities->size(); i++)
+	{
+		if (cities->at(i)->occupiedCountry == nullptr)
+		{
+			cout << "\t\t\t" << "City " << i + 1 << " has not been placed." << endl;
+		}
+		else
+		{
+			cout << "\t\t\t" << "City " << i + 1 << " is in " << *cities->at(i)->occupiedCountry->name << endl;
+		}
+
+	}
 	cout << "\t\t" << this->ownedCountries->size() << " countries owned." << endl;
 	cout << "\t\t" << this->goods->size() << " goods." << endl;
 	cout << "\t\tno hand of cards." << endl;

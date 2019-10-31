@@ -33,6 +33,7 @@ public:
 
 	~Country();
 
+	bool* isStartingCountry;
 	string *name;
 
 	vector<Country*> *adjCountries; //pointer to a vector of pointers to all adjacent countries
@@ -42,6 +43,7 @@ public:
 	Player* owningPlayer; //pointer to the owning player
 
 	Army* getArmy(Player*);
+	bool removeArmy(Army*);
 
 };
 

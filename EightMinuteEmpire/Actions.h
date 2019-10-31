@@ -8,7 +8,7 @@ public:
 	Actions();
 	~Actions();
 
-	void processAction(Player*, Cards*);
+	void processAction(Player*, Cards*, Map*);
 
 };
 
