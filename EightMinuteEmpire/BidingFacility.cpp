@@ -26,25 +26,25 @@ struct InputException : public exception
 };
 
 //Default constructor
+BidingFacility::BidingFacility()
+{
+	amountBid = NULL;
+	this->player = nullptr;
+}
+
 BidingFacility::BidingFacility(Player* player)
 {	
 	amountBid = NULL;	
 	this->player = player;
-
 }
 
 //Destructor
 BidingFacility::~BidingFacility()
 {
-
-
 	delete amountBid;
-
 	amountBid = NULL;
 	player = NULL;
-
 }
-
 
 void BidingFacility::reveal()
 {
@@ -53,7 +53,6 @@ void BidingFacility::reveal()
 		cout << "Player : " + *(players->at(i)->name) + 
 		" bids " + std::to_string(allBids->at(i)) + " coins." << endl;
 	}
-	
 }
 
 Player* BidingFacility::revealWinner()
@@ -117,8 +116,6 @@ void BidingFacility::bidCoins()
 	amountBid = new int(inputBid);
 	players->push_back(this->player); 
 	allBids->push_back(*amountBid);
-
-	
 } 
 
 //Player bit an amount with an argument
@@ -139,15 +136,12 @@ void BidingFacility::bidCoins(int inputBid)
 	amountBid = new int(inputBid);
 	players->push_back(this->player);
 	allBids->push_back(*amountBid);
-
-
 }
 
 //Method to start the bidding process which occurs only once at the beginning of the game
 //TODO: Attempting to make this a static method
  void BidingFacility::startBidProcess(int* supply)
 {
-
 	//Reveal all biddings
 	reveal();
 
@@ -168,7 +162,3 @@ void BidingFacility::bidCoins(int inputBid)
 	 players->clear();
 	 allBids->clear();
  }
-
-
-
-

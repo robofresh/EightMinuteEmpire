@@ -18,6 +18,7 @@ class BidingFacility;
 class Army
 {
 public:
+	Army();
 	Army(Player*);
 	~Army();
 
@@ -30,6 +31,7 @@ public:
 class City
 {
 public:
+	City();
 	City(Player*);
 	~City();
 
@@ -42,7 +44,8 @@ public:
 class Player
 {
 public:
-	Player(string, int, int, string);
+	Player();
+	Player(string, int, int, string, Deck*);
 	~Player();
 
 	string* name;
@@ -58,7 +61,6 @@ public:
 
 	void createArmies();
 	void createCities();
-	void initializeHand(Deck*);
 	int availableCities();
 	int availableArmies();
 	City* getAvailableCity();

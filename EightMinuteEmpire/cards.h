@@ -14,6 +14,7 @@ class Hand;
 class Cards
 {
 public:
+	Cards();
 	Cards(string, string); //1st string for good(resources), 2nd string for action
 	~Cards();
 	string* good; //there are different good(resources) including crystal, lumber,	carrot,	anvil, coal, joker.
@@ -34,6 +35,7 @@ public:
 class Hand
 {
 public:
+	Hand();
 	Hand(Deck*);
 	~Hand();
 	Deck* mainDeck;

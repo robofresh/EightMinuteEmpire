@@ -24,6 +24,7 @@ public:
 	
 	int* amountBid;
 
+	BidingFacility(); 
 	BidingFacility(Player*);
 	~BidingFacility();
 
