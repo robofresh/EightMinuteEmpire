@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BidingDriver.cpp" />
+    <ClCompile Include="BidingFacility.cpp" />
     <ClCompile Include="cards.cpp" />
     <ClCompile Include="CardsDriver.cpp" />
     <ClCompile Include="EightMinuteEmpire.cpp" />
@@ -30,6 +32,7 @@
     <ClCompile Include="PlayerDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BidingFacility.h" />
     <ClInclude Include="cards.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapLoader.h" />

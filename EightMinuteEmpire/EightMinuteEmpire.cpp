@@ -217,6 +217,21 @@ int main()
 	//				Part 3: Main Game Loop
 	// #################################################
 
+	while (true)
+	{
+		//Increasing the index position is clockwise 
+		delete currentPlayerIndex;
+
+		currentPlayerIndex = new int((*currentPlayerIndex ++)%(NUM_PLAYERS));
+
+		currentPlayer = players->at(*currentPlayerIndex);//update current player
+
+		cout << "Supply is now at " << *(supply) << " coins." << endl;
+		cout << "Current player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
+		cout << "Current player index is " << *currentPlayerIndex << "\n" << endl;
+
+	}
+
 		// #################################################
 		//				Part 4: Player Actions
 		// #################################################
