@@ -13,9 +13,6 @@ Army::~Army()
 {
 	player = NULL;
 	occupiedCountry = NULL;
-	delete player, occupiedCountry;
-	player = NULL;
-	occupiedCountry = NULL;
 }
 
 void Army::setOccupiedCountry(Country* country)
@@ -31,9 +28,6 @@ City::City(Player* newPlayer)
 
 City::~City()
 {
-	player = NULL;
-	occupiedCountry = NULL;
-	delete player, occupiedCountry;
 	player = NULL;
 	occupiedCountry = NULL;
 }
