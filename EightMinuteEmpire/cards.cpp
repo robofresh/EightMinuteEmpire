@@ -8,6 +8,12 @@
 
 using namespace std;
 
+Cards::Cards()
+{
+	good = new string("");
+	action = new string("");
+}
+
 Cards::Cards(string good1, string action1)
 {
 	good = new string (good1);
@@ -15,7 +21,12 @@ Cards::Cards(string good1, string action1)
 }
 
 //destructor
-Cards::~Cards(){}
+Cards::~Cards()
+{
+	delete good, action;
+	good = NULL;
+	action = NULL;
+}
 
 Deck::Deck()
 {
@@ -31,7 +42,24 @@ void Deck::draw()
 }
 
 //destructor
-Deck::~Deck(){}
+Deck::~Deck()
+{
+	delete drawingcards;
+	while (!stackofCards->empty())
+	{
+		delete stackofCards->top();
+		stackofCards->pop();
+	}
+	delete stackofCards;
+	drawingcards = NULL;
+	stackofCards = NULL;
+}
+
+Hand::Hand()
+{
+	faceupcards = new vector <Cards*>();
+	mainDeck = nullptr;
+}
 
 Hand::Hand(Deck* deck)
 {
@@ -40,7 +68,12 @@ Hand::Hand(Deck* deck)
 }
 
 //destructor
-Hand::~Hand(){}
+Hand::~Hand()
+{
+	delete faceupcards;
+	faceupcards = NULL;
+	mainDeck = NULL;
+}
 
 void Hand::exchange(int index)
 {
