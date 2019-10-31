@@ -58,7 +58,7 @@ Deck::~Deck()
 Hand::Hand()
 {
 	faceupcards = new vector <Cards*>();
-	mainDeck = new Deck();
+	mainDeck = nullptr;
 }
 
 Hand::Hand(Deck* deck)
@@ -70,7 +70,7 @@ Hand::Hand(Deck* deck)
 //destructor
 Hand::~Hand()
 {
-	delete faceupcards, mainDeck;
+	delete faceupcards;
 	faceupcards = NULL;
 	mainDeck = NULL;
 }
