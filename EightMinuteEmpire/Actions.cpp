@@ -96,6 +96,10 @@ void actionString(string action)
 	{
 
 	}
+	if (string("destroyArmies").compare(action) == 0)
+	{
+
+	}
 }
 
 Actions::~Actions()
