@@ -220,8 +220,9 @@ void Player::placeNewArmies(Country* country, int amount)
 		Army* availableArmy = this->getAvailableArmy();
 		availableArmy->occupiedCountry = country;
 		country->occupyingArmies->push_back(availableArmy);
-		cout << *(this->name) << " now has an army in " << *(country->name) << endl;
+		cout << *(this->name) << " placed an army in " << *(country->name) << endl;
 	}
+
 }
 
 // References

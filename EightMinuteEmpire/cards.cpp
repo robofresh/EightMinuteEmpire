@@ -264,16 +264,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("destroyArmies"), new string("1"), new string("AND"), new string("placeArmies"), new string("1")
-			}
-		)
-	);
+
 
 	deck->stackofCards->push
 	(
@@ -567,6 +558,17 @@ void addCards(Deck* deck)
 			new vector<string*>
 			{
 				new string("move"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot",
+			new vector<string*>
+			{
+				new string("destroyArmies"), new string("1"), new string("AND"), new string("placeArmies"), new string("1")
 			}
 		)
 	);
