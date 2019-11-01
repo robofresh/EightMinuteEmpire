@@ -24,6 +24,19 @@ E.g. as shown in the file two tabs, in "Continents" will mean the line should be
 
 */
 
+MapLoaderException::MapLoaderException() : message("")
+{/*Intentionally Empty*/
+}
+
+MapLoaderException::MapLoaderException(string msg) : message(msg)
+{/*Intentionally Empty*/}
+
+MapLoaderException::~MapLoaderException()
+{/*Intentionally Empty*/}
+
+MapLoader::MapLoader()
+{/*Intentionally Empty*/}
+
 //map loader simply takes the file string and a map object pointer.
 //this is to simplify the verification of the files existence and to not have a whole long file operation(s) in one large if statment
 MapLoader::MapLoader(string file, Map* map)
@@ -34,7 +47,7 @@ MapLoader::MapLoader(string file, Map* map)
 	{
 		processFile(mapFile, map);
 	}
-	else { cout << "no file found" << endl; }
+	else { throw MapLoaderException("File not found."); }
 }
 
 //takes in a ifstream pointer and the map sent to the loader
@@ -142,7 +155,7 @@ void processFile(ifstream* mapFile, Map* map)
 			//if the file has put the sections in the wrong order
 			if (!contOrder)
 			{
-				cout << "The map file is incorrectly formatted. Be sure \'Continents\' comes before \'Connections\'." << endl;
+				throw MapLoaderException("INVALID MAP: The map file is incorrectly formatted. Be sure \'Continents\' comes before \'Connections\'.");
 				return;
 			}
 
@@ -171,7 +184,8 @@ void processFile(ifstream* mapFile, Map* map)
 					}
 					else
 					{
-						cout << '\"' << *fileString << '\"' << " does not exist as a country in the map." << endl;
+						throw MapLoaderException("INVALID MAP: \"" + *fileString + "\" does not exist as a country in the map.");
+						return;
 					}
 					continue;
 				}
@@ -191,7 +205,8 @@ void processFile(ifstream* mapFile, Map* map)
 					}
 					else
 					{
-						cout << '\"' << *fileString << '\"' << " does not exist as a country in the map." << endl;
+						throw MapLoaderException("INVALID MAP: \"" + *fileString + "\" does not exist as a country in the map.");
+						return;
 					}
 					continue;
 				}
@@ -240,5 +255,4 @@ bool validateString(string* str)
 }
 
 MapLoader::~MapLoader()
-{
-}
+{/*Intentionally Empty*/}

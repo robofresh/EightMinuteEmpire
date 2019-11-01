@@ -1,0 +1,30 @@
+Continents
+	North America
+		Canada
+		USA
+		Mexico
+	North America
+	South America
+		Argentina
+		Bolivia
+		Brazil
+		Chile
+		Colombia
+		Ecuador
+		Guyana
+		Mexico
+		Paraguay
+		Peru
+		Suriname
+		Uruguay
+		Venezuela
+
+Connections
+	Canada
+		USA
+		China
+	USA
+		Canada
+		Mexico
+	Iceland
+		Canada

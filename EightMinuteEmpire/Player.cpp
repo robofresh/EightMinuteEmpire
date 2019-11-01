@@ -1,6 +1,10 @@
 #include "Player.h"
 #include "Map.h"
 #include "BidingFacility.h"
+#include "cards.h"
+
+Army::Army()
+	: player(nullptr), occupiedCountry(nullptr) {}
 
 Army::Army(Player* newPlayer)
 	: player(newPlayer), occupiedCountry(nullptr) {}
@@ -9,7 +13,6 @@ Army::~Army()
 {
 	player = NULL;
 	occupiedCountry = NULL;
-	delete player, occupiedCountry;
 }
 
 void Army::setOccupiedCountry(Country* country)
@@ -17,19 +20,77 @@ void Army::setOccupiedCountry(Country* country)
 	Army::occupiedCountry = country;
 }
 
+City::City()
+	: player(nullptr), occupiedCountry(nullptr) {}
+
 City::City(Player* newPlayer)
 	: player(newPlayer), occupiedCountry(nullptr) {}
 
-City::~City() 
+City::~City()
 {
 	player = NULL;
 	occupiedCountry = NULL;
-	delete player, occupiedCountry;
 }
 
 void City::setOccupiedCountry(Country* country)
 {
 	City::occupiedCountry = country;
+}
+
+Player::Player()
+{
+	name = new string("");
+	age = new int(0);
+	numCoins = new int(0);
+	color = new string("");
+	armies = new vector<Army*>();
+	cities = new vector<City*>();
+	ownedCountries = new vector<Country*>();
+	hand = new Hand();
+	goods = new vector<string*>();
+	bidFacObj = new BidingFacility(this);
+}
+
+Player::Player(string inputName, int inputAge, int coinAmount, string selectedColor, Deck* mainDeck)
+{
+	name = new string(inputName);
+	age = new int(inputAge);
+	numCoins = new int(coinAmount);
+	color = new string(selectedColor);
+	armies = new vector<Army*>();
+	cities = new vector<City*>();
+	ownedCountries = new vector<Country*>();
+	hand = new Hand(mainDeck);
+	goods = new vector<string*>();
+	bidFacObj = new BidingFacility(this);
+
+	this->createArmies();
+	this->createCities();
+}
+
+Player::~Player()
+{
+	for (int i = 0; i < armies->size(); i++)
+	{
+		delete armies->at(i);
+		armies->at(i) = NULL;
+	}
+	for (int i = 0; i < cities->size(); i++)
+	{
+		delete cities->at(i);
+		cities->at(i) = NULL;
+	}
+	delete name, age, numCoins, color, armies, cities, ownedCountries, hand, goods, bidFacObj;
+	name = NULL;
+	age = NULL;
+	numCoins = NULL;
+	color = NULL;
+	armies = NULL;
+	cities = NULL;
+	ownedCountries = NULL;
+	hand = NULL;
+	goods = NULL;
+	bidFacObj = NULL;
 }
 
 int Player::availableCities()
@@ -80,36 +141,6 @@ Army* Player::getAvailableArmy()
 		}
 	}
 	return nullptr;
-}
-
-Player::Player(string inputName, int inputAge, int coinAmount, string selectedColor)
-{
-	name = new string(inputName);
-	age = new int(inputAge);
-	numCoins = new int(coinAmount);
-	color = new string(selectedColor);
-	armies = new vector<Army*>();
-	cities = new vector<City*>();
-	ownedCountries = new vector<Country*>();
-	hand = nullptr;
-	goods = new vector<string*>();
-	bidFacObj = new BidingFacility(this);
-
-	this->createArmies();
-	this->createCities();
-}
-
-Player::~Player()
-{
-	for (int i = 0; i < armies->size(); i++)
-	{
-		delete armies->at(i);
-	}
-	for (int i = 0; i < cities->size(); i++)
-	{
-		delete cities->at(i);
-	}
-	delete name, age, numCoins, color, armies, cities, ownedCountries, hand, goods, bidFacObj;
 }
 
 void Player::createArmies()

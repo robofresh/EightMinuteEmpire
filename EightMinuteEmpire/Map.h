@@ -16,6 +16,7 @@ class Player;
 class Continent
 {
 public:
+	Continent();
 	Continent(string, Map*);
 	~Continent();
 
@@ -29,6 +30,7 @@ public:
 class Country
 {
 public:
+	Country();
 	Country(string, Continent*, Map*);
 
 	~Country();

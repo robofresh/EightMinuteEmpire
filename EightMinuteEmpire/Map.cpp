@@ -57,7 +57,19 @@ void Map::print()
 
 Map::~Map()
 {
+	for (int i = 0; i < mapCountries->size(); i++)
+	{
+		delete mapCountries->at(i);
+		mapCountries->at(i) = NULL;
+	}
+	for (int i = 0; i < mapContinents->size(); i++)
+	{
+		delete mapContinents->at(i);
+		mapContinents->at(i) = NULL;
+	}
 	delete mapCountries, mapContinents;
+	mapContinents = NULL;
+	mapCountries = NULL;
 }
 
 //check if their is already a country in the map by the same name and return a pointer to it
@@ -116,6 +128,16 @@ Continent* Map::createContinent(string inputName)
 }
 
 //not meant to be directly called
+Country::Country()
+{
+	name = new string("");
+	parentContinent = nullptr;
+	adjCountries = new vector<Country*>();
+	cities = new vector<City*>();
+	occupyingArmies = new vector<Army*>;
+	owningPlayer = nullptr;
+}
+
 Country::Country(string inputName, Continent* cont, Map* map)
 {
 	name = new string(inputName);
@@ -131,6 +153,12 @@ Country::Country(string inputName, Continent* cont, Map* map)
 Country::~Country()
 {
 	delete name, parentContinent, adjCountries, occupyingArmies, cities, owningPlayer;
+	name = NULL;
+	parentContinent = NULL;
+	adjCountries = NULL;
+	occupyingArmies = NULL;
+	cities = NULL;
+	owningPlayer = NULL;
 }
 
 Army* Country::getArmy(Player* ofPlayer)
@@ -146,6 +174,12 @@ Army* Country::getArmy(Player* ofPlayer)
 }
 
 //not meant to be directly called
+Continent::Continent()
+{
+	name = new string("");
+	containedCountries = new vector<Country*>();
+}
+
 Continent::Continent(string inputName, Map* map)
 {
 	name = new string(inputName);
@@ -156,6 +190,8 @@ Continent::Continent(string inputName, Map* map)
 Continent::~Continent()
 {
 	delete name, containedCountries;
+	name = NULL;
+	containedCountries = NULL;
 }
 
 bool Country::removeArmy(Army* army)

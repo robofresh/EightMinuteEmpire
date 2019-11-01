@@ -19,6 +19,11 @@ string = "action" + # + ("AND" or "OR") + "action2" + #
 
 */
 
+Cards::Cards()
+{
+	good = new string("");
+	actions = new vector<string*>();
+}
 
 Cards::Cards(string good1, vector<string*>* action1)
 {
@@ -27,7 +32,12 @@ Cards::Cards(string good1, vector<string*>* action1)
 }
 
 //destructor
-Cards::~Cards(){}
+Cards::~Cards()
+{
+	delete good, actions;
+	good = NULL;
+	actions = NULL;
+}
 
 void addCards(Deck*);
 
@@ -47,7 +57,24 @@ void Deck::draw()
 }
 
 //destructor
-Deck::~Deck(){}
+Deck::~Deck()
+{
+	delete drawingcards;
+	while (!stackofCards->empty())
+	{
+		delete stackofCards->top();
+		stackofCards->pop();
+	}
+	delete stackofCards;
+	drawingcards = NULL;
+	stackofCards = NULL;
+}
+
+Hand::Hand()
+{
+	faceupcards = new vector <Cards*>();
+	mainDeck = nullptr;
+}
 
 Hand::Hand(Deck* deck)
 {
@@ -56,7 +83,12 @@ Hand::Hand(Deck* deck)
 }
 
 //destructor
-Hand::~Hand(){}
+Hand::~Hand()
+{
+	delete faceupcards;
+	faceupcards = NULL;
+	mainDeck = NULL;
+}
 
 Cards* Hand::exchange(int index)
 {
