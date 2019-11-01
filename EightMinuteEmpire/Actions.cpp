@@ -201,17 +201,19 @@ void actionProcess(string action, int amount, Player *player, Map* map)
 
 			player->printPlayer();
 
-			while (army == nullptr)
+			bool newArmy = false;
+			while (army == nullptr || newArmy == false)
 			{
 				cout << "Please give a valid placed army number: ";
 				cin >> armyID;
 
 				armyID--;
 
+				newArmy = true;
 				for (int i = 0; i < armiesAlreadyMoved.size(); i++)
 				{
 					if (armyID+1 == armiesAlreadyMoved.at(i))
-						continue;
+						newArmy = false;
 				}
 
 				if (armyID < 14 && armyID > -1)
