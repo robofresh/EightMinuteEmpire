@@ -8,7 +8,7 @@ int main()
 	Deck *deck = new Deck();
 	deck->initialDraw();
 	vector<Player*>* playersVector = new vector<Player*>();
-	Player* play1 = new Player("scott", 1, 1, "red");
+	Player* play1 = new Player("scott", 1, 1, "red", deck);
 	playersVector->push_back(play1);
 	Map* map = new Map();
 	MapLoader* mapLoad = new MapLoader("map1.map", map);
