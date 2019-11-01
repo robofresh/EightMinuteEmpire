@@ -182,7 +182,7 @@ void actionProcess(string action, int amount, Player *player, Map* map)
 		}
 		return;
 	}
-	if (string("move").compare(action) == 0)
+	if (string("move").compare(action) == 0 || string("waterMove").compare(action) == 0)
 	{
 
 		vector<int> armiesAlreadyMoved;
@@ -193,6 +193,12 @@ void actionProcess(string action, int amount, Player *player, Map* map)
 			if (player->availableArmies() == 14)
 			{
 				cout << "No armies have been placed." << endl;
+				return;
+			}
+
+			//if the card's amount of armies to move is greater than the player's placed armies
+			if (armiesAlreadyMoved.size() >= 14 - player->availableArmies())
+			{
 				return;
 			}
 
@@ -225,28 +231,61 @@ void actionProcess(string action, int amount, Player *player, Map* map)
 
 			armiesAlreadyMoved.push_back(armyID+1);
 
-			if (player->armies->at(armyID)->occupiedCountry != nullptr)
+			if (string("waterMove").compare(action) == 0)
 			{
-				Country* country = nullptr;
-				bool isValid = false;
-				while (!isValid)
+				if (player->armies->at(armyID)->occupiedCountry != nullptr)
 				{
-					string countryName;
-					cout << "Please give a valid name for a country in " << *army->occupiedCountry->parentContinent->name << " to move army " << armyID+1 << " to: ";
-					cin >> countryName;
-					country = map->getCountry(countryName);
-					if (country != nullptr && country->parentContinent == army->occupiedCountry->parentContinent)
-						isValid = true;
+					Country* country = nullptr;
+					bool isValid = false;
+					while (!isValid)
+					{
+						string countryName;
+						cout << "Please give a valid name for a country to move army " << armyID + 1 << " across land or water to: ";
+						cin >> countryName;
+						country = map->getCountry(countryName);
+						if (country != nullptr)
+						{
+							for (int j = 0; j < country->adjCountries->size(); j++)
+							{
+								//if the army's country is adjacent to the selected country
+								if (*army->occupiedCountry->name == *country->adjCountries->at(j)->name)
+									isValid = true;
+							}
+						}
+					}
+					army->occupiedCountry->removeArmy(army);
+					army->setOccupiedCountry(country);
 				}
-				country->removeArmy(army);
-				army->setOccupiedCountry(country);
+			}
+			else
+			{
+				if (player->armies->at(armyID)->occupiedCountry != nullptr)
+				{
+					Country* country = nullptr;
+					bool isValid = false;
+					while (!isValid)
+					{
+						string countryName;
+						cout << "Please give a valid name for a country in " << *army->occupiedCountry->parentContinent->name << " to move army " << armyID + 1 << " to: ";
+						cin >> countryName;
+						country = map->getCountry(countryName);
+						if (country != nullptr)
+						{
+							for (int j = 0; j < country->adjCountries->size(); j++)
+							{
+								//if the army's country is adjacent to the selected country and if they are in the same continent
+								if (*army->occupiedCountry->name == *country->adjCountries->at(j)->name && *army->occupiedCountry->parentContinent->name == *country->parentContinent->name)
+									isValid = true;
+							}
+						}
+					}
+					army->occupiedCountry->removeArmy(army);
+					army->setOccupiedCountry(country);
+				}
 			}
 		}
 	}
-	if (string("waterMove").compare(action) == 0)
-	{
 
-	}
 	if (string("destroyArmies").compare(action) == 0)
 	{
 

@@ -108,17 +108,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	//gem, create 2 armies
-	deck->stackofCards->push
-	(
-		new Cards(
-			"gem", 
-			new vector<string*>  
-			{
-				new string("placeArmies"), new string("2")
-			}
-		)
-	);
+
 
 	deck->stackofCards->push
 	(
@@ -417,16 +407,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
-	(
-		new Cards(
-			"anvil",
-			new vector<string*>
-			{
-				new string("move"), new string("3")
-			}
-		)
-	);
+
 
 	deck->stackofCards->push
 	(
@@ -518,16 +499,7 @@ void addCards(Deck* deck)
 
 
 
-	deck->stackofCards->push
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("moveWater"), new string("3")
-			}
-		)
-	);
+
 
 	deck->stackofCards->push
 	(
@@ -546,10 +518,23 @@ void addCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
+				new string("moveWater"), new string("3")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"carrot",
+			new vector<string*>
+			{
 				new string("move"), new string("4")
 			}
 		)
 	);
+
+
 
 	deck->stackofCards->push
 	(
@@ -562,6 +547,8 @@ void addCards(Deck* deck)
 		)
 	);
 
+
+
 	deck->stackofCards->push
 	(
 		new Cards(
@@ -569,6 +556,29 @@ void addCards(Deck* deck)
 			new vector<string*>
 			{
 				new string("placeArmies"), new string("4"), new string("OR"), new string("move"), new string("2")
+			}
+		)
+	);
+
+	deck->stackofCards->push
+	(
+		new Cards(
+			"anvil",
+			new vector<string*>
+			{
+				new string("move"), new string("3")
+			}
+		)
+	);
+
+	//gem, create 2 armies
+	deck->stackofCards->push
+	(
+		new Cards(
+			"gem",
+			new vector<string*>
+			{
+				new string("placeArmies"), new string("2")
 			}
 		)
 	);
