@@ -6,6 +6,7 @@ Map::Map()
 {
 	mapCountries = new vector<Country*>();
 	mapContinents = new vector<Continent*>();
+	startingCountry = nullptr;
 }
 
 void Map::print()

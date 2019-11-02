@@ -59,6 +59,8 @@ public:
 	Country* createCountry(string, Continent*);
 	Continent* createContinent(string);
 
+	Country* startingCountry;
+
 	vector<Country*> *mapCountries; //pointer to a vector of pointers to all Countries
 	vector<Continent*>* mapContinents; //ditto for continents
 

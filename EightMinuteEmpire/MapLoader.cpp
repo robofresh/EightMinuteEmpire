@@ -133,8 +133,11 @@ void processFile(ifstream* mapFile, Map* map)
 						Country* country = map->createCountry(*fileString, cont);
 						cont->containedCountries->push_back(country);
 						country->parentContinent = cont;
-						if(isStartCountry)
+						if (isStartCountry)
+						{
 							*country->isStartingCountry = true;
+							map->startingCountry = country;
+						}
 					}
 					else
 					{
