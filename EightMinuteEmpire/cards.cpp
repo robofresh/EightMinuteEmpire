@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <algorithm>
 #include <exception>
 #include "Player.h"
 #include "Cards.h"
@@ -19,19 +20,21 @@ string = "action" + # + ("AND" or "OR") + "action2" + #
 
 */
 
+//Default constructor
 Cards::Cards()
 {
 	good = new string("");
 	actions = new vector<string*>();
 }
 
+//Constructor with attributes for goods and action
 Cards::Cards(string good1, vector<string*>* action1)
 {
 	good = new string (good1);
 	actions = action1;
 }
 
-//destructor
+//Destructor
 Cards::~Cards()
 {
 	delete good, actions;
@@ -39,21 +42,15 @@ Cards::~Cards()
 	actions = NULL;
 }
 
-void addCards(Deck*);
+void shuffleAndAddCards(Deck*);
 
+//Default constructor
 Deck::Deck()
 {
 	drawingcards = new Hand(this);
 	stackofCards = new stack <Cards*>; //in deck, there are 42 cards. they will be stacked
-	addCards(this);
+	shuffleAndAddCards(this); //Add Cards into the deck
 	//print();
-}
-
-void Deck::draw()
-{
-	Cards* temp = stackofCards->top(); 
-	drawingcards->faceupcards->push_back(temp);
-	stackofCards->pop();
 }
 
 //destructor
@@ -68,6 +65,13 @@ Deck::~Deck()
 	delete stackofCards;
 	drawingcards = NULL;
 	stackofCards = NULL;
+}
+
+void Deck::draw()
+{
+	Cards* temp = stackofCards->top();
+	drawingcards->faceupcards->push_back(temp);
+	stackofCards->pop();
 }
 
 Hand::Hand()
@@ -126,10 +130,12 @@ void Deck::print()
 }
 
 
-void addCards(Deck* deck)
+void shuffleAndAddCards(Deck* deck)
 {
+	vector<Cards*>* allCards = new vector<Cards*>();//Vectors of all hardcoded cards
+
 	//wild, create 2 armies
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"wild",
@@ -140,9 +146,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-
-
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"coal",
@@ -153,7 +157,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"coal",
@@ -164,7 +168,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"coal",
@@ -175,7 +179,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"coal",
@@ -186,7 +190,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"coal",
@@ -197,7 +201,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"gem",
@@ -208,7 +212,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"coal",
@@ -219,7 +223,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"coal",
@@ -230,7 +234,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"carrot",
@@ -241,7 +245,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"carrot",
@@ -252,7 +256,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"carrot",
@@ -263,7 +267,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"tree",
@@ -274,7 +278,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"wild",
@@ -285,7 +289,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"carrot",
@@ -298,7 +302,7 @@ void addCards(Deck* deck)
 
 
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"gem",
@@ -309,7 +313,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"gem",
@@ -320,7 +324,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"gem",
@@ -331,7 +335,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"tree",
@@ -342,7 +346,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"tree",
@@ -353,7 +357,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"tree",
@@ -364,7 +368,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"tree",
@@ -375,7 +379,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"tree",
@@ -386,7 +390,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"tree",
@@ -397,7 +401,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"tree",
@@ -408,7 +412,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"anvil",
@@ -419,7 +423,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"anvil",
@@ -432,7 +436,7 @@ void addCards(Deck* deck)
 
 
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"anvil",
@@ -443,7 +447,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"anvil",
@@ -454,7 +458,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"anvil",
@@ -465,7 +469,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"anvil",
@@ -476,7 +480,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"anvil",
@@ -487,7 +491,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"anvil2",
@@ -498,7 +502,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"carrot",
@@ -509,7 +513,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"carrot",
@@ -520,11 +524,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-
-
-
-
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"carrot2",
@@ -535,7 +535,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"carrot",
@@ -546,7 +546,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"carrot",
@@ -557,9 +557,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-
-
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"carrot",
@@ -570,9 +568,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-
-
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"carrot",
@@ -583,7 +579,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"anvil",
@@ -594,7 +590,7 @@ void addCards(Deck* deck)
 		)
 	);
 
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"carrot",
@@ -606,7 +602,7 @@ void addCards(Deck* deck)
 	);
 
 	//gem, create 2 armies
-	deck->stackofCards->push
+	allCards->push_back
 	(
 		new Cards(
 			"gem",
@@ -616,4 +612,14 @@ void addCards(Deck* deck)
 			}
 		)
 	);
+
+	std::random_shuffle(allCards->begin(), allCards->end()); //Shuffle the vector of cards
+	
+	//Once shuffle is done, fill the deck
+
+	for (int i = 0; i < allCards->size(); i++)
+	{
+		deck->stackofCards->push(allCards->at(i));
+	}
+
 }
