@@ -78,20 +78,24 @@ Hand::Hand()
 {
 	faceupcards = new vector <Cards*>();
 	mainDeck = nullptr;
+	playerCards = nullptr;
 }
 
 Hand::Hand(Deck* deck)
 {
 	faceupcards = new vector <Cards*>();
 	mainDeck = deck;
+	playerCards = new vector <Cards*>();
 }
 
 //destructor
 Hand::~Hand()
 {
 	delete faceupcards;
+	delete playerCards;
 	faceupcards = NULL;
 	mainDeck = NULL;
+	playerCards = NULL;
 }
 
 Cards* Hand::exchange(int index)
