@@ -162,9 +162,8 @@ void Player::createCities()
 void Player::printPlayer()
 {
 	cout << "Player: " << *(this->name) << ", age " << *(this->age) << ", color " << *(this->color) << endl;
-	cout << "\tWith:" << endl;
-	cout << "\t\t" << *(this->numCoins) << " coins." << endl;
-	cout << "\t\t" << this->armies->size() << " armies (wooden cubes)." << endl;
+	cout << "\t" << *(this->name) << " holds " << *(this->numCoins) << " coins." << endl;
+	cout << "\t" << *(this->name) << " has " << this->armies->size() << " " << *(this->color) << " army cubes and " << this->cities->size() << " " << *(this->color) << " city discs." << endl;
 	for (int i = 0; i < armies->size(); i++)
 	{
 		if (armies->at(i)->occupiedCountry == nullptr)
@@ -190,10 +189,9 @@ void Player::printPlayer()
 		}
 
 	}
-	cout << "\t\t" << this->ownedCountries->size() << " countries owned." << endl;
-	cout << "\t\t" << this->goods->size() << " goods." << endl;
-	cout << "\t\tno hand of cards." << endl;
-	cout << "\t\ta bidding facility.\n" << endl;
+	cout << "\t" << *(this->name) << " owns " << this->ownedCountries->size() << " countries, and has " << this->goods->size() << " goods collected." << endl;
+	cout << "\t" << *(this->name) << " has " << this->hand->faceupcards->size() << " cards in hand." << endl;
+	cout << "\t" << *(this->name) << " has their own bidding facility.\n" << endl;
 }
 
 void Player::buildCity(Country* country)
