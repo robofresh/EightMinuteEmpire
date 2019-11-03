@@ -108,10 +108,21 @@ void processFile(ifstream* mapFile, Map* map)
 					continue;
 				}
 
+				bool isStartCountry = false;
+
 				//if the first and second characters are tabs (this means the string should be a country)
 				if (fileString->at(0) == '\t' && fileString->at(1) == '\t' && createdCont)
 				{
 					cleanString(fileString);
+
+					if (fileString->size() < 1)
+						continue;
+
+					if (fileString->at(0) == '*')
+					{
+						isStartCountry = true;
+						fileString->erase(0, 1);
+					}
 
 					if (!validateString(fileString))
 						continue;
@@ -122,6 +133,11 @@ void processFile(ifstream* mapFile, Map* map)
 						Country* country = map->createCountry(*fileString, cont);
 						cont->containedCountries->push_back(country);
 						country->parentContinent = cont;
+						if (isStartCountry)
+						{
+							*country->isStartingCountry = true;
+							map->startingCountry = country;
+						}
 					}
 					else
 					{

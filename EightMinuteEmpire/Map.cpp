@@ -6,6 +6,7 @@ Map::Map()
 {
 	mapCountries = new vector<Country*>();
 	mapContinents = new vector<Continent*>();
+	startingCountry = nullptr;
 }
 
 void Map::print()
@@ -16,7 +17,28 @@ void Map::print()
 		cout << "\'" << mapContinents->at(i)->name->c_str() << "\'" << " has the countries: " << endl;
 		for (int j = 0; j < mapContinents->at(i)->containedCountries->size(); j++)
 		{
-			cout << "\t" << "\'" << mapContinents->at(i)->containedCountries->at(j)->name->c_str() << "\'" << endl;
+			cout << "\t" << "\'" << mapContinents->at(i)->containedCountries->at(j)->name->c_str() << "\'";
+			if (*mapContinents->at(i)->containedCountries->at(j)->isStartingCountry)
+				cout << " (the starting country)";
+				
+				cout << endl;
+
+			if (mapContinents->at(i)->containedCountries->at(j)->occupyingArmies->size() > 0)
+			{
+				cout << "\t\tThe occupying armies in " << mapContinents->at(i)->containedCountries->at(j)->name->c_str() << " are: " << endl;
+				for (int k = 0; k < mapContinents->at(i)->containedCountries->at(j)->occupyingArmies->size(); k++)
+				{
+					cout << "\t\t\t#" << k+1 << " owned by " << *mapContinents->at(i)->containedCountries->at(j)->occupyingArmies->at(k)->player->name << endl;
+				}
+			}
+			if (mapContinents->at(i)->containedCountries->at(j)->cities->size() > 0)
+			{
+				cout << "\t\tThe cities in " << mapContinents->at(i)->containedCountries->at(j)->name->c_str() << " are: " << endl;
+				for (int k = 0; k < mapContinents->at(i)->containedCountries->at(j)->cities->size(); k++)
+				{
+					cout << "\t\t\t#" << k+1 << " owned by " << *mapContinents->at(i)->containedCountries->at(j)->cities->at(k)->player->name << endl;
+				}
+			}
 		}
 	}
 	
@@ -126,7 +148,7 @@ Country::Country(string inputName, Continent* cont, Map* map)
 	cities = new vector<City*>();
 	occupyingArmies = new vector<Army*>;
 	owningPlayer = nullptr;
-
+	isStartingCountry = new bool(false);
 }
 
 Country::~Country()
@@ -171,4 +193,17 @@ Continent::~Continent()
 	delete name, containedCountries;
 	name = NULL;
 	containedCountries = NULL;
+}
+
+bool Country::removeArmy(Army* army)
+{
+	for (int i = 0; i < occupyingArmies->size(); i++)
+	{
+		if (occupyingArmies->at(i) == army)
+		{
+			occupyingArmies->erase(occupyingArmies->begin() + i);
+			return true;
+		}
+	}
+	return false;
 }

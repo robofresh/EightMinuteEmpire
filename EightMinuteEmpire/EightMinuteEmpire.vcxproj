@@ -20,18 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BidingDriver.cpp" />
+    <ClCompile Include="Actions.cpp" />
+    <ClCompile Include="ActionsDriver.cpp" />
     <ClCompile Include="BidingFacility.cpp" />
     <ClCompile Include="cards.cpp" />
-    <ClCompile Include="CardsDriver.cpp" />
-    <ClCompile Include="EightMinuteEmpire.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MapDriver.cpp" />
     <ClCompile Include="MapLoader.cpp" />
-    <ClCompile Include="MapLoaderDriver.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actions.h" />
     <ClInclude Include="BidingFacility.h" />
     <ClInclude Include="cards.h" />
     <ClInclude Include="Map.h" />

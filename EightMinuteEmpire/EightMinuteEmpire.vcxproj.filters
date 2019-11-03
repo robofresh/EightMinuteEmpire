@@ -15,34 +15,29 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EightMinuteEmpire.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MapDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MapLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MapLoaderDriver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="PlayerDriver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+=======
     <ClCompile Include="cards.cpp">
+>>>>>>> 75726da122dfaa6ea53d79515c74a0530e15e439
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CardsDriver.cpp">
+    <ClCompile Include="Actions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerDriver.cpp">
+    <ClCompile Include="ActionsDriver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BidingFacility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BidingDriver.cpp">
@@ -65,6 +60,12 @@
     <ClInclude Include="cards.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
+=======
+    <ClInclude Include="Actions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+>>>>>>> 75726da122dfaa6ea53d79515c74a0530e15e439
     <ClInclude Include="BidingFacility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
