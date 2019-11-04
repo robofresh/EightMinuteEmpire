@@ -403,29 +403,6 @@ int main()
 //			Part 6: Game End, Compute Score
 // #################################################
 
-	int determineMax(int num_player)
-	{
-		const int MAX_CARDS2 = 13;
-		const int MAX_CARDS3 = 10;
-		const int MAX_CARDS4 = 8;
-		const int MAX_CARDS5 = 7;
-
-			switch (NUM_PLAYERS)
-			{
-			case '2':
-				return MAX_CARDS2
-				break;
-			case '3':
-				return MAX_CARDS3
-				break;
-			case '4':
-				return MAX_CARDS4
-				break;
-			case '5':
-				return MAX_CARDS5
-				break;
-			}
-	}
 
 	// #################################################
 	//						Cleanup
