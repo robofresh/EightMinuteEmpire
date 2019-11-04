@@ -357,8 +357,7 @@ int main()
 
 		//Loop to the next player
 		newIndex = *currentPlayerIndex + 1;//Increasing the index position is clockwise 
-		delete currentPlayerIndex;//deallocate memory 
-		currentPlayerIndex = new int((newIndex) % (NUM_PLAYERS));//Put pointer to new index number
+		*currentPlayerIndex = newIndex % NUM_PLAYERS;
 		currentPlayer = players->at(*currentPlayerIndex);//update current player
 
 		cout << endl;

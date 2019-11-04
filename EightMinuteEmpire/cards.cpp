@@ -91,7 +91,6 @@ Deck::Deck()
 	cardsSpace = new Hand(this);
 	stackofCards = new stack <Cards*>; //in deck, there are 42 cards. they will be stacked
 	shuffleAndAddCards(this); //Add Cards into the deck
-	//print();
 }
 
 //destructor
@@ -240,7 +239,8 @@ void Deck::initialDraw() //one time only, when the game is started
 	for (int i = 0; i < 6; i++) {
 		draw();
 	}
-	//this->cardsSpace->print();
+	cout << "Initial draw" << endl;
+	this->cardsSpace->print();
 }
 
 //Prints the whole decks
