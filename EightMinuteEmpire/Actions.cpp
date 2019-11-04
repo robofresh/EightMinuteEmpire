@@ -234,7 +234,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 		}
 		return;
 	}
-	if (string("move").compare(action) == 0 || string("moveWater").compare(action) == 0)
+	if (string("move").compare(action) == 0 || string("waterMove").compare(action) == 0)
 	{
 
 		vector<int> armiesAlreadyMoved; //vector for the armies that have already been moved this turn

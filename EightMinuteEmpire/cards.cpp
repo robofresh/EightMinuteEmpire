@@ -666,7 +666,7 @@ void shuffleAndAddCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
-				new string("moveWater"), new string("3")
+				new string("waterMove"), new string("3")
 			}
 		)
 	);
