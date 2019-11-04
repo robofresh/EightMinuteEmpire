@@ -292,7 +292,7 @@ cities counted as armies, if the numer is the same, no point for everyone
 int goodPoints(Hand* hand)
 {
 	return getCoalPoint(hand) + getAnvilPoint(hand)
-		+ getTreePoint(hand) + getCrystalPoint(hand)
+		+ getTreePoint(hand) + getGemPoint(hand)
 		+ getCarrotPoint(hand);
 }
 
@@ -345,9 +345,9 @@ int getTreePoint(Hand* hand)
 	return tree[temp];
 }
 
-int getCrystalPoint(Hand* hand)
+int getGemPoint(Hand* hand)
 {
-	int crystal[5] =
+	int gem[5] =
 	{
 		0, 1, 2, 3, 5
 	};
@@ -358,7 +358,7 @@ int getCrystalPoint(Hand* hand)
 		if (hand->playerCards->at(i)->good->compare("cyrstal"))
 			temp++;
 	}
-	return crystal[temp];
+	return gem[temp];
 }
 
 int getCarrotPoint(Hand* hand)
