@@ -283,13 +283,24 @@ void Player::pickUpCard(Cards* card,int position, int* supply)
 	}
 	
 }
+
+/*
+1 country = 1 point
+more armies than other player in a country, 
+cities counted as armies, if the numer is the same, no point for everyone
+*/
 void computeScore(Player* player)
 {	
 	int* victoryPoint = 0;
-	if (player->ownedCountries != NULL)
-		victoryPoint++;
-	if (player ->)
-		victoryPoint++;
+
+	for (int i =0; i <= *player->ownedCountries->size;i++)
+	{
+		int temp = 0;
+		if (*player->ownedCountries ==  player)
+			temp++;
+		// in a continent, the one who have more region wins a point
+	}
+	
 }
 
 
