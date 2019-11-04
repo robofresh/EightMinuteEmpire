@@ -36,19 +36,43 @@ Cards::Cards(string good1, vector<string*>* action1)
 	actions = action1;
 }
 
-//Copy constructor
+//Copy constructor TESTED OK
 Cards::Cards(const Cards& original)
 {
-	this->good = (original.good);
-	this->actions = new vector<string*>();
+	good = new string (*original.good); //deep copy of string
+	actions = new vector<string*>();
+	
 	string* temp;
 
 	for (int i = 0; i < original.actions->size(); i++)
 	{
-		temp = (original.actions->at(i));
+		temp = new string(*(original.actions->at(i)));
 
+		this->actions->push_back(temp);
+
+	}
+}
+
+//Operator = TESTED OK
+Cards& Cards::operator= (const Cards& original)
+{
+	if (this == &original)
+		return *this;
+
+	//do copy
+	good = new string(*original.good); //deep copy of string
+	actions = new vector<string*>();
+
+	string* temp;
+
+	for (int i = 0; i < original.actions->size(); i++)
+	{
+		temp = new string(*(original.actions->at(i)));
 		actions->push_back(temp);
 	}
+
+	return *this;
+
 }
 
 //Destructor
@@ -67,7 +91,6 @@ Deck::Deck()
 	cardsSpace = new Hand(this);
 	stackofCards = new stack <Cards*>; //in deck, there are 42 cards. they will be stacked
 	shuffleAndAddCards(this); //Add Cards into the deck
-	//print();
 }
 
 //destructor
@@ -96,24 +119,24 @@ Hand::Hand()
 {
 	faceupcards = new vector <Cards*>();
 	mainDeck = nullptr;
-	playerCards = nullptr;
+
 }
 
 Hand::Hand(Deck* deck)
 {
 	faceupcards = new vector <Cards*>();
 	mainDeck = deck;
-	playerCards = new vector <Cards*>();
+
 }
 
 //destructor
 Hand::~Hand()
 {
 	delete faceupcards;
-	delete playerCards;
+
 	faceupcards = NULL;
 	mainDeck = NULL;
-	playerCards = NULL;
+
 }
 
 Cards* Hand::exchange(int index)
@@ -125,27 +148,84 @@ Cards* Hand::exchange(int index)
 	return tmp;
 }
 
-//Prints the faceupcards
+//Shift all cards to the left and draw a new card and put it on the rightmost side
+void Deck::updateCardsSpace(Deck* deck, int position)
+{
+
+	for (int i = position + 1; i < 6; i++)
+	{
+		Cards* temp;
+		temp = deck->cardsSpace->faceupcards->at(i); //temp pointer points to next card
+
+		//Put the copy of the next card into the left position
+		int previous = i - 1;
+		(deck->cardsSpace->faceupcards->at(previous)) = temp;
+
+	}
+	deck->cardsSpace->faceupcards->resize(5);
+	deck->draw();
+
+}
+
+//Print with integrated print Cards
 void Hand::print()
 {
 	cout << "Here are the face-up cards:" << endl;
-	cout << "[card 1] [card 2] [card 3] [card 4] [card 5] [card 6]" << endl;
+	cout << "[card 1: cost 0] [card 2: cost 1] [card 3: cost 1] [card 4: cost 2] [card 5: cost 2] [card 6: cost 3]" << endl;
 	for (int i = 0; i < 6; i++)
 	{
-		int* temp;
-		cout << " Card " <<(i+1) << endl;
-		cout << "Good is : " << *faceupcards->at(i)->good << endl;
-		cout << "Action is : ";
-		temp = new int (faceupcards->at(i)->actions->size());
-
-		if (temp != 0)
+		cout << " Card " << (i + 1) <<" : ";
+		try
 		{
-			for (int j = 0; j < *temp; j++)
+			if (faceupcards->at(i)==nullptr)
 			{
-				cout << *faceupcards->at(i)->actions->at(j) << " ";
+				cout<<"Empty space"<<endl;
 			}
-			cout << endl;
+			else
+			{
+				faceupcards->at(i)->print();
+			}
 		}
+		catch (const std::exception& msg)
+		{
+			cout << msg.what() << endl;
+		}
+	}
+}
+
+//Print Card's info
+void Cards::print()
+{
+	try
+	{
+		if (this != nullptr)
+		{
+			int* temp;
+			cout << "[Good is : " << *good ;
+			cout << ", Action is : ";
+			temp = new int(this->actions->size());
+
+			if (temp != 0)
+			{
+				for (int j = 0; j < *temp; j++)
+				{
+					cout << *actions->at(j) << " ";
+				}
+				cout << "]";
+			
+			}
+		}
+		else
+		{
+			cout << "Empty card" << endl;
+		}
+		cout << endl;
+	}
+	catch (const std::exception& e)
+	{
+		cout << "catch error inside of cards print" << endl;
+		cout << e.what() << endl;
+
 	}
 }
 
@@ -154,7 +234,7 @@ void Deck::initialDraw() //one time only, when the game is started
 	for (int i = 0; i < 6; i++) {
 		draw();
 	}
-
+	cout << "Initial draw" << endl;
 	this->cardsSpace->print();
 }
 
@@ -339,8 +419,7 @@ void shuffleAndAddCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
-				//new string("creatCity"), nullptr <== WHy is it Nullptr??
-				new string("creatCity"), new string("")
+				new string("createCity"), new string("1")
 
 			}
 		)
@@ -670,6 +749,7 @@ void shuffleAndAddCards(Deck* deck)
 }
 
 
+//Shuffle method of all cards in a vector
 void shuffleCards(vector<Cards*>* listCard)
 {
 	srand((unsigned)time(0));

@@ -3,6 +3,15 @@
 #include "BidingFacility.h"
 #include "cards.h"
 
+struct InsufficientCoinsException : public exception
+{
+	const char* what() const throw()
+	{
+		return "Player does not have enough coins.";
+	}
+};
+
+
 Army::Army()
 	: player(nullptr), occupiedCountry(nullptr) {}
 
@@ -237,9 +246,25 @@ void Player::moveOverLand(Country* initCountry, Country* finalCountry)
 
 void Player::payCoin(int amount, int* supply)
 {
-	*(this->numCoins) = *(this->numCoins) - amount;
-	*supply = *supply + amount;
+	try
+	{
+		if ((*(this->numCoins) - amount) < 0)
+			throw InsufficientCoinsException();
+		else
+		{
+			*(this->numCoins) = *(this->numCoins) - amount;
+			*supply = *supply + amount;
+		}
+	}
+	catch (InsufficientCoinsException e)
+	{
+		cout << e.what();
+		return ;
+	}
+
+	cout << *(this->name) << " is paying " << amount << " coins." << endl;
 	cout << *(this->name) << " now has " << *(this->numCoins) << " coins." << endl;
+
 }
 
 void Player::placeNewArmies(Country* country, int amount)
@@ -254,26 +279,31 @@ void Player::placeNewArmies(Country* country, int amount)
 
 }
 
-void Player::pickUpCard(Cards* card,int position, int* supply)
+void Player::ignore(Cards* card)
+{
+	cout << "Player takes the card and ignore the action." << endl;
+}
+
+void Player::payCard(Cards* card,int position, int* supply)
 {
 	switch (position)
 	{
-	case '0':
+	case 0:
 		this->payCoin(0,supply);
 		break;
-	case '1':
-	case '2':
+	case 1:
+	case 2:
 		this->payCoin(1,supply);
 		break;
-	case '3':
-	case '4':
+	case 3:
+	case 4:
 		this->payCoin(2,supply);
 		break;
-	case '5':
+	case 5:
 		this->payCoin(3,supply);
 		break;
 	default:
-		cout << "invalid input" << endl;
+		cout << "Invalid input" << endl;
 		break;
 	}
 	

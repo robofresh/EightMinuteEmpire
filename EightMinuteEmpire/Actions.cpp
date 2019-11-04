@@ -24,8 +24,6 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 
 	//process action(s)
 
-
-
 	cout << endl;
 	
 	//if there is more than one action
@@ -59,7 +57,8 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 			//or ignore
 			else if (selection == 2)
 			{
-				cout << "\tNo action was taken." << endl;
+
+				player->ignore(card);
 				return;
 			}
 		}
@@ -91,7 +90,7 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 			}
 			else if (selection == 3)
 			{
-				cout << "\tNo action was taken." << endl;
+				player->ignore(card);
 				return;
 			}
 
@@ -119,7 +118,7 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 		}
 		else if (selection == 2)
 		{
-			cout << "\tNo action was taken." << endl;
+			player->ignore(card);
 			return;
 		}
 		
