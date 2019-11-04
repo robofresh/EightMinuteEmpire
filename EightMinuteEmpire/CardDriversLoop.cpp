@@ -11,16 +11,7 @@
 //#include <ctime>
 //
 //using namespace std;
-//void shuffleCards(vector<Cards*>*);
-//void shuffleCards(vector<Cards*>* listCard)
-//{
-//	srand((unsigned)time(0));
 //
-//	for (int i = 0; i < listCard->size(); i++)
-//	{
-//		swap(listCard->at(i), listCard->at(rand() % listCard->size()));
-//	}
-//}
 //
 //int main()
 //{
@@ -105,51 +96,51 @@
 //		)
 //	);
 //
-//
-//	for (int i = 0; i < allCards->size(); i++)
-//	{
-//		int* temp;
-//		cout << " Card " << (i + 1) << endl;
-//		cout << "Good is : " << *allCards->at(i)->good << endl;
-//		cout << "Action is : ";
-//		temp = new int(allCards->at(i)->actions->size());
-//
-//		if (temp != 0)
+//	Cards* temp;
+//	Cards* test = new Cards(
+//		"TESTING",
+//		new vector<string*>
 //		{
-//			for (int j = 0; j < *temp; j++)
-//			{
-//				cout << *allCards->at(i)->actions->at(j) << " ";
-//			}
-//			cout << endl;
+//			new string("placeArmies"), new string("2")
 //		}
-//	}
+//	);
+//	deck->initialDraw();
 //
-//	shuffleCards(allCards);
+//	deck->cardsSpace->print();
 //
-//	cout << "AFTER SHUFFLINGGGG" << endl;
-//
-//
-//	for (int i = 0; i < allCards->size(); i++)
-//	{
-//		int* temp;
-//		cout << " Card " << (i + 1) << endl;
-//		cout << "Good is : " << *allCards->at(i)->good << endl;
-//		cout << "Action is : ";
-//		temp = new int(allCards->at(i)->actions->size());
-//
-//		if (temp != 0)
-//		{
-//			for (int j = 0; j < *temp; j++)
-//			{
-//				cout << *allCards->at(i)->actions->at(j) << " ";
-//			}
-//			cout << endl;
-//		}
-//	}
+//	deck->updateCardsSpace(deck, 5);
 //
 //
+//	cout << "AFTERRR UPDATING" << endl;
+//
+//
+//	deck->cardsSpace->print();
 //
 //
 //}
 //
 //
+//
+////int main() {
+////
+////	Cards* card1;
+////
+////	card1 = new Cards(
+////		"Original",
+////		new vector<string*>
+////		{
+////			new string("waterMove"), new string("2")
+////		}
+////	);
+////
+////	Cards* cCopy;
+////
+////	cCopy = new Cards(*card1);
+////
+////	cout << card1 << endl;
+////	cout << cCopy << endl;
+////
+////	card1->print();
+////	cCopy->print();
+////
+////}

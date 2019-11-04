@@ -243,32 +243,47 @@ int main()
 	
 	//Temporary run while we wait for endGame implementation
 	int end = 0;
-
-	while (end != 5)
+	int newIndex;
+	do
 	{
-		//Increasing the index position is clockwise 
-		delete currentPlayerIndex;
+		//Current user takes one face-up card & pay the cost of the card
+		Cards* chosenCard;
+		int cardPosition;
 
-		currentPlayerIndex = new int((*currentPlayerIndex ++)%(NUM_PLAYERS));
+		
+		deck->cardsSpace->print();
+		cout << "Select one of the face-up cards" << endl;
+		cin >> cardPosition;
+		chosenCard = new Cards(*deck->cardsSpace->faceupcards->at(--cardPosition));
+
+		//currentPlayer->pickUpCard(chosenCard, cardPosition, supply);
+		chosenCard->print();
+
+		//Display current player's action
+
+		//Update face-ups cards
+		deck->updateCardsSpace(deck, cardPosition);
+
+		
+		//Increasing the index position is clockwise 
+		newIndex = *currentPlayerIndex + 1;
+
+		delete currentPlayerIndex;//deallocate memory 
+
+		currentPlayerIndex = new int((newIndex) % (NUM_PLAYERS));//Put pointer to new index number
 
 		currentPlayer = players->at(*currentPlayerIndex);//update current player
+
 
 		cout << "Supply is now at " << *(supply) << " coins." << endl;
 		cout << "Current player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
 		cout << "Current player index is " << *currentPlayerIndex << "\n" << endl;
 
-		//Current user takes one face-up card & pay the cost of the card
-		Cards* chosenCard;
-		int cardPosition;
-		cout << "Select one of the face-up cards" << endl;
-		cin >> cardPosition;
-		chosenCard = deck->cardsSpace->faceupcards->at(--cardPosition); 
-		//currentPlayer->pickUpCard(chosenCard, cardPosition, supply);
-
-		//Display current player's action
 		end++;
 
-	}
+	} while (end<5);
+
+
 
 	cout << "END OF GAME" << endl;
 

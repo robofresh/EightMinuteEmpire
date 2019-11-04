@@ -36,19 +36,43 @@ Cards::Cards(string good1, vector<string*>* action1)
 	actions = action1;
 }
 
-//Copy constructor
+//Copy constructor TESTED OK
 Cards::Cards(const Cards& original)
 {
-	this->good = (original.good);
-	this->actions = new vector<string*>();
+	good = new string (*original.good); //deep copy of string
+	actions = new vector<string*>();
+	
 	string* temp;
 
 	for (int i = 0; i < original.actions->size(); i++)
 	{
-		temp = (original.actions->at(i));
+		temp = new string(*(original.actions->at(i)));
 
+		this->actions->push_back(temp);
+
+	}
+}
+
+//Operator = TESTED OK
+Cards& Cards::operator= (const Cards& original)
+{
+	if (this == &original)
+		return *this;
+
+	//do copy
+	good = new string(*original.good); //deep copy of string
+	actions = new vector<string*>();
+
+	string* temp;
+
+	for (int i = 0; i < original.actions->size(); i++)
+	{
+		temp = new string(*(original.actions->at(i)));
 		actions->push_back(temp);
 	}
+
+	return *this;
+
 }
 
 //Destructor
@@ -125,28 +149,97 @@ Cards* Hand::exchange(int index)
 	return tmp;
 }
 
-//Prints the faceupcards
+//Shift all cards to the left and draw a new card and put it on the rightmost side
+void Deck::updateCardsSpace(Deck* deck, int position)
+{
+	delete deck->cardsSpace->faceupcards->at(position);
+
+	for (int i = position + 1; i < 6; i++)
+	{
+		Cards* temp;
+		temp = new Cards(*deck->cardsSpace->faceupcards->at(i)); //Copy the next card
+
+		//Erase from memory that next card
+		delete	deck->cardsSpace->faceupcards->at(i);
+		deck->cardsSpace->faceupcards->at(i) = nullptr;
+
+		//Put the copy of the next card into the left position
+		int previous = i - 1;
+		(deck->cardsSpace->faceupcards->at(previous)) = temp;
+
+		temp = nullptr;
+	}
+	deck->cardsSpace->faceupcards->resize(5);
+	deck->draw();
+
+
+}
+
+//Print with integrated print Cards
 void Hand::print()
 {
 	cout << "Here are the face-up cards:" << endl;
 	cout << "[card 1] [card 2] [card 3] [card 4] [card 5] [card 6]" << endl;
 	for (int i = 0; i < 6; i++)
 	{
-		int* temp;
-		cout << " Card " <<(i+1) << endl;
-		cout << "Good is : " << *faceupcards->at(i)->good << endl;
-		cout << "Action is : ";
-		temp = new int (faceupcards->at(i)->actions->size());
-
-		if (temp != 0)
+		cout << " Card " << (i + 1) << endl;
+		try
 		{
-			for (int j = 0; j < *temp; j++)
+			if (faceupcards->at(i)==nullptr)
 			{
-				cout << *faceupcards->at(i)->actions->at(j) << " ";
+				cout<<"Empty"<<endl;
 			}
-			cout << endl;
+			else
+			{
+				faceupcards->at(i)->print();
+			}
+
 		}
+		catch (const std::exception& msg)
+		{
+			cout << msg.what() << endl;
+			cout << "Catch something here" << endl;
+		}
+		
+
 	}
+}
+
+//Print Card's info
+void Cards::print()
+{
+	try
+	{
+		if (this != nullptr)
+		{
+			int* temp;
+			cout << "Good is : " << *good << endl;
+			cout << "Action is : ";
+			temp = new int(this->actions->size());
+
+			if (temp != 0)
+			{
+				for (int j = 0; j < *temp; j++)
+				{
+					cout << *actions->at(j) << " ";
+				}
+				cout << endl;
+			}
+		}
+		else
+		{
+			cout << "Empty cards" << endl;
+		}
+
+	}
+	catch (const std::exception& e)
+	{
+		cout << "catch error inside of cards print" << endl;
+		cout << e.what() << endl;
+
+	}
+	
+	
 }
 
 void Deck::initialDraw() //one time only, when the game is started
@@ -154,8 +247,7 @@ void Deck::initialDraw() //one time only, when the game is started
 	for (int i = 0; i < 6; i++) {
 		draw();
 	}
-
-	this->cardsSpace->print();
+	//this->cardsSpace->print();
 }
 
 //Prints the whole decks
@@ -670,6 +762,7 @@ void shuffleAndAddCards(Deck* deck)
 }
 
 
+//Shuffle method of all cards in a vector
 void shuffleCards(vector<Cards*>* listCard)
 {
 	srand((unsigned)time(0));
