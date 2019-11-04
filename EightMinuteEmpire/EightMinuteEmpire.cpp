@@ -187,9 +187,9 @@ int main()
 	cout << endl;
 	Country* startingCountry = map->mapCountries->at(0); // SHOULD WE DECIDE THIS ANOTHER WAY?
 
-	// Create deck with 42 cards.
+	// Create deck with 42 cards. Shuffle method is done when creating a deck
 	Deck* deck = new Deck();
-	cout << "A deck containing " << deck->stackofCards->size() << " cards is assigned to the game.\n" << endl;
+	cout << "All " << deck->stackofCards->size() << "cards  are shuffled and then putted into a deck and assigned to the game.\n" << endl;
 		
 	// Select number of players.
 	const int NUM_PLAYERS = getNumOfPlayers();	
@@ -212,10 +212,11 @@ int main()
 	int* supply = &supplyVal;
 	cout << "Total supply of coins was 44, but since each player took " << NUM_COINS_PER_PLAYER << " coins, supply is now at " << supplyVal << " coins.\n" << endl;
 
-	// Shuffle deck an draw 6 cards.
-
 	// Place 3 armies of each player on the starting country.
 	placeInitialPlayerArmies(players, startingCountry);
+
+	//draw and fill the cards space with faceups cards
+	deck->initialDraw();
 
 	// Bidding process
 	Player* currentPlayer;
@@ -239,8 +240,11 @@ int main()
 	// #################################################
 	//				Part 3: Main Game Loop
 	// #################################################
+	
+	//Temporary run while we wait for endGame implementation
+	int end = 0;
 
-	while (!endGame)
+	while (end != 5)
 	{
 		//Increasing the index position is clockwise 
 		delete currentPlayerIndex;
@@ -258,12 +262,15 @@ int main()
 		int cardPosition;
 		cout << "Select one of the face-up cards" << endl;
 		cin >> cardPosition;
-		chosenCard = faceupcards->at(--cardPosition); 
-		currentPlayer->pickUpCard(chosenCard, cardPosition, supply);
+		chosenCard = deck->cardsSpace->faceupcards->at(--cardPosition); 
+		//currentPlayer->pickUpCard(chosenCard, cardPosition, supply);
 
 		//Display current player's action
+		end++;
 
 	}
+
+	cout << "END OF GAME" << endl;
 
 		// #################################################
 		//				Part 4: Player Actions

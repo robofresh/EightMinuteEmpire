@@ -3,6 +3,7 @@
 #include <vector>
 #include <stack>
 #include <algorithm>
+#include <random>
 #include <exception>
 #include "Player.h"
 #include "Cards.h"
@@ -47,7 +48,7 @@ void shuffleAndAddCards(Deck*);
 //Default constructor
 Deck::Deck()
 {
-	drawingcards = new Hand(this);
+	cardsSpace = new Hand(this);
 	stackofCards = new stack <Cards*>; //in deck, there are 42 cards. they will be stacked
 	shuffleAndAddCards(this); //Add Cards into the deck
 	//print();
@@ -56,21 +57,22 @@ Deck::Deck()
 //destructor
 Deck::~Deck()
 {
-	delete drawingcards;
+	delete cardsSpace;
 	while (!stackofCards->empty())
 	{
 		delete stackofCards->top();
 		stackofCards->pop();
 	}
 	delete stackofCards;
-	drawingcards = NULL;
+	cardsSpace = NULL;
 	stackofCards = NULL;
 }
 
+//Player draw a card from the cardsremaining in the deck and place it card space.
 void Deck::draw()
 {
 	Cards* temp = stackofCards->top();
-	drawingcards->faceupcards->push_back(temp);
+	cardsSpace->faceupcards->push_back(temp);
 	stackofCards->pop();
 }
 
@@ -107,11 +109,27 @@ Cards* Hand::exchange(int index)
 	return tmp;
 }
 
+//Prints the faceupcards
 void Hand::print()
 {
+	cout << "Here are the face-up cards:" << endl;
+	cout << "[card 1] [card 2] [card 3] [card 4] [card 5] [card 6]" << endl;
 	for (int i = 0; i < 6; i++)
 	{
-		cout << *faceupcards->at(i)->good << endl;
+		int* temp;
+		cout << " Card " <<(i+1) << endl;
+		cout << "Good is : " << *faceupcards->at(i)->good << endl;
+		cout << "Action is : ";
+		temp = new int (faceupcards->at(i)->actions->size());
+
+		if (temp != 0)
+		{
+			for (int j = 0; j < *temp; j++)
+			{
+				cout << *faceupcards->at(i)->actions->at(j) << " ";
+			}
+			cout << endl;
+		}
 	}
 }
 
@@ -120,8 +138,11 @@ void Deck::initialDraw() //one time only, when the game is started
 	for (int i = 0; i < 6; i++) {
 		draw();
 	}
+
+	this->cardsSpace->print();
 }
 
+//Prints the whole decks
 void Deck::print()
 {
 	stack<Cards*> tmp;
@@ -133,7 +154,7 @@ void Deck::print()
 	}
 }
 
-
+//Shuffle all the cards before making the main deck
 void shuffleAndAddCards(Deck* deck)
 {
 	vector<Cards*>* allCards = new vector<Cards*>();//Vectors of all hardcoded cards
@@ -299,7 +320,9 @@ void shuffleAndAddCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
-				new string("creatCity"), nullptr
+				//new string("creatCity"), nullptr <== WHy is it Nullptr??
+				new string("creatCity"), new string("")
+
 			}
 		)
 	);
@@ -617,10 +640,11 @@ void shuffleAndAddCards(Deck* deck)
 		)
 	);
 
-	std::random_shuffle(allCards->begin(), allCards->end()); //Shuffle the vector of cards
+	auto randomGenerator = default_random_engine{};
+
+	std::shuffle(allCards->begin(), allCards->end(), randomGenerator); //Shuffle the vector of cards
 	
 	//Once shuffle is done, fill the deck
-
 	for (int i = 0; i < allCards->size(); i++)
 	{
 		deck->stackofCards->push(allCards->at(i));
