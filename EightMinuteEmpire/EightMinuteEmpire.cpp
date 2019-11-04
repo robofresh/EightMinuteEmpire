@@ -153,6 +153,17 @@ void bidFirstPlayer(vector<Player*>* players, const int numCoinsPerPlayer, int* 
 	players->at(0)->bidFacObj->startBidProcess(supply);
 }
 
+int getCardsOnHand()
+{
+	int cardsOnHand;
+	while (true)
+	{
+
+	}
+	return cardsOnHand;
+}
+
+
 int main()
 {
 	// #################################################
@@ -174,7 +185,7 @@ int main()
 			mapLoader = new MapLoader(mapFileName, map);
 			break;
 		}
-		catch (const MapLoaderException& e)
+		catch (const MapLoaderException & e)
 		{
 			cout << e.message << endl;
 			cout << "Try again." << endl;
@@ -190,10 +201,10 @@ int main()
 	// Create deck with 42 cards.
 	Deck* deck = new Deck();
 	cout << "A deck containing " << deck->stackofCards->size() << " cards is assigned to the game.\n" << endl;
-		
+
 	// Select number of players.
-	const int NUM_PLAYERS = getNumOfPlayers();	
-	const int NUM_COINS_PER_PLAYER = getNumCoinsPerPlayer(NUM_PLAYERS);	
+	const int NUM_PLAYERS = getNumOfPlayers();
+	const int NUM_COINS_PER_PLAYER = getNumCoinsPerPlayer(NUM_PLAYERS);
 
 	// Create correct number of players.
 	vector<Player*>* players = new vector<Player*>();
@@ -225,7 +236,7 @@ int main()
 	currentPlayer = players->at(0)->bidFacObj->winner;
 	auto it = find(players->begin(), players->end(), currentPlayer);
 	if (it != players->end())
-	{ 
+	{
 		*currentPlayerIndex = static_cast<int>(distance(players->begin(), it));
 	}
 	players->at(0)->bidFacObj->clearBidingFacility();
@@ -245,7 +256,7 @@ int main()
 		//Increasing the index position is clockwise 
 		delete currentPlayerIndex;
 
-		currentPlayerIndex = new int((*currentPlayerIndex ++)%(NUM_PLAYERS));
+		currentPlayerIndex = new int((*currentPlayerIndex++) % (NUM_PLAYERS));
 
 		currentPlayer = players->at(*currentPlayerIndex);//update current player
 
@@ -258,24 +269,50 @@ int main()
 		int cardPosition;
 		cout << "Select one of the face-up cards" << endl;
 		cin >> cardPosition;
-		chosenCard = faceupcards->at(--cardPosition); 
+		chosenCard = faceupcards->at(--cardPosition);
 		currentPlayer->pickUpCard(chosenCard, cardPosition, supply);
 
 		//Display current player's action
 
 	}
 
-		// #################################################
-		//				Part 4: Player Actions
-		// #################################################
 
-		// #################################################
-		//				Part 5: After Action
-		// #################################################
 
 	// #################################################
-	//			Part 6: Game End, Compute Score
+	//				Part 4: Player Actions
 	// #################################################
+
+	// #################################################
+	//				Part 5: After Action
+	// #################################################
+
+// #################################################
+//			Part 6: Game End, Compute Score
+// #################################################
+
+	int determineMax(int num_player)
+	{
+		const int MAX_CARDS2 = 13;
+		const int MAX_CARDS3 = 10;
+		const int MAX_CARDS4 = 8;
+		const int MAX_CARDS5 = 7;
+
+			switch (NUM_PLAYERS)
+			{
+			case '2':
+				return MAX_CARDS2
+				break;
+			case '3':
+				return MAX_CARDS3
+				break;
+			case '4':
+				return MAX_CARDS4
+				break;
+			case '5':
+				return MAX_CARDS5
+				break;
+			}
+	}
 
 	// #################################################
 	//						Cleanup

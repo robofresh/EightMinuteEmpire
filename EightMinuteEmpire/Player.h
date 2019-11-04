@@ -58,6 +58,7 @@ public:
 	Hand* hand;
 	vector<string*>* goods;
 	BidingFacility* bidFacObj;
+	int* numPlayer;
 
 	void createArmies();
 	void createCities();
@@ -73,4 +74,5 @@ public:
 	void buildCity(Country*);
 	void destroyArmy(Country*, Player*);
 	void pickUpCard(Cards*, int, int*);
+	void computeScore(Player*);
 };

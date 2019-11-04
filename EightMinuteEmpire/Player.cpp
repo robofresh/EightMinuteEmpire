@@ -174,7 +174,6 @@ void Player::printPlayer()
 		{
 			cout << "\t\t\t" << "Army " << i+1 << " is in " << *armies->at(i)->occupiedCountry->name << endl;
 		}
-
 	}
 	cout << "\t\t" << this->cities->size() << " cities (discs)." << endl;
 	for (int i = 0; i < cities->size(); i++)
@@ -278,6 +277,12 @@ void Player::pickUpCard(Cards* card,int position, int* supply)
 	}
 	
 }
+void computeScore(Player* player)
+{	
+	if ()
+}
+
+
 
 // References
 // [1] https://thispointer.com/c-how-to-find-an-element-in-vector-and-get-its-index/
