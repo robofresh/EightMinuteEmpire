@@ -476,7 +476,7 @@ void actionPrint(string action, int amount)
 		}
 		cout << "Create " << amount << " city";
 	}
-	if (string("moveWater").compare(action) == 0)
+	if (string("waterMove").compare(action) == 0)
 	{
 		if (amount > 1)
 		{
