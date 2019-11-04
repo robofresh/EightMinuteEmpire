@@ -151,26 +151,19 @@ Cards* Hand::exchange(int index)
 //Shift all cards to the left and draw a new card and put it on the rightmost side
 void Deck::updateCardsSpace(Deck* deck, int position)
 {
-	delete deck->cardsSpace->faceupcards->at(position);
 
 	for (int i = position + 1; i < 6; i++)
 	{
 		Cards* temp;
-		temp = new Cards(*deck->cardsSpace->faceupcards->at(i)); //Copy the next card
-
-		//Erase from memory that next card
-		delete	deck->cardsSpace->faceupcards->at(i);
-		deck->cardsSpace->faceupcards->at(i) = nullptr;
+		temp = deck->cardsSpace->faceupcards->at(i); //temp pointer points to next card
 
 		//Put the copy of the next card into the left position
 		int previous = i - 1;
 		(deck->cardsSpace->faceupcards->at(previous)) = temp;
 
-		temp = nullptr;
 	}
 	deck->cardsSpace->faceupcards->resize(5);
 	deck->draw();
-
 
 }
 
@@ -424,8 +417,7 @@ void shuffleAndAddCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
-				//new string("creatCity"), nullptr <== WHy is it Nullptr??
-				new string("creatCity"), new string("")
+				new string("createCity"), new string("1")
 
 			}
 		)

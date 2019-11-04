@@ -276,6 +276,11 @@ int main()
 	}
 	players->at(0)->bidFacObj->clearBidingFacility();
 
+	//Keep track of the last player of each round
+	Player* lastPlayer;
+	int lastIndex = (*currentPlayerIndex +NUM_PLAYERS - 1) % NUM_PLAYERS;
+	lastPlayer = players->at(lastIndex);
+
 	cout << "Supply is now at " << *(supply) << " coins." << endl;
 	cout << "First player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
 	cout << "First player index is " << *currentPlayerIndex << "\n" << endl;
@@ -332,10 +337,11 @@ int main()
 		} while (!enoughCoins && !(cardPosition >= 1 && cardPosition <= 6));
 	
 		cardPosition = cardPosition - 1;
-		chosenCard = new Cards(*deck->cardsSpace->faceupcards->at(cardPosition));
+		chosenCard = deck->cardsSpace->faceupcards->at(cardPosition);
 
 		chosenCard->print();
 
+		currentPlayer->hand->faceupcards->push_back(chosenCard);//Push address 
 		currentPlayer->payCard(chosenCard, cardPosition, supply);
 
 // #################################################
@@ -370,11 +376,11 @@ int main()
 //			Part 6: Game End, Compute Score
 // #################################################
 
-		if (currentPlayer->hand->faceupcards->size() >= MAX_CARDS)
+		if (lastPlayer->hand->faceupcards->size() >= MAX_CARDS)
 		{
-			cout << " player has " << endl;
-			cout << currentPlayer->hand->faceupcards->size() << endl;
-			cout << "Max cards per player is " << endl;
+			cout << "Every Players has " ;
+			cout << currentPlayer->hand->faceupcards->size() << " cards. "<<endl;
+			cout << "Max cards each player can own has been reach. " << endl;
 			cout << MAX_CARDS << endl;
 			endGame = true;
 		}

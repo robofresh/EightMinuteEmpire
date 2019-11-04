@@ -281,7 +281,6 @@ void Player::placeNewArmies(Country* country, int amount)
 
 void Player::ignore(Cards* card)
 {
-	this->hand->faceupcards->push_back(card);
 	cout << "Player takes the card and ignore the action." << endl;
 }
 
