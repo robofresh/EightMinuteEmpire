@@ -31,6 +31,30 @@ int getNumOfPlayers()
 	return playerInput;
 }
 
+int determineMaxCards(int num_player)
+{
+	const int MAX_CARDS2 = 13;
+	const int MAX_CARDS3 = 10;
+	const int MAX_CARDS4 = 8;
+	const int MAX_CARDS5 = 7;
+
+	switch (num_player)
+	{
+	case 2:
+		return MAX_CARDS2;
+			break;
+	case 3:
+		return MAX_CARDS3;
+			break;
+	case 4:
+		return MAX_CARDS4;
+			break;
+	case 5:
+		return MAX_CARDS5;
+			break;
+	}
+}
+
 int getNumCoinsPerPlayer(const int numPlayers)
 {
 	int numCoinsPerPlayer = 0;
@@ -203,6 +227,7 @@ int main()
 
 	//Other details for setting up the game
 	bool endGame = false;
+	const int MAX_CARDS = determineMaxCards(NUM_PLAYERS);
 
 // #################################################
 //				Part 2: Startup Phase
@@ -269,6 +294,9 @@ int main()
 		Actions* action = new Actions();
 		action->processAction(currentPlayer, chosenCard, map, players);
 
+		cout << *(currentPlayer->name) << " now has " << currentPlayer->hand->faceupcards->size()
+			<< " cards" << endl;
+
 // #################################################
 //				Part 5: After Action
 // #################################################
@@ -281,6 +309,8 @@ int main()
 		currentPlayerIndex = new int((newIndex) % (NUM_PLAYERS));//Put pointer to new index number
 		currentPlayer = players->at(*currentPlayerIndex);//update current player
 
+		cout << endl;
+		cout << "************************" << endl;
 		cout << "Supply is now at " << *(supply) << " coins." << endl;
 		cout << "Current player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
 		cout << "Current player index is " << *currentPlayerIndex << "\n" << endl;
@@ -288,9 +318,17 @@ int main()
 // #################################################
 //			Part 6: Game End, Compute Score
 // #################################################
-		end++;
 
-	} while (end<5);
+		if (currentPlayer->hand->faceupcards->size() >= MAX_CARDS)
+		{
+			cout << " player has " << endl;
+			cout << currentPlayer->hand->faceupcards->size() << endl;
+			cout << "Max cards per player is " << endl;
+			cout << MAX_CARDS << endl;
+			endGame = true;
+		}
+
+	} while (!endGame);
 
 
 
