@@ -10,6 +10,7 @@
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="EightMinuteEmpire.cpp" />
+    <ClCompile Include="CardDriversLoop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />

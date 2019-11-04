@@ -35,6 +35,21 @@ Cards::Cards(string good1, vector<string*>* action1)
 	actions = action1;
 }
 
+//Copy constructor
+Cards::Cards(const Cards& original)
+{
+	this->good = (original.good);
+	this->actions = new vector<string*>();
+	string* temp;
+
+	for (int i = 0; i < original.actions->size(); i++)
+	{
+		temp = (original.actions->at(i));
+
+		actions->push_back(temp);
+	}
+}
+
 //Destructor
 Cards::~Cards()
 {
@@ -153,6 +168,9 @@ void Deck::print()
 		tmp.pop();
 	}
 }
+
+void shuffleCards(vector<Cards*>*);
+
 
 //Shuffle all the cards before making the main deck
 void shuffleAndAddCards(Deck* deck)
@@ -639,10 +657,8 @@ void shuffleAndAddCards(Deck* deck)
 			}
 		)
 	);
-
-	auto randomGenerator = default_random_engine{};
-
-	std::shuffle(allCards->begin(), allCards->end(), randomGenerator); //Shuffle the vector of cards
+	 //Shuffle the vector of cards
+	shuffleCards(allCards);
 	
 	//Once shuffle is done, fill the deck
 	for (int i = 0; i < allCards->size(); i++)
@@ -650,4 +666,14 @@ void shuffleAndAddCards(Deck* deck)
 		deck->stackofCards->push(allCards->at(i));
 	}
 
+}
+
+
+void shuffleCards(vector<Cards*>* listCard)
+{
+	
+	for (int i = 0; i < listCard->size(); i++)
+	{
+		swap(listCard->at(i), listCard->at(rand() % listCard->size()));
+	}
 }
