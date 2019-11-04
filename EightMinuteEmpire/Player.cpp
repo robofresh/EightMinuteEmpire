@@ -289,19 +289,102 @@ void Player::pickUpCard(Cards* card,int position, int* supply)
 more armies than other player in a country, 
 cities counted as armies, if the numer is the same, no point for everyone
 */
-void computeScore(Player* player)
-{	
-	int* victoryPoint = 0;
-
-	for (int i =0; i <= *player->ownedCountries->size;i++)
-	{
-		int temp = 0;
-		if (*player->ownedCountries ==  player)
-			temp++;
-		// in a continent, the one who have more region wins a point
-	}
-	
+int goodPoints(Hand* hand)
+{
+	return getCoalPoint(hand) + getAnvilPoint(hand)
+		+ getTreePoint(hand) + getCrystalPoint(hand)
+		+ getCarrotPoint(hand);
 }
+
+int getCoalPoint(Hand* hand)
+{
+	int coal[6] =
+	{
+		0, 0, 1, 2, 3, 5
+	};
+
+	int temp = 0;
+	for (int i = 0; i <= hand->playerCards->size; i++)
+	{
+		if (hand->playerCards->at(i)->good->compare("coal"))
+			temp++;
+	}
+	return coal[temp];
+}
+
+int getAnvilPoint(Hand* hand)
+{
+	int anvil[8] =
+	{
+		0, 0, 1, 1, 2, 2, 3, 5
+	};
+
+	int temp = 0;
+	for (int i = 0; i <= hand->playerCards->size; i++)
+	{
+		if (hand->playerCards->at(i)->good->compare("anvil"))
+			temp++;
+	}
+	return anvil[temp];
+}
+
+int getTreePoint(Hand* hand)
+{
+
+	int tree[7] =
+	{
+		0, 0, 1, 1, 2, 3, 5
+	};
+
+	int temp = 0;
+	for (int i = 0; i <= hand->playerCards->size; i++)
+	{
+		if (hand->playerCards->at(i)->good->compare("tree"))
+			temp++;
+	}
+	return tree[temp];
+}
+
+int getCrystalPoint(Hand* hand)
+{
+	int crystal[5] =
+	{
+		0, 1, 2, 3, 5
+	};
+
+	int temp = 0;
+	for (int i = 0; i <= hand->playerCards->size; i++)
+	{
+		if (hand->playerCards->at(i)->good->compare("cyrstal"))
+			temp++;
+	}
+	return crystal[temp];
+}
+
+int getCarrotPoint(Hand* hand)
+{
+	int carrot[9] =
+	{
+		0, 0, 0, 1, 1, 2, 2, 3, 5
+	};
+
+	int temp = 0;
+	for (int i = 0; i <= hand->playerCards->size; i++)
+	{
+		if (hand->playerCards->at(i)->good->compare("carrot"))
+			temp++;
+	}
+	return carrot[temp];
+}
+
+
+void Player::computeScore(Map* map)
+{	
+	*victoryPoint += ownedCountries->size();
+	*victoryPoint += goodPoints(hand);
+}
+
+
 
 
 

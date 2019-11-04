@@ -76,5 +76,5 @@ public:
 	void buildCity(Country*);
 	void destroyArmy(Country*, Player*);
 	void pickUpCard(Cards*, int, int*);
-	void computeScore(Player*);
+	void computeScore(Map*);
 };
