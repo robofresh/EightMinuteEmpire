@@ -24,7 +24,9 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 
 	//process action(s)
 
-	cout << "card: " << card << endl;
+
+
+	cout << endl;
 	
 	//if there is more than one action
 	if (card->actions->size() > 2)
@@ -32,44 +34,50 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 		
 		int selection = 0;
 
+		//if it is a 'and' card, then choose between both acitons or ignoring
 		if ((string("AND").compare(*card->actions->at(2)) == 0))
 		{
-			cout << "Select one: " << endl;
-			cout << "\t1: ";  actionPrint(*card->actions->at(0), stoi(*card->actions->at(1)));
+			cout << "\tSelect one: " << endl;
+			cout << "\t\t1: ";  actionPrint(*card->actions->at(0), stoi(*card->actions->at(1)));
 			cout << " and ";  actionPrint(*card->actions->at(3), stoi(*card->actions->at(4))); cout << endl;
-			cout << "\tor" << endl;
-			cout << "\t2: take no action " << endl;
+			cout << "\t\tor" << endl;
+			cout << "\t\t2: take no action " << endl;
 
+			//keep asking till valid input
 			while (selection != 1 && selection != 2)
 			{
-				cout << "Please enter a valid choice: ";
+				cout << "\tPlease enter a valid choice: ";
 				cin >> selection;
 			}
 
+			//do both actions
 			if (selection == 1)
 			{
 				actionProcess(*card->actions->at(0), stoi(*card->actions->at(1)), player, map, playerVector);
 				actionProcess(*card->actions->at(3), stoi(*card->actions->at(4)), player, map, playerVector);
-			}
+			} 
+			//or ignore
 			else if (selection == 2)
 			{
-				cout << "No action was taken." << endl;
+				cout << "\tNo action was taken." << endl;
 				return;
 			}
 		}
 
+		// if it is an 'or' card
+		// same as last block
 		if ((string("OR").compare(*card->actions->at(2)) == 0))
 		{
-			cout << "Select one: " << endl;
-			cout << "\t1: ";  actionPrint(*card->actions->at(0), stoi(*card->actions->at(1))); cout << endl;
-			cout << "\tor" << endl;
-			cout << "\t2: ";  actionPrint(*card->actions->at(3), stoi(*card->actions->at(4))); cout << endl;
-			cout << "\tor" << endl;
-			cout << "\t3: take no action " << endl;
+			cout << "\tSelect one: " << endl;
+			cout << "\t\t1: ";  actionPrint(*card->actions->at(0), stoi(*card->actions->at(1))); cout << endl;
+			cout << "\t\tor" << endl;
+			cout << "\t\t2: ";  actionPrint(*card->actions->at(3), stoi(*card->actions->at(4))); cout << endl;
+			cout << "\t\tor" << endl;
+			cout << "\t\t3: take no action " << endl;
 
 			while (selection != 1 && selection != 2 && selection != 3)
 			{
-				cout << "Please enter a valid choice: ";
+				cout << "\tPlease enter a valid choice: ";
 				cin >> selection;
 			}
 
@@ -83,28 +91,25 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 			}
 			else if (selection == 3)
 			{
-				cout << "No action was taken." << endl;
+				cout << "\tNo action was taken." << endl;
 				return;
 			}
 
 		}
 
-
-
-
 	}
-	else
+	else //if only one action, then choose between action and ignore
 	{
 		int selection = 0;
 
-		cout << "Select one: " << endl;
-		cout << "\t1: ";  actionPrint(*card->actions->at(0), stoi(*card->actions->at(1))); cout << endl;
-		cout << "\tor" << endl;
-		cout << "\t2: take no action " << endl;
+		cout << "\tSelect one: " << endl;
+		cout << "\t\t1: ";  actionPrint(*card->actions->at(0), stoi(*card->actions->at(1))); cout << endl;
+		cout << "\t\tor" << endl;
+		cout << "\t\t2: take no action " << endl;
 
 		while (selection != 1 && selection != 2)
 		{
-			cout << "Please enter a valid choice: ";
+			cout << "\tPlease enter a valid choice: ";
 			cin >> selection;
 		}
 
@@ -114,40 +119,42 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 		}
 		else if (selection == 2)
 		{
-			cout << "No action was taken." << endl;
+			cout << "\tNo action was taken." << endl;
 			return;
 		}
 		
 	}
+	cout << endl;
 }
 
 
 void actionProcess(string action, int amount, Player *player, Map* map, vector<Player*>* playersVector)
 {
+	//if it is a place armies card
 	if (string("placeArmies").compare(action) == 0)
 	{
 		string countryName;
-		for (int i = 0; i < amount; i++)
+		for (int i = 0; i < amount; i++) //for every army to be placed
 		{
-			if (player->availableArmies() > 0)
+			if (player->availableArmies() > 0) //if the player has any available armies
 			{
-				Army* newArmy = player->getAvailableArmy();
+				Army* newArmy = player->getAvailableArmy(); //get an army from the player
 				
 				Country* country = nullptr;
 				bool isValid = false;
 
-				while (country == nullptr || !isValid)
+				while (country == nullptr || !isValid) //until is valid country name
 				{
-					cout << i + 1 << ": Please give a valid country\'s name for the army to be placed in (-1 to exit): ";
+					cout << "\t" << i + 1 << ": Please give a valid country\'s name for the army to be placed in (-1 to exit): ";
 					cin >> countryName;
 					if (countryName.compare("-1") == 0)
 					{
 						return;
 					}
 					//cout << *country->name << endl;
-					country = map->getCountry(countryName);
+					country = map->getCountry(countryName); //get pointer to specified country
 
-					if (country != nullptr)
+					if (country != nullptr) //if the getCountry method doesnt return nullptr
 					{
 						//if the country is the starting country
 						if (*country->isStartingCountry)
@@ -166,7 +173,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 								}
 							}
 							if (!isValid)
-								cout << *country->name << " is either not the starting country or the player does not own a city there. " << endl;
+								cout << "\t" << *country->name << " is either not the starting country or the player does not own a city there. " << endl;
 						}
 					}
 				}
@@ -174,16 +181,16 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 			}
 			else
 			{
-				cout << "You have no more armies to place. " << endl;
+				cout << "\tYou have no more armies to place. " << endl;
 				break;
 			}
 		}
 		return;
 	}
-	if (string("createCity").compare(action) == 0)
+	if (string("createCity").compare(action) == 0) //virtually the same as the last block but for city placement
 	{
 		string countryName;
-		for (int i = 0; i < amount; i++)
+		for (int i = 0; i < amount; i++) //for all place city count (i think it's only ever 1)
 		{
 			if (player->availableCities() > 0)
 			{
@@ -194,7 +201,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 				bool isValid = false;
 				while (country == nullptr || !isValid)
 				{
-					cout << "Please give a valid country\'s name for the city to be placed in (-1 to exit): ";
+					cout << "\tPlease give a valid country\'s name for the city to be placed in (-1 to exit): ";
 					cin >> countryName;
 					if (countryName.compare("-1") == 0)
 					{
@@ -215,14 +222,14 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 							}
 						}
 						if(!isValid)
-							cout << *player->name << " does not have an army in " << *country->name << endl;
+							cout << "\t" <<*player->name << " does not have an army in " << *country->name << endl;
 					}
 				}
 				player->buildCity(country);
 			}
 			else
 			{
-				cout << "You have no more cities to place. " << endl;
+				cout << "\tYou have no more cities to place. " << endl;
 				break;
 			}
 		}
@@ -231,14 +238,14 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 	if (string("move").compare(action) == 0 || string("moveWater").compare(action) == 0)
 	{
 
-		vector<int> armiesAlreadyMoved;
+		vector<int> armiesAlreadyMoved; //vector for the armies that have already been moved this turn
 
 		for (int j = 0; j < amount; j++)
 		{
 
-			if (player->availableArmies() == 14)
+			if (player->availableArmies() == 14) // check if any armies have been placed
 			{
-				cout << "No armies have been placed." << endl;
+				cout << "\tNo armies have been placed." << endl;
 				return;
 			}
 
@@ -257,7 +264,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 			bool newArmy = false;
 			while (army == nullptr || newArmy == false)
 			{
-				cout << "Please give a valid placed army number (-1 to exit): ";
+				cout << "\tPlease give a valid placed army number (-1 to exit): ";
 				cin >> armyID;
 
 				if (armyID == -1)
@@ -292,8 +299,8 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 					while (!isValid)
 					{
 						string countryName;
-						cout << "Please give a valid name for a country to move army " << armyID + 1 << " across land or water to; ";
-						cout << "the possible adjacent countries are (-1 to change army selection): " << endl;
+						cout << "\tPlease give a valid name for a country to move army " << armyID + 1 << " across land or water to; ";
+						cout << "\tthe possible adjacent countries are (-1 to change army selection): " << endl;
 						for (int j = 0; j < player->armies->at(armyID)->occupiedCountry->adjCountries->size(); j++)
 						{
 							cout << "\t" << *player->armies->at(armyID)->occupiedCountry->adjCountries->at(j)->name << endl;
@@ -350,8 +357,8 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 							break;
 						}
 
-						cout << "Please give a valid name for a country in " << *army->occupiedCountry->parentContinent->name << " to move army " << armyID + 1 << " to; ";
-						cout << "the possible adjacent countries are (-1 to change army selection): " << endl;
+						cout << "\tPlease give a valid name for a country in " << *army->occupiedCountry->parentContinent->name << " to move army " << armyID + 1 << " to; ";
+						cout << "\tthe possible adjacent countries are (-1 to change army selection): " << endl;
 						for (int j = 0; j < player->armies->at(armyID)->occupiedCountry->adjCountries->size(); j++)
 						{
 							//if the army's country is adjacent to the selected country and if they are in the same continent
@@ -377,7 +384,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 					}
 					if (isIsland)
 					{
-						cout << "Invalid: this country is an island" << endl;
+						cout << "\tInvalid: this country is an island" << endl;
 						j--;
 						continue;
 					}
@@ -400,7 +407,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 		while (country == nullptr || enemyPlayer == nullptr)
 		{
 			string enemyName;
-			cout << "Give a valid player name (-1 to exit): ";
+			cout << "\tGive a valid player name (-1 to exit): ";
 			cin >> enemyName;
 			if (enemyName.compare("-1") == 0)
 			{
@@ -415,7 +422,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 			string countryName;
 			while (true)
 			{
-				cout << "Give a valid country name (-1 to exit): ";
+				cout << "\tGive a valid country name (-1 to exit): ";
 				cin >> countryName;
 				if (countryName.compare("-1") == 0)
 				{
@@ -433,7 +440,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 							return;
 						}
 					}
-					cout << enemyName << " does not have an army in " << countryName << endl;
+					cout << "\t" << enemyName << " does not have an army in " << countryName << endl;
 				}
 			}
 		}
