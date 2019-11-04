@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Map.h"
 #include "MapLoader.h"
+#include "Actions.h"
 
 using namespace std;
 
@@ -260,20 +261,19 @@ int main()
 		chosenCard->print();
 
 		//Display current player's action
+		Actions* action = new Actions();
+		action->processAction(currentPlayer, chosenCard, map, players);
+
 
 		//Update face-ups cards
 		deck->updateCardsSpace(deck, cardPosition);
 
 		
-		//Increasing the index position is clockwise 
-		newIndex = *currentPlayerIndex + 1;
-
+		//Loop to the next player
+		newIndex = *currentPlayerIndex + 1;//Increasing the index position is clockwise 
 		delete currentPlayerIndex;//deallocate memory 
-
 		currentPlayerIndex = new int((newIndex) % (NUM_PLAYERS));//Put pointer to new index number
-
 		currentPlayer = players->at(*currentPlayerIndex);//update current player
-
 
 		cout << "Supply is now at " << *(supply) << " coins." << endl;
 		cout << "Current player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
