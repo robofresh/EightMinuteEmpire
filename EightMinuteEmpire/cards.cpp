@@ -3,9 +3,11 @@
 #include <vector>
 #include <stack>
 #include <algorithm>
+#include <random>
 #include <exception>
 #include "Player.h"
 #include "Cards.h"
+#include <ctime>
 
 using namespace std;
 
@@ -34,6 +36,45 @@ Cards::Cards(string good1, vector<string*>* action1)
 	actions = action1;
 }
 
+//Copy constructor TESTED OK
+Cards::Cards(const Cards& original)
+{
+	good = new string (*original.good); //deep copy of string
+	actions = new vector<string*>();
+	
+	string* temp;
+
+	for (int i = 0; i < original.actions->size(); i++)
+	{
+		temp = new string(*(original.actions->at(i)));
+
+		this->actions->push_back(temp);
+
+	}
+}
+
+//Operator = TESTED OK
+Cards& Cards::operator= (const Cards& original)
+{
+	if (this == &original)
+		return *this;
+
+	//do copy
+	good = new string(*original.good); //deep copy of string
+	actions = new vector<string*>();
+
+	string* temp;
+
+	for (int i = 0; i < original.actions->size(); i++)
+	{
+		temp = new string(*(original.actions->at(i)));
+		actions->push_back(temp);
+	}
+
+	return *this;
+
+}
+
 //Destructor
 Cards::~Cards()
 {
@@ -47,30 +88,30 @@ void shuffleAndAddCards(Deck*);
 //Default constructor
 Deck::Deck()
 {
-	drawingcards = new Hand(this);
+	cardsSpace = new Hand(this);
 	stackofCards = new stack <Cards*>; //in deck, there are 42 cards. they will be stacked
 	shuffleAndAddCards(this); //Add Cards into the deck
-	//print();
 }
 
 //destructor
 Deck::~Deck()
 {
-	delete drawingcards;
+	delete cardsSpace;
 	while (!stackofCards->empty())
 	{
 		delete stackofCards->top();
 		stackofCards->pop();
 	}
 	delete stackofCards;
-	drawingcards = NULL;
+	cardsSpace = NULL;
 	stackofCards = NULL;
 }
 
+//Player draw a card from the cardsremaining in the deck and place it card space.
 void Deck::draw()
 {
 	Cards* temp = stackofCards->top();
-	drawingcards->faceupcards->push_back(temp);
+	cardsSpace->faceupcards->push_back(temp);
 	stackofCards->pop();
 }
 
@@ -78,24 +119,24 @@ Hand::Hand()
 {
 	faceupcards = new vector <Cards*>();
 	mainDeck = nullptr;
-	playerCards = nullptr;
+
 }
 
 Hand::Hand(Deck* deck)
 {
 	faceupcards = new vector <Cards*>();
 	mainDeck = deck;
-	playerCards = new vector <Cards*>();
+
 }
 
 //destructor
 Hand::~Hand()
 {
 	delete faceupcards;
-	delete playerCards;
+
 	faceupcards = NULL;
 	mainDeck = NULL;
-	playerCards = NULL;
+
 }
 
 Cards* Hand::exchange(int index)
@@ -107,11 +148,84 @@ Cards* Hand::exchange(int index)
 	return tmp;
 }
 
+//Shift all cards to the left and draw a new card and put it on the rightmost side
+void Deck::updateCardsSpace(Deck* deck, int position)
+{
+
+	for (int i = position + 1; i < 6; i++)
+	{
+		Cards* temp;
+		temp = deck->cardsSpace->faceupcards->at(i); //temp pointer points to next card
+
+		//Put the copy of the next card into the left position
+		int previous = i - 1;
+		(deck->cardsSpace->faceupcards->at(previous)) = temp;
+
+	}
+	deck->cardsSpace->faceupcards->resize(5);
+	deck->draw();
+
+}
+
+//Print with integrated print Cards
 void Hand::print()
 {
+	cout << "Here are the face-up cards:" << endl;
+	cout << "[card 1: cost 0] [card 2: cost 1] [card 3: cost 1] [card 4: cost 2] [card 5: cost 2] [card 6: cost 3]" << endl;
 	for (int i = 0; i < 6; i++)
 	{
-		cout << *faceupcards->at(i)->good << endl;
+		cout << " Card " << (i + 1) <<" : ";
+		try
+		{
+			if (faceupcards->at(i)==nullptr)
+			{
+				cout<<"Empty space"<<endl;
+			}
+			else
+			{
+				faceupcards->at(i)->print();
+			}
+		}
+		catch (const std::exception& msg)
+		{
+			cout << msg.what() << endl;
+		}
+	}
+}
+
+//Print Card's info
+void Cards::print()
+{
+	try
+	{
+		if (this != nullptr)
+		{
+			int* temp;
+			cout << "[Good is : " << *good ;
+			cout << ", Action is : ";
+			temp = new int(this->actions->size());
+
+			if (temp != 0)
+			{
+				for (int j = 0; j < *temp; j++)
+				{
+					cout << *actions->at(j) << " ";
+				}
+				cout << "]";
+			
+			}
+		}
+		else
+		{
+			cout << "Empty card" << endl;
+		}
+		cout << endl;
+	}
+	catch (const std::exception& e)
+	{
+		cout << "catch error inside of cards print" << endl;
+		cout << e.what() << endl;
+
 	}
 }
 
@@ -120,8 +234,11 @@ void Deck::initialDraw() //one time only, when the game is started
 	for (int i = 0; i < 6; i++) {
 		draw();
 	}
+	cout << "Initial draw" << endl;
+	this->cardsSpace->print();
 }
 
+//Prints the whole decks
 void Deck::print()
 {
 	stack<Cards*> tmp;
@@ -133,12 +250,26 @@ void Deck::print()
 	}
 }
 
+void shuffleCards(vector<Cards*>*);
 
+
+//Shuffle all the cards before making the main deck
 void shuffleAndAddCards(Deck* deck)
 {
 	vector<Cards*>* allCards = new vector<Cards*>();//Vectors of all hardcoded cards
 
-	//wild, create 2 armies
+	// create 2 armies
+	allCards->push_back
+	(
+		new Cards(
+			"wild",
+			new vector<string*>
+			{
+				new string("waterMove"), new string("2")
+			}
+		)
+	);
+
 	allCards->push_back
 	(
 		new Cards(
@@ -299,7 +430,8 @@ void shuffleAndAddCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
-				new string("creatCity"), nullptr
+				new string("createCity"), new string("1")
+
 			}
 		)
 	);
@@ -545,29 +677,7 @@ void shuffleAndAddCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
-				new string("moveWater"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("move"), new string("4")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("createCity"), new string("1")
+				new string("waterMove"), new string("3")
 			}
 		)
 	);
@@ -616,11 +726,10 @@ void shuffleAndAddCards(Deck* deck)
 			}
 		)
 	);
-
-	std::random_shuffle(allCards->begin(), allCards->end()); //Shuffle the vector of cards
+	 //Shuffle the vector of cards
+	shuffleCards(allCards);
 	
 	//Once shuffle is done, fill the deck
-
 	for (int i = 0; i < allCards->size(); i++)
 	{
 		deck->stackofCards->push(allCards->at(i));
@@ -628,3 +737,14 @@ void shuffleAndAddCards(Deck* deck)
 
 }
 
+
+//Shuffle method of all cards in a vector
+void shuffleCards(vector<Cards*>* listCard)
+{
+	srand((unsigned)time(0));
+	
+	for (int i = 0; i < listCard->size(); i++)
+	{
+		swap(listCard->at(i), listCard->at(rand() % listCard->size()));
+	}
+}

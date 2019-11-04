@@ -5,8 +5,27 @@
 #include "Player.h"
 #include "Map.h"
 #include "MapLoader.h"
+#include "Actions.h"
 
 using namespace std;
+
+struct InputException : public exception
+{
+	const char* what() const throw()
+	{
+		return "Your input is invalid.";
+	}
+};
+
+struct InsufficientCoinsException : public exception
+{
+	const char* what() const throw()
+	{
+		return "Player does not have enough coins.";
+	}
+};
+
+
 
 int getNumOfPlayers()
 {
@@ -28,6 +47,31 @@ int getNumOfPlayers()
 		}
 	}
 	return playerInput;
+}
+
+int determineMaxCards(int num_player)
+{
+	const int MAX_CARDS2 = 13;
+	const int MAX_CARDS3 = 10;
+	const int MAX_CARDS4 = 8;
+	const int MAX_CARDS5 = 7;
+
+	switch (num_player)
+	{
+	case 2:
+		return MAX_CARDS2;
+			break;
+	case 3:
+		return MAX_CARDS3;
+			break;
+	case 4:
+		return MAX_CARDS4;
+			break;
+	default:
+		return MAX_CARDS5;
+			break;
+
+	}
 }
 
 int getNumCoinsPerPlayer(const int numPlayers)
@@ -185,12 +229,12 @@ int main()
 	cout << "You've selected the following map: " << endl;
 	map->print();
 	cout << endl;
-	Country* startingCountry = map->mapCountries->at(0); // SHOULD WE DECIDE THIS ANOTHER WAY?
+	Country* startingCountry = map->startingCountry; //Starting country is loaded from map
 
-	// Create deck with 42 cards.
+	// Create deck with 42 cards. Shuffle method is done when creating a deck
 	Deck* deck = new Deck();
-	cout << "A deck containing " << deck->stackofCards->size() << " cards is assigned to the game.\n" << endl;
-
+	cout << "All " << deck->stackofCards->size() << " cards are shuffled and then putted into a deck and assigned to the game.\n" << endl;
+		
 	// Select number of players.
 	const int NUM_PLAYERS = getNumOfPlayers();
 	const int NUM_COINS_PER_PLAYER = getNumCoinsPerPlayer(NUM_PLAYERS);
@@ -202,20 +246,22 @@ int main()
 
 	//Other details for setting up the game
 	bool endGame = false;
+	const int MAX_CARDS = determineMaxCards(NUM_PLAYERS);
 
-	// #################################################
-	//				Part 2: Startup Phase
-	// #################################################
+// #################################################
+//				Part 2: Startup Phase
+// #################################################
 
 	// Create the supply of coins (value after each player has taken the appropriate amount of coins for themselves).
 	int supplyVal = 44 - (NUM_COINS_PER_PLAYER * NUM_PLAYERS);
 	int* supply = &supplyVal;
 	cout << "Total supply of coins was 44, but since each player took " << NUM_COINS_PER_PLAYER << " coins, supply is now at " << supplyVal << " coins.\n" << endl;
 
-	// Shuffle deck an draw 6 cards.
-
 	// Place 3 armies of each player on the starting country.
 	placeInitialPlayerArmies(players, startingCountry);
+
+	//draw and fill the cards space with faceups cards
+	deck->initialDraw();
 
 	// Bidding process
 	Player* currentPlayer;
@@ -230,50 +276,128 @@ int main()
 	}
 	players->at(0)->bidFacObj->clearBidingFacility();
 
+	//Keep track of the last player of each round
+	Player* lastPlayer;
+	int lastIndex = (*currentPlayerIndex +NUM_PLAYERS - 1) % NUM_PLAYERS;
+	lastPlayer = players->at(lastIndex);
+
 	cout << "Supply is now at " << *(supply) << " coins." << endl;
 	cout << "First player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
 	cout << "First player index is " << *currentPlayerIndex << "\n" << endl;
 
 	cout << "Let the game begin!\n" << endl;
 
-	// #################################################
-	//				Part 3: Main Game Loop
-	// #################################################
-
-	while (!endGame)
+// #################################################
+//				Part 3: Main Game Loop
+// #################################################
+	
+	int newIndex;
+	do
 	{
-		//Increasing the index position is clockwise 
-		delete currentPlayerIndex;
+		//Current user takes one face-up card & pay the cost of the card
+		Cards* chosenCard;
+		int cardPosition;
+		bool enoughCoins;
 
-		currentPlayerIndex = new int((*currentPlayerIndex++) % (NUM_PLAYERS));
+		do
+		{
+			enoughCoins = true;
+			try
+			{
+				deck->cardsSpace->print();
+				cout << *currentPlayer->name;
+				cout << " !Select one of the face-up cards" << endl;
+				cin >> cardPosition;
+				if (std::cin.fail())
+					throw InputException();
+				if (*currentPlayer->numCoins <= 3)
+				{
+					if (*currentPlayer->numCoins == 0 && cardPosition != 1)
+						throw InsufficientCoinsException();
+					if(*currentPlayer->numCoins == 1 && 
+						(cardPosition == 6 || cardPosition == 5 || cardPosition == 4))
+						throw InsufficientCoinsException();
+					if (*currentPlayer->numCoins == 2 &&
+						(cardPosition == 6))
+						throw InsufficientCoinsException();
+				}	
+			}
+			catch (InputException e)
+			{
+				cout << e.what() << endl;
+				cout << "Game will close down!" << endl;
+				exit(0);
 
+			}
+			catch (InsufficientCoinsException e)
+			{
+				cout << e.what() << endl;
+				enoughCoins = false;
+			}
+
+		} while (!(cardPosition >= 1 && cardPosition <= 6)|| !enoughCoins );
+	
+		cardPosition = cardPosition - 1;
+		chosenCard = deck->cardsSpace->faceupcards->at(cardPosition);
+
+		chosenCard->print();
+
+		currentPlayer->hand->faceupcards->push_back(chosenCard);//Push address 
+		currentPlayer->payCard(chosenCard, cardPosition, supply);
+
+// #################################################
+//				Part 4: Player Actions
+// #################################################
+		//Display current player's action
+		//Either, do the action or ignore
+		Actions* action = new Actions();
+		action->processAction(currentPlayer, chosenCard, map, players);
+
+		cout << *(currentPlayer->name) << " now has " << currentPlayer->hand->faceupcards->size()
+			<< " cards" << endl;
+
+// #################################################
+//				Part 5: After Action
+// #################################################
+		//Update face-ups cards
+		deck->updateCardsSpace(deck, cardPosition);
+
+		//Loop to the next player
+		newIndex = *currentPlayerIndex + 1;//Increasing the index position is clockwise 
+		*currentPlayerIndex = newIndex % NUM_PLAYERS;
 		currentPlayer = players->at(*currentPlayerIndex);//update current player
 
+		cout << endl;
+		cout << "************************" << endl;
 		cout << "Supply is now at " << *(supply) << " coins." << endl;
 		cout << "Current player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
 		cout << "Current player index is " << *currentPlayerIndex << "\n" << endl;
 
-		//Current user takes one face-up card & pay the cost of the card
-		Cards* chosenCard;
-		int cardPosition;
-		cout << "Select one of the face-up cards" << endl;
-		cin >> cardPosition;
-		chosenCard = faceupcards->at(--cardPosition);
-		currentPlayer->pickUpCard(chosenCard, cardPosition, supply);
+// #################################################
+//			Part 6: Game End, Compute Score
+// #################################################
 
-		//Display current player's action
+		if (lastPlayer->hand->faceupcards->size() >= MAX_CARDS)
+		{
+			cout << "Every Players has " ;
+			cout << currentPlayer->hand->faceupcards->size() << " cards. "<<endl;
+			cout << "Max cards each player can own has been reach. " << endl;
+			cout << MAX_CARDS << endl;
+			endGame = true;
+		}
 
-	}
+	} while (!endGame);
 
 
 
-	// #################################################
-	//				Part 4: Player Actions
-	// #################################################
+	cout << "END OF GAME" << endl;
 
-	// #################################################
-	//				Part 5: After Action
-	// #################################################
+	//COMPUTE SCORE HERE
+
+
+
+
+
 
 // #################################################
 //			Part 6: Game End, Compute Score
