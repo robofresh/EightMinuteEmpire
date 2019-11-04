@@ -45,8 +45,8 @@ public:
 	~Hand();
 	Deck* mainDeck;
 	Cards* exchange(int index);
-	vector<Cards*>* faceupcards; //6 cards are poped from stack and revealed (faced-up)
-	vector<Cards*>* playerCards; //Cards own by the player
+	vector<Cards*>* faceupcards; //faceupcards from deck => faceupcards
+								//faceupcards from each players => cards they keep
 	//int const* cost[]; //cost of card is fixed depending on the index, 0 1 1 2 2 3 respectively
 	void print();
 };

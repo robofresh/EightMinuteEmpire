@@ -204,9 +204,9 @@ int main()
 	//Other details for setting up the game
 	bool endGame = false;
 
-	// #################################################
-	//				Part 2: Startup Phase
-	// #################################################
+// #################################################
+//				Part 2: Startup Phase
+// #################################################
 
 	// Create the supply of coins (value after each player has taken the appropriate amount of coins for themselves).
 	int supplyVal = 44 - (NUM_COINS_PER_PLAYER * NUM_PLAYERS);
@@ -238,9 +238,9 @@ int main()
 
 	cout << "Let the game begin!\n" << endl;
 
-	// #################################################
-	//				Part 3: Main Game Loop
-	// #################################################
+// #################################################
+//				Part 3: Main Game Loop
+// #################################################
 	
 	//Temporary run while we wait for endGame implementation
 	int end = 0;
@@ -251,24 +251,30 @@ int main()
 		Cards* chosenCard;
 		int cardPosition;
 
-		
 		deck->cardsSpace->print();
 		cout << "Select one of the face-up cards" << endl;
 		cin >> cardPosition;
-		chosenCard = new Cards(*deck->cardsSpace->faceupcards->at(--cardPosition));
+		cardPosition = cardPosition - 1;
+		chosenCard = new Cards(*deck->cardsSpace->faceupcards->at(cardPosition));
 
-		//currentPlayer->pickUpCard(chosenCard, cardPosition, supply);
 		chosenCard->print();
 
+		currentPlayer->payCard(chosenCard, cardPosition, supply);
+
+// #################################################
+//				Part 4: Player Actions
+// #################################################
 		//Display current player's action
+		//Either, do the action or ignore
 		Actions* action = new Actions();
 		action->processAction(currentPlayer, chosenCard, map, players);
 
-
+// #################################################
+//				Part 5: After Action
+// #################################################
 		//Update face-ups cards
 		deck->updateCardsSpace(deck, cardPosition);
 
-		
 		//Loop to the next player
 		newIndex = *currentPlayerIndex + 1;//Increasing the index position is clockwise 
 		delete currentPlayerIndex;//deallocate memory 
@@ -279,6 +285,9 @@ int main()
 		cout << "Current player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
 		cout << "Current player index is " << *currentPlayerIndex << "\n" << endl;
 
+// #################################################
+//			Part 6: Game End, Compute Score
+// #################################################
 		end++;
 
 	} while (end<5);
@@ -287,17 +296,11 @@ int main()
 
 	cout << "END OF GAME" << endl;
 
-		// #################################################
-		//				Part 4: Player Actions
-		// #################################################
 
-		// #################################################
-		//				Part 5: After Action
-		// #################################################
 
-	// #################################################
-	//			Part 6: Game End, Compute Score
-	// #################################################
+
+
+
 
 	// #################################################
 	//						Cleanup

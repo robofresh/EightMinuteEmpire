@@ -120,24 +120,24 @@ Hand::Hand()
 {
 	faceupcards = new vector <Cards*>();
 	mainDeck = nullptr;
-	playerCards = nullptr;
+
 }
 
 Hand::Hand(Deck* deck)
 {
 	faceupcards = new vector <Cards*>();
 	mainDeck = deck;
-	playerCards = new vector <Cards*>();
+
 }
 
 //destructor
 Hand::~Hand()
 {
 	delete faceupcards;
-	delete playerCards;
+
 	faceupcards = NULL;
 	mainDeck = NULL;
-	playerCards = NULL;
+
 }
 
 Cards* Hand::exchange(int index)
@@ -187,21 +187,17 @@ void Hand::print()
 		{
 			if (faceupcards->at(i)==nullptr)
 			{
-				cout<<"Empty"<<endl;
+				cout<<"Empty space"<<endl;
 			}
 			else
 			{
 				faceupcards->at(i)->print();
 			}
-
 		}
 		catch (const std::exception& msg)
 		{
 			cout << msg.what() << endl;
-			cout << "Catch something here" << endl;
 		}
-		
-
 	}
 }
 
@@ -228,9 +224,8 @@ void Cards::print()
 		}
 		else
 		{
-			cout << "Empty cards" << endl;
+			cout << "Empty card" << endl;
 		}
-
 	}
 	catch (const std::exception& e)
 	{
@@ -238,8 +233,6 @@ void Cards::print()
 		cout << e.what() << endl;
 
 	}
-	
-	
 }
 
 void Deck::initialDraw() //one time only, when the game is started
