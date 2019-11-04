@@ -17,7 +17,7 @@ Army::~Army()
 
 void Army::setOccupiedCountry(Country* country)
 {
-	country = country;
+	Army::occupiedCountry = country;
 }
 
 City::City()
@@ -34,7 +34,7 @@ City::~City()
 
 void City::setOccupiedCountry(Country* country)
 {
-	country = country;
+	City::occupiedCountry = country;
 }
 
 Player::Player()
@@ -164,6 +164,31 @@ void Player::printPlayer()
 	cout << "Player: " << *(this->name) << ", age " << *(this->age) << ", color " << *(this->color) << endl;
 	cout << "\t" << *(this->name) << " holds " << *(this->numCoins) << " coins." << endl;
 	cout << "\t" << *(this->name) << " has " << this->armies->size() << " " << *(this->color) << " army cubes and " << this->cities->size() << " " << *(this->color) << " city discs." << endl;
+	for (int i = 0; i < armies->size(); i++)
+	{
+		if (armies->at(i)->occupiedCountry == nullptr)
+		{
+			cout << "\t\t\t" << "Army " << i+1 << " has not been placed." << endl;
+		} 
+		else
+		{
+			cout << "\t\t\t" << "Army " << i+1 << " is in " << *armies->at(i)->occupiedCountry->name << endl;
+		}
+
+	}
+	cout << "\t\t" << this->cities->size() << " cities (discs)." << endl;
+	for (int i = 0; i < cities->size(); i++)
+	{
+		if (cities->at(i)->occupiedCountry == nullptr)
+		{
+			cout << "\t\t\t" << "City " << i + 1 << " has not been placed." << endl;
+		}
+		else
+		{
+			cout << "\t\t\t" << "City " << i + 1 << " is in " << *cities->at(i)->occupiedCountry->name << endl;
+		}
+
+	}
 	cout << "\t" << *(this->name) << " owns " << this->ownedCountries->size() << " countries, and has " << this->goods->size() << " goods collected." << endl;
 	cout << "\t" << *(this->name) << " has " << this->hand->faceupcards->size() << " cards in hand." << endl;
 	cout << "\t" << *(this->name) << " has their own bidding facility.\n" << endl;
@@ -224,8 +249,9 @@ void Player::placeNewArmies(Country* country, int amount)
 		Army* availableArmy = this->getAvailableArmy();
 		availableArmy->occupiedCountry = country;
 		country->occupyingArmies->push_back(availableArmy);
-		cout << *(this->name) << " now has an army in " << *(country->name) << endl;
+		cout << *(this->name) << " placed an army in " << *(country->name) << endl;
 	}
+
 }
 
 // References

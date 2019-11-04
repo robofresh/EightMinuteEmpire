@@ -5,21 +5,142 @@ Continents
 		Mexico
 	South America
 		Argentina
-		Bolivia
 		Brazil
-		Chile
-		Colombia
 		Ecuador
-		Guyana
-		Paraguay
-		Peru
-		Suriname
-		Uruguay
-		Venezuela
-		 
+	EuropeAsia
+		UK
+		France
+		*Germany
+		Spain
+		Italy
+		Russia
+		Korea
+		Japan
+		China
+		India
+		MiddleEast
+	Africa
+		NorthAfrica
+		SouthAfrica
+	Australia
+		Australia		 
 Connections
 	Canada
 		USA
+		Russia
+		UK
 	USA
 		Canada
 		Mexico
+	Mexico
+		Ecuador
+		USA
+	Ecuador
+		Mexico
+		Brazil
+	Brazil
+		Spain
+		Argentina
+	Argentina
+		SouthAfrica
+		Brazil
+	UK
+		Canada
+		France
+	France
+		Spain
+		Germany
+		Italy
+	Spain
+		France
+		Brazil
+	Italy
+		France
+		Germany
+		MiddleEast
+	Germany
+		Russia
+		France
+		Italy
+	Russia
+		Germany
+		MiddleEast
+		China
+		Korea
+		Canada
+	MiddleEast
+		Italy
+		China
+		India
+		NorthAfrica
+	China
+		Japan
+		India
+		MiddleEast
+		Australia
+		Japan
+	Japan
+		China
+	Korea
+		Russia
+		China
+	Australia
+		China
+	India
+		China
+		MiddleEast
+	NorthAfrica
+		MiddleEast
+		SouthAfrica
+	SouthAfrica
+		NorthAfrica
+		Argentina
+
+
+//
+                                                                                       +--------------------------------+
+                                                                                       |                                |
+                                                                                       |                                |
+           +-------------------+                                                       |                                |
+           |                   |                               +------+                |                                |
+           |                   |                               |      |                |                                |
+Russia     |                   +<----------------------------->+  UK  |                |          Russia                |  Canada
+  +------->+      Canada       |                               |      |                |                                +------>
+           |                   |                               +------+   +------------+                                |
+           |                   |                                +---------+           ||                                |
+           +-------------------+                                |        ||  Germany  ||                                |
+              +-----------------+                               | France ||           ||                                +-------+
+              |                 |                               |        |-------------+                                ||Korea |
+              |     USA         |                               +-----|  ++------+     +---------------------------------+      |
+              |                 |                            +-------++--+|      +-+-----------------------------------+ +------+
+              |                 |                            |       |    |      | |               ||                  +------+
+              +-----------------+        +------------------>+ Spain |    | Italy| |               ||                  ||     |
+                 +----------+            |                   |       |    |      | |  MiddleEast   ||     China        ||     |
+                 |  Mexico  |            |                   +-------+    |      | |               ||                  ||Japan|
+                 |          |            |                                +------+ |               ||                  ||     |
+                 +----+-----+            |                                         +----+--+--------+                  ||     |
+                      ^                  |                                              ^  |        |                  ||     |
+                      |                  |                 +------------------------+   |  |        |                  |------+
+                      v                  |                 |                        |   |  |        ---+------------+---+
+                    +-+-------+          |                 |                        +<--+  |   India   |            ^
+                    | Equador |          |                 |     North Africa       |      |           |            |
+                    +---------+          v                 |                        |      |           |            |
+                          +--------------+-+               |                        |      |           |            |
+                          |                |               |                        |      +-----------+            |
+                          |                |               +------------------------+                               v
+                          |     Brazil     |                        +-------------+                               +-+------------------+
+                          |                |                        |             |                               |                    |
+                          +----------------+                        |             |                               |                    |
+                           +------+                                 |             |                               |                    |
+                           |      |                                 |             |                               |     Australia      |
+                           |      |                                 |  South      |                               |                    |
+                           |      +-------------------------------->+  Africa     |                               |                    |
+                           |      |                                 |             |                               |                    |
+                           |      +                                 |             |                               +--------------------+
+                           |Argentina                               |             |
+                           |      +                                 |             |
+                           |      |                                 |             |
+                           |      |                                 +-------------+
+                           +------+
+
+//

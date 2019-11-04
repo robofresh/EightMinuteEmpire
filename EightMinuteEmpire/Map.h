@@ -35,6 +35,7 @@ public:
 
 	~Country();
 
+	bool* isStartingCountry;
 	string *name;
 
 	vector<Country*> *adjCountries; //pointer to a vector of pointers to all adjacent countries
@@ -44,6 +45,7 @@ public:
 	Player* owningPlayer; //pointer to the owning player
 
 	Army* getArmy(Player*);
+	bool removeArmy(Army*);
 
 };
 
@@ -56,6 +58,8 @@ public:
 
 	Country* createCountry(string, Continent*);
 	Continent* createContinent(string);
+
+	Country* startingCountry;
 
 	vector<Country*> *mapCountries; //pointer to a vector of pointers to all Countries
 	vector<Continent*>* mapContinents; //ditto for continents
