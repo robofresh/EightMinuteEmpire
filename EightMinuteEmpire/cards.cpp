@@ -141,7 +141,7 @@ Hand::~Hand()
 
 Cards* Hand::exchange(int index)
 {
-	cout << "selected " << index << endl;
+	cout << "Selected card at position: " << index << endl;
 	Cards* tmp = faceupcards->at(index);
 	faceupcards->erase(faceupcards->begin() + index);
 	mainDeck->draw();
