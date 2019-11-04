@@ -46,8 +46,13 @@ MapLoader::MapLoader(string file, Map* map)
 	if (mapFile->is_open())
 	{
 		processFile(mapFile, map);
+		delete mapFile;
 	}
-	else { throw MapLoaderException("File not found."); }
+	else 
+	{
+		delete mapFile;
+		throw MapLoaderException("File not found."); 
+	}
 }
 
 //takes in a ifstream pointer and the map sent to the loader
@@ -258,4 +263,5 @@ bool validateString(string* str)
 }
 
 MapLoader::~MapLoader()
-{/*Intentionally Empty*/}
+{
+}
