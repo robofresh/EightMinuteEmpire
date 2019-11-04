@@ -305,7 +305,7 @@ int main()
 			try
 			{
 				deck->cardsSpace->print();
-				cout << currentPlayer->name;
+				cout << *currentPlayer->name;
 				cout << " !Select one of the face-up cards" << endl;
 				cin >> cardPosition;
 				if (std::cin.fail())
