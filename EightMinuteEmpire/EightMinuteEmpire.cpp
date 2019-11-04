@@ -9,6 +9,24 @@
 
 using namespace std;
 
+struct InputException : public exception
+{
+	const char* what() const throw()
+	{
+		return "Your input is invalid.";
+	}
+};
+
+struct InsufficientCoinsException : public exception
+{
+	const char* what() const throw()
+	{
+		return "Player does not have enough coins.";
+	}
+};
+
+
+
 int getNumOfPlayers()
 {
 	int playerInput;
@@ -49,9 +67,10 @@ int determineMaxCards(int num_player)
 	case 4:
 		return MAX_CARDS4;
 			break;
-	case 5:
+	default:
 		return MAX_CARDS5;
 			break;
+
 	}
 }
 
@@ -267,18 +286,51 @@ int main()
 //				Part 3: Main Game Loop
 // #################################################
 	
-	//Temporary run while we wait for endGame implementation
-	int end = 0;
 	int newIndex;
 	do
 	{
 		//Current user takes one face-up card & pay the cost of the card
 		Cards* chosenCard;
 		int cardPosition;
+		bool enoughCoins;
 
-		deck->cardsSpace->print();
-		cout << "Select one of the face-up cards" << endl;
-		cin >> cardPosition;
+		do
+		{
+			enoughCoins = true;
+			try
+			{
+				deck->cardsSpace->print();
+				cout << "Select one of the face-up cards" << endl;
+				cin >> cardPosition;
+				if (std::cin.fail())
+					throw InputException();
+				if (*currentPlayer->numCoins <= 3)
+				{
+					if (*currentPlayer->numCoins == 0 && cardPosition != 1)
+						throw InsufficientCoinsException();
+					if(*currentPlayer->numCoins == 1 && 
+						(cardPosition == 6 || cardPosition == 5 || cardPosition == 4))
+						throw InsufficientCoinsException();
+					if (*currentPlayer->numCoins == 2 &&
+						(cardPosition == 6))
+						throw InsufficientCoinsException();
+				}	
+			}
+			catch (InputException e)
+			{
+				cout << e.what() << endl;
+				cout << "Game will close down!" << endl;
+				exit(0);
+
+			}
+			catch (InsufficientCoinsException e)
+			{
+				cout << e.what() << endl;
+				enoughCoins = false;
+			}
+
+		} while (!enoughCoins && !(cardPosition >= 1 && cardPosition <= 6));
+	
 		cardPosition = cardPosition - 1;
 		chosenCard = new Cards(*deck->cardsSpace->faceupcards->at(cardPosition));
 
@@ -334,6 +386,7 @@ int main()
 
 	cout << "END OF GAME" << endl;
 
+	//COMPUTE SCORE HERE
 
 
 

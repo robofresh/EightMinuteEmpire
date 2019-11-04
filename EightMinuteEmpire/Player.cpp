@@ -3,6 +3,15 @@
 #include "BidingFacility.h"
 #include "cards.h"
 
+struct InsufficientCoinsException : public exception
+{
+	const char* what() const throw()
+	{
+		return "Player does not have enough coins.";
+	}
+};
+
+
 Army::Army()
 	: player(nullptr), occupiedCountry(nullptr) {}
 
@@ -237,10 +246,25 @@ void Player::moveOverLand(Country* initCountry, Country* finalCountry)
 
 void Player::payCoin(int amount, int* supply)
 {
-	*(this->numCoins) = *(this->numCoins) - amount;
-	*supply = *supply + amount;
+	try
+	{
+		if ((*(this->numCoins) - amount) < 0)
+			throw InsufficientCoinsException();
+		else
+		{
+			*(this->numCoins) = *(this->numCoins) - amount;
+			*supply = *supply + amount;
+		}
+	}
+	catch (InsufficientCoinsException e)
+	{
+		cout << e.what();
+		return ;
+	}
+
 	cout << *(this->name) << " is paying " << amount << " coins." << endl;
 	cout << *(this->name) << " now has " << *(this->numCoins) << " coins." << endl;
+
 }
 
 void Player::placeNewArmies(Country* country, int amount)
