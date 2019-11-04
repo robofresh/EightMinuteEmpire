@@ -171,10 +171,10 @@ void Deck::updateCardsSpace(Deck* deck, int position)
 void Hand::print()
 {
 	cout << "Here are the face-up cards:" << endl;
-	cout << "[card 1] [card 2] [card 3] [card 4] [card 5] [card 6]" << endl;
+	cout << "[card 1: cost 0] [card 2: cost 1] [card 3: cost 1] [card 4: cost 2] [card 5: cost 2] [card 6: cost 3]" << endl;
 	for (int i = 0; i < 6; i++)
 	{
-		cout << " Card " << (i + 1) << endl;
+		cout << " Card " << (i + 1) <<" : ";
 		try
 		{
 			if (faceupcards->at(i)==nullptr)
@@ -201,8 +201,8 @@ void Cards::print()
 		if (this != nullptr)
 		{
 			int* temp;
-			cout << "Good is : " << *good << endl;
-			cout << "Action is : ";
+			cout << "[Good is : " << *good ;
+			cout << ", Action is : ";
 			temp = new int(this->actions->size());
 
 			if (temp != 0)
@@ -211,13 +211,15 @@ void Cards::print()
 				{
 					cout << *actions->at(j) << " ";
 				}
-				cout << endl;
+				cout << "]";
+			
 			}
 		}
 		else
 		{
 			cout << "Empty card" << endl;
 		}
+		cout << endl;
 	}
 	catch (const std::exception& e)
 	{

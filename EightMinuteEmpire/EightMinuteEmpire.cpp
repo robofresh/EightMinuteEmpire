@@ -334,7 +334,7 @@ int main()
 				enoughCoins = false;
 			}
 
-		} while (!enoughCoins && !(cardPosition >= 1 && cardPosition <= 6));
+		} while (!(cardPosition >= 1 && cardPosition <= 6)|| !enoughCoins );
 	
 		cardPosition = cardPosition - 1;
 		chosenCard = deck->cardsSpace->faceupcards->at(cardPosition);
