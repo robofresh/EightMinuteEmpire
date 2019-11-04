@@ -288,7 +288,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 			}
 
 
-			if (string("moveWater").compare(action) == 0)
+			if (string("waterMove").compare(action) == 0)
 			{
 				if (player->armies->at(armyID)->occupiedCountry != nullptr)
 				{
@@ -299,7 +299,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 					{
 						string countryName;
 						cout << "\tPlease give a valid name for a country to move army " << armyID + 1 << " across land or water to; ";
-						cout << "\tthe possible adjacent countries are (-1 to change army selection): " << endl;
+						cout << "the possible adjacent countries are (-1 to change army selection): " << endl;
 						for (int j = 0; j < player->armies->at(armyID)->occupiedCountry->adjCountries->size(); j++)
 						{
 							cout << "\t" << *player->armies->at(armyID)->occupiedCountry->adjCountries->at(j)->name << endl;
@@ -357,7 +357,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 						}
 
 						cout << "\tPlease give a valid name for a country in " << *army->occupiedCountry->parentContinent->name << " to move army " << armyID + 1 << " to; ";
-						cout << "\tthe possible adjacent countries are (-1 to change army selection): " << endl;
+						cout << "the possible adjacent countries are (-1 to change army selection): " << endl;
 						for (int j = 0; j < player->armies->at(armyID)->occupiedCountry->adjCountries->size(); j++)
 						{
 							//if the army's country is adjacent to the selected country and if they are in the same continent

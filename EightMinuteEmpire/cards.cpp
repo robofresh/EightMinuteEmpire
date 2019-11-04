@@ -258,7 +258,7 @@ void shuffleAndAddCards(Deck* deck)
 {
 	vector<Cards*>* allCards = new vector<Cards*>();//Vectors of all hardcoded cards
 
-	//wild, create 2 armies
+	// create 2 armies
 	allCards->push_back
 	(
 		new Cards(
