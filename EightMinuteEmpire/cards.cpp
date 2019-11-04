@@ -273,6 +273,17 @@ void shuffleAndAddCards(Deck* deck)
 	allCards->push_back
 	(
 		new Cards(
+			"wild",
+			new vector<string*>
+			{
+				new string("waterMove"), new string("2")
+			}
+		)
+	);
+
+	allCards->push_back
+	(
+		new Cards(
 			"coal",
 			new vector<string*>
 			{
@@ -667,28 +678,6 @@ void shuffleAndAddCards(Deck* deck)
 			new vector<string*>
 			{
 				new string("waterMove"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("move"), new string("4")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("createCity"), new string("1")
 			}
 		)
 	);

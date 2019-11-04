@@ -229,11 +229,11 @@ int main()
 	cout << "You've selected the following map: " << endl;
 	map->print();
 	cout << endl;
-	Country* startingCountry = map->mapCountries->at(0); // SHOULD WE DECIDE THIS ANOTHER WAY?
+	Country* startingCountry = map->startingCountry; //Starting country is loaded from map
 
 	// Create deck with 42 cards. Shuffle method is done when creating a deck
 	Deck* deck = new Deck();
-	cout << "All " << deck->stackofCards->size() << "cards  are shuffled and then putted into a deck and assigned to the game.\n" << endl;
+	cout << "All " << deck->stackofCards->size() << " cards are shuffled and then putted into a deck and assigned to the game.\n" << endl;
 		
 	// Select number of players.
 	const int NUM_PLAYERS = getNumOfPlayers();	
@@ -305,7 +305,8 @@ int main()
 			try
 			{
 				deck->cardsSpace->print();
-				cout << "Select one of the face-up cards" << endl;
+				cout << currentPlayer->name;
+				cout << " !Select one of the face-up cards" << endl;
 				cin >> cardPosition;
 				if (std::cin.fail())
 					throw InputException();
