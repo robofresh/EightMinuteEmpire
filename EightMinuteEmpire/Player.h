@@ -59,6 +59,8 @@ public:
 	vector<string*>* goods;
 	BidingFacility* bidFacObj;
 	int* numPlayer;
+	int* victoryPoint;
+	vector<Player*>* scores;
 
 	void createArmies();
 	void createCities();

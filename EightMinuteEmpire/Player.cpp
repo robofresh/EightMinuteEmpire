@@ -49,6 +49,8 @@ Player::Player()
 	hand = new Hand();
 	goods = new vector<string*>();
 	bidFacObj = new BidingFacility(this);
+	victoryPoint = new int(0);
+	scores = new vector <Player*>();
 }
 
 Player::Player(string inputName, int inputAge, int coinAmount, string selectedColor, Deck* mainDeck)
@@ -63,6 +65,8 @@ Player::Player(string inputName, int inputAge, int coinAmount, string selectedCo
 	hand = new Hand(mainDeck);
 	goods = new vector<string*>();
 	bidFacObj = new BidingFacility(this);
+	victoryPoint = new int();
+	scores = new vector <Player*>();
 
 	this->createArmies();
 	this->createCities();
@@ -91,6 +95,8 @@ Player::~Player()
 	hand = NULL;
 	goods = NULL;
 	bidFacObj = NULL;
+	victoryPoint = NULL;
+	scores = NULL;
 }
 
 int Player::availableCities()
@@ -279,7 +285,10 @@ void Player::pickUpCard(Cards* card,int position, int* supply)
 }
 void computeScore(Player* player)
 {	
-	if ()
+	int* victoryPoint = 0;
+	if (player->ownedCountries != NULL)
+		victoryPoint++;
+	if (player ->)
 }
 
 

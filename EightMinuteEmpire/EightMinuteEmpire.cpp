@@ -153,17 +153,6 @@ void bidFirstPlayer(vector<Player*>* players, const int numCoinsPerPlayer, int* 
 	players->at(0)->bidFacObj->startBidProcess(supply);
 }
 
-int getCardsOnHand()
-{
-	int cardsOnHand;
-	while (true)
-	{
-
-	}
-	return cardsOnHand;
-}
-
-
 int main()
 {
 	// #################################################

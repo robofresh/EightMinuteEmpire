@@ -122,6 +122,36 @@ void Deck::initialDraw() //one time only, when the game is started
 	}
 }
 
+int coal[4][4] = 
+{
+	{2, 3, 4, 5}, 
+	{1, 2, 3, 5}
+};
+
+int anvil[4][4] =
+{
+	{2, 4, 6, 7},
+	{1, 2, 3, 5}
+};
+
+int lumber[4][4] =
+{
+	{2, 4, 5, 6},
+	{1, 2, 3, 5}
+};
+
+int crystal[4][4] =
+{
+	{1, 2, 3, 4},
+	{1, 2, 3, 5}
+};
+
+int carrot[4][4] =
+{
+	{3, 5, 6, 7},
+	{1, 2, 3, 5}
+};
+
 void Deck::print()
 {
 	stack<Cards*> tmp;
