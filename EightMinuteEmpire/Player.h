@@ -60,8 +60,8 @@ public:
 	BidingFacility* bidFacObj;
 	int* numPlayer;
 	int* victoryPoint;
-	vector<Player*>* scores;
-
+	vector<Player*>* scores; 
+	
 	void createArmies();
 	void createCities();
 	int availableCities();

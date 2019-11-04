@@ -289,6 +289,7 @@ void computeScore(Player* player)
 	if (player->ownedCountries != NULL)
 		victoryPoint++;
 	if (player ->)
+		victoryPoint++;
 }
 
 

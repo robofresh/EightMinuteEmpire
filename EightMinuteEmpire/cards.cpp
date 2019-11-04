@@ -122,22 +122,84 @@ void Deck::initialDraw() //one time only, when the game is started
 	}
 }
 
-int coal[4][4] = 
+void goodPoints(vector<Cards*>* playerCards)
 {
-	{2, 3, 4, 5}, 
-	{1, 2, 3, 5}
+	getCoalPoint(playerCards)+getAnvilPoint(playerCards)
+	+getTreePoint(playerCards)+getCrystalPoint(playerCards)
+	+getCarrotPoint(playerCards);
+}
+
+int getCoalPoint(vector<Cards*>* playerCards)
+{
+	int temp = 0;
+	for (int i =0 ; i <= playerCards->size; i++)
+	{
+		if (*deck->drawingcards->playerCards->at(i) == "coal")
+			temp++;
+	}
+	return coal[temp][temp];
+}
+
+int getAnvilPoint(vector<Cards*>* playerCards)
+{
+	int temp = 0;
+	for (int i = 0; i <= playerCards->size; i++)
+	{
+		if (*deck->drawingcards->playerCards->at(i) == "anvil")
+			temp++;
+	}
+	return anvil[temp][temp];
+}
+
+int getTreePoint(vector<Cards*>* playerCards)
+{
+	int temp = 0;
+	for (int i = 0; i <= playerCards->size; i++)
+	{
+		if (*deck->drawingcards->playerCards->at(i) == "tree")
+			temp++;
+	}
+	return tree[temp][temp];
+}
+
+int getCrystalPoint(vector<Cards*>* playerCards)
+{
+	int temp = 0;
+	for (int i = 0; i <= playerCards->size; i++)
+	{
+		if (*deck->drawingcards->playerCards->at(i) == "crystal")
+			temp++;
+	}
+	return crystal[temp][temp];
+}
+
+int getCarrotPoint(vector<Cards*>* playerCards)
+{
+	int temp = 0;
+	for (int i = 0; i <= playerCards->size; i++)
+	{
+		if (*deck->drawingcards->playerCards->at(i) == "carrot")
+			temp++;
+	}
+	return carrot[temp][temp];
+}
+
+int coal[5][5] = 
+{
+	{1, 2, 3, 4, 5}, 
+	{0, 1, 2, 3, 5}
 };
 
-int anvil[4][4] =
+int anvil[7][7] =
 {
-	{2, 4, 6, 7},
-	{1, 2, 3, 5}
+	{1, 2, 3, 4, 5, 6, 7},
+	{0, 1, 1, 2, 2, 3, 5}
 };
 
-int lumber[4][4] =
+int tree[6][6] =
 {
-	{2, 4, 5, 6},
-	{1, 2, 3, 5}
+	{1, 2, 3, 4, 5, 6},
+	{0, 1, 1, 2, 3, 5}
 };
 
 int crystal[4][4] =
@@ -146,10 +208,10 @@ int crystal[4][4] =
 	{1, 2, 3, 5}
 };
 
-int carrot[4][4] =
+int carrot[7][7] =
 {
-	{3, 5, 6, 7},
-	{1, 2, 3, 5}
+	{1, 2, 3, 4, 5, 6, 7},
+	{0, 0, 1, 1, 2, 3, 5}
 };
 
 void Deck::print()
