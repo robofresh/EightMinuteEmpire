@@ -8,11 +8,13 @@
 //#include <random>
 //#include <iostream>
 //#include <stack>
+//#include <ctime>
 //
 //using namespace std;
 //void shuffleCards(vector<Cards*>*);
 //void shuffleCards(vector<Cards*>* listCard)
 //{
+//	srand((unsigned)time(0));
 //
 //	for (int i = 0; i < listCard->size(); i++)
 //	{

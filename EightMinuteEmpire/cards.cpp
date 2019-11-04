@@ -7,6 +7,7 @@
 #include <exception>
 #include "Player.h"
 #include "Cards.h"
+#include <ctime>
 
 using namespace std;
 
@@ -671,6 +672,7 @@ void shuffleAndAddCards(Deck* deck)
 
 void shuffleCards(vector<Cards*>* listCard)
 {
+	srand((unsigned)time(0));
 	
 	for (int i = 0; i < listCard->size(); i++)
 	{
