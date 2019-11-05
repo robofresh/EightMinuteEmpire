@@ -119,6 +119,7 @@ Hand::Hand()
 {
 	faceupcards = new vector <Cards*>();
 	mainDeck = nullptr;
+	goods = new int(0);
 
 }
 
@@ -126,6 +127,7 @@ Hand::Hand(Deck* deck)
 {
 	faceupcards = new vector <Cards*>();
 	mainDeck = deck;
+	goods = new int(0);
 
 }
 
@@ -133,9 +135,11 @@ Hand::Hand(Deck* deck)
 Hand::~Hand()
 {
 	delete faceupcards;
+	delete goods;
 
 	faceupcards = NULL;
 	mainDeck = NULL;
+	goods = nullptr;
 
 }
 
@@ -258,7 +262,18 @@ void shuffleAndAddCards(Deck* deck)
 {
 	vector<Cards*>* allCards = new vector<Cards*>();//Vectors of all hardcoded cards
 
-	//wild, create 2 armies
+	// create 2 armies
+	allCards->push_back
+	(
+		new Cards(
+			"wild",
+			new vector<string*>
+			{
+				new string("waterMove"), new string("2")
+			}
+		)
+	);
+
 	allCards->push_back
 	(
 		new Cards(
@@ -619,7 +634,7 @@ void shuffleAndAddCards(Deck* deck)
 	allCards->push_back
 	(
 		new Cards(
-			"anvil2",
+			"2anvil",
 			new vector<string*>
 			{
 				new string("move"), new string("4")
@@ -652,7 +667,7 @@ void shuffleAndAddCards(Deck* deck)
 	allCards->push_back
 	(
 		new Cards(
-			"carrot2",
+			"2carrot",
 			new vector<string*>
 			{
 				new string("placeArmies"), new string("3")
@@ -666,29 +681,7 @@ void shuffleAndAddCards(Deck* deck)
 			"carrot",
 			new vector<string*>
 			{
-				new string("moveWater"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("move"), new string("4")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("createCity"), new string("1")
+				new string("waterMove"), new string("3")
 			}
 		)
 	);

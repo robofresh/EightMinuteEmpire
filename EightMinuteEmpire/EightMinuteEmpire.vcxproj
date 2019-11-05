@@ -24,6 +24,7 @@
     <ClCompile Include="ActionsDriver.cpp" />
     <ClCompile Include="BidingFacility.cpp" />
     <ClCompile Include="cards.cpp" />
+    <ClCompile Include="computeScore.cpp" />
     <ClCompile Include="EightMinuteEmpire.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapLoader.cpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="Actions.h" />
     <ClInclude Include="BidingFacility.h" />
     <ClInclude Include="cards.h" />
+    <ClInclude Include="computeScore.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="Player.h" />

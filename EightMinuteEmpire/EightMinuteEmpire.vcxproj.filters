@@ -10,6 +10,7 @@
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="EightMinuteEmpire.cpp" />
+    <ClCompile Include="computeScore.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />
@@ -18,6 +19,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="computeScore.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="map1.map" />

@@ -56,8 +56,9 @@ Player::Player()
 	cities = new vector<City*>();
 	ownedCountries = new vector<Country*>();
 	hand = new Hand();
-	goods = new vector<string*>();
 	bidFacObj = new BidingFacility(this);
+	victoryPoint = new int(0);
+	scores = new vector <Player*>();
 }
 
 Player::Player(string inputName, int inputAge, int coinAmount, string selectedColor, Deck* mainDeck)
@@ -70,8 +71,9 @@ Player::Player(string inputName, int inputAge, int coinAmount, string selectedCo
 	cities = new vector<City*>();
 	ownedCountries = new vector<Country*>();
 	hand = new Hand(mainDeck);
-	goods = new vector<string*>();
 	bidFacObj = new BidingFacility(this);
+	victoryPoint = new int(0);
+	scores = new vector <Player*>();
 
 	this->createArmies();
 	this->createCities();
@@ -89,7 +91,7 @@ Player::~Player()
 		delete cities->at(i);
 		cities->at(i) = NULL;
 	}
-	delete name, age, numCoins, color, armies, cities, ownedCountries, hand, goods, bidFacObj;
+	delete name, age, numCoins, color, armies, cities, ownedCountries, hand, bidFacObj;
 	name = NULL;
 	age = NULL;
 	numCoins = NULL;
@@ -98,8 +100,9 @@ Player::~Player()
 	cities = NULL;
 	ownedCountries = NULL;
 	hand = NULL;
-	goods = NULL;
 	bidFacObj = NULL;
+	victoryPoint = NULL;
+	scores = NULL;
 }
 
 int Player::availableCities()
@@ -183,7 +186,6 @@ void Player::printPlayer()
 		{
 			cout << "\t\t\t" << "Army " << i+1 << " is in " << *armies->at(i)->occupiedCountry->name << endl;
 		}
-
 	}
 	cout << "\t\t" << this->cities->size() << " cities (discs)." << endl;
 	for (int i = 0; i < cities->size(); i++)
@@ -198,9 +200,10 @@ void Player::printPlayer()
 		}
 
 	}
-	cout << "\t" << *(this->name) << " owns " << this->ownedCountries->size() << " countries, and has " << this->goods->size() << " goods collected." << endl;
+	cout << "\t" << *(this->name) << " owns " << this->ownedCountries->size() << " countries, and has " << *this->hand->goods << " goods collected." << endl;
 	cout << "\t" << *(this->name) << " has " << this->hand->faceupcards->size() << " cards in hand." << endl;
 	cout << "\t" << *(this->name) << " has their own bidding facility.\n" << endl;
+	cout << "\t" << *name << " has " << *victoryPoint << " points." << endl;
 }
 
 void Player::buildCity(Country* country)
@@ -308,6 +311,154 @@ void Player::payCard(Cards* card,int position, int* supply)
 	}
 	
 }
+
+/*
+1 country = 1 point
+more armies than other player in a country, 
+cities counted as armies, if the numer is the same, no point for everyone
+*/
+
+
+int getCoalPoint(Hand* hand)
+{
+	int coal[6] =
+	{
+		0, 0, 1, 2, 3, 5
+	};
+
+	int temp = 0;
+	for (int i = 0; i < hand->faceupcards->size(); i++)
+	{
+		if (hand->faceupcards->at(i)->good->compare("coal") == 0)
+		{
+			temp++;
+			++* hand->goods;
+		}
+
+	}
+	return coal[temp];
+}
+
+int getAnvilPoint(Hand* hand)
+{
+	int anvil[8] =
+	{
+		0, 0, 1, 1, 2, 2, 3, 5
+	};
+
+	int temp = 0;
+	for (int i = 0; i < hand->faceupcards->size(); i++)
+	{
+		if (hand->faceupcards->at(i)->good->compare("2anvil") == 0)
+		{
+			temp = temp + 2;
+			*hand->goods = *hand->goods + 2;
+			continue;
+
+		}
+		if (hand->faceupcards->at(i)->good->compare("anvil") == 0)
+		{
+			temp++;
+			++* hand->goods;
+		}
+	}
+	return anvil[temp];
+}
+
+int getTreePoint(Hand* hand)
+{
+
+	int tree[7] =
+	{
+		0, 0, 1, 1, 2, 3, 5
+	};
+
+	int temp = 0;
+	for (int i = 0; i < hand->faceupcards->size(); i++)
+	{
+		if (hand->faceupcards->at(i)->good->compare("tree") == 0)
+		{
+			temp++;
+			++* hand->goods;
+		}
+	}
+	return tree[temp];
+}
+
+int getGemPoint(Hand* hand)
+{
+	int gem[5] =
+	{
+		0, 1, 2, 3, 5
+	};
+
+	int temp = 0;
+	for (int i = 0; i < hand->faceupcards->size(); i++)
+	{
+		if (hand->faceupcards->at(i)->good->compare("gem") == 0)
+		{
+			temp++;
+			++* hand->goods;
+		}
+	
+	}
+	return gem[temp];
+}
+
+int getCarrotPoint(Hand* hand)
+{
+	int carrot[9] =
+	{
+		0, 0, 0, 1, 1, 2, 2, 3, 5
+	};
+
+	int temp = 0;
+	for (int i = 0; i < hand->faceupcards->size(); i++)
+	{
+		if (hand->faceupcards->at(i)->good->compare("2carrot") == 0)
+		{
+			temp= temp +2;
+			*hand->goods = *hand->goods +2;
+			continue;
+		}
+		if (hand->faceupcards->at(i)->good->compare("carrot") == 0)
+		{
+			temp++;
+			++* hand->goods;
+
+		}
+		
+	}
+	return carrot[temp];
+}
+
+int goodPoints(Hand* hand)
+{
+	//Printing all the hand if needed for TA
+
+	//cout << " Hand's goods are : ";
+	//for (int i = 0; i < hand->faceupcards->size(); i++)
+	//{
+	//	cout << *hand->faceupcards->at(i)->good
+	//		<< " , ";
+	//}
+	//cout << " ." << endl;
+
+	return getCoalPoint(hand) + getAnvilPoint(hand)
+		+ getTreePoint(hand) + getGemPoint(hand)
+		+ getCarrotPoint(hand);
+}
+
+
+void Player::computeScore(Map* map)
+{	
+	*victoryPoint += ownedCountries->size();
+	*victoryPoint += goodPoints(hand);
+}
+
+
+
+
 
 // References
 // [1] https://thispointer.com/c-how-to-find-an-element-in-vector-and-get-its-index/

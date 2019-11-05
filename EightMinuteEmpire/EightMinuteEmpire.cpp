@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "MapLoader.h"
 #include "Actions.h"
+#include "computeScore.h"
 
 using namespace std;
 
@@ -218,7 +219,7 @@ int main()
 			mapLoader = new MapLoader(mapFileName, map);
 			break;
 		}
-		catch (const MapLoaderException& e)
+		catch (const MapLoaderException & e)
 		{
 			cout << e.message << endl;
 			cout << "Try again." << endl;
@@ -229,15 +230,15 @@ int main()
 	cout << "You've selected the following map: " << endl;
 	map->print();
 	cout << endl;
-	Country* startingCountry = map->mapCountries->at(0); // SHOULD WE DECIDE THIS ANOTHER WAY?
+	Country* startingCountry = map->startingCountry; //Starting country is loaded from map
 
 	// Create deck with 42 cards. Shuffle method is done when creating a deck
 	Deck* deck = new Deck();
-	cout << "All " << deck->stackofCards->size() << "cards  are shuffled and then putted into a deck and assigned to the game.\n" << endl;
+	cout << "All " << deck->stackofCards->size() << " cards are shuffled and then putted into a deck and assigned to the game.\n" << endl;
 		
 	// Select number of players.
-	const int NUM_PLAYERS = getNumOfPlayers();	
-	const int NUM_COINS_PER_PLAYER = getNumCoinsPerPlayer(NUM_PLAYERS);	
+	const int NUM_PLAYERS = getNumOfPlayers();
+	const int NUM_COINS_PER_PLAYER = getNumCoinsPerPlayer(NUM_PLAYERS);
 
 	// Create correct number of players.
 	vector<Player*>* players = new vector<Player*>();
@@ -271,7 +272,7 @@ int main()
 	currentPlayer = players->at(0)->bidFacObj->winner;
 	auto it = find(players->begin(), players->end(), currentPlayer);
 	if (it != players->end())
-	{ 
+	{
 		*currentPlayerIndex = static_cast<int>(distance(players->begin(), it));
 	}
 	players->at(0)->bidFacObj->clearBidingFacility();
@@ -305,7 +306,8 @@ int main()
 			try
 			{
 				deck->cardsSpace->print();
-				cout << "Select one of the face-up cards" << endl;
+				cout << *currentPlayer->name;
+				cout << "! Select one of the face-up cards" << endl;
 				cin >> cardPosition;
 				if (std::cin.fail())
 					throw InputException();
@@ -381,7 +383,7 @@ int main()
 			cout << "Every Players has " ;
 			cout << currentPlayer->hand->faceupcards->size() << " cards. "<<endl;
 			cout << "Max cards each player can own has been reach. " << endl;
-			cout << MAX_CARDS << endl;
+			//cout << MAX_CARDS << endl;
 			endGame = true;
 		}
 
@@ -392,10 +394,62 @@ int main()
 	cout << "END OF GAME" << endl;
 
 	//COMPUTE SCORE HERE
+	for (int i = 0; i < players->size(); i++)
+	{
+		players->at(i)->computeScore(map);
+	}
+
+	computeScore score = computeScore();
+	score.continentScore(map, players);
+
+	Player* winner = players->at(0);
+	for (int i = 0; i < players->size(); i++)
+	{
+		if (*players->at(i)->victoryPoint > *winner->victoryPoint)
+		{
+			winner = players->at(i);
+			continue;
+		}
+		if (*players->at(i)->victoryPoint == *winner->victoryPoint)
+		{
+			if (*players->at(i)->numCoins > * winner->numCoins)
+			{
+				winner = players->at(i);
+				continue;
+			}
+			if (*players->at(i)->victoryPoint == *winner->victoryPoint)
+			{
+				if ((14 - players->at(i)->availableArmies()) > 14 - winner->availableArmies())
+				{
+					winner = players->at(i);
+					continue;
+				}
+				if ((14 - players->at(i)->availableArmies()) == 14 - winner->availableArmies())
+				{
+					if (players->at(i)->ownedCountries->size() > winner->ownedCountries->size())
+					{
+						winner = players->at(i);
+					}
+				}
+			}
+		}
+	}
+
+	cout << "The winner is " << *winner->name << endl;
+
+	for (int i = 0; i < players->size(); i++)
+	{
+		players->at(i)->printPlayer();
+	}
+
+	int wait;
+	cin >> wait;
 
 
 
-
+// #################################################
+//			Part 6: Game End, Compute Score
+// #################################################
 
 
 	// #################################################

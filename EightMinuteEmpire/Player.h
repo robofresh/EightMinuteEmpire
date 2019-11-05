@@ -56,9 +56,12 @@ public:
 	vector<City*>* cities;
 	vector<Country*>* ownedCountries;
 	Hand* hand;
-	vector<string*>* goods;
+	//vector<string*>* goods;
 	BidingFacility* bidFacObj;
-
+	int* numPlayer;
+	int* victoryPoint;
+	vector<Player*>* scores; 
+	
 	void createArmies();
 	void createCities();
 	int availableCities();
@@ -72,6 +75,7 @@ public:
 	void moveOverLand(Country*, Country*);
 	void buildCity(Country*);
 	void destroyArmy(Country*, Player*);
+	void computeScore(Map*);
 	void ignore(Cards*);
 	void payCard(Cards*, int, int*);
 };
