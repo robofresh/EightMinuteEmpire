@@ -473,7 +473,6 @@ int main()
 	currentPlayer = NULL;
 	delete currentPlayerIndex;
 	currentPlayerIndex = NULL;
-	delete lastPlayer;
 	lastPlayer = NULL;
 	delete action;
 	action = NULL;
