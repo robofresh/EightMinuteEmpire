@@ -210,7 +210,7 @@ void Player::buildCity(Country* country)
 {
 	City* availableCity = this->getAvailableCity();
 	availableCity->occupiedCountry = country;
-	country->cities->push_back(availableCity);
+	country->addCity(availableCity);
 	cout << *(this->name) << " now has a city built in " << *(country->name) << endl;
 }
 
@@ -218,22 +218,15 @@ void Player::destroyArmy(Country* country, Player* otherPlayer)
 {
 	Army* selectedArmy = country->getArmy(otherPlayer);
 	selectedArmy->occupiedCountry = nullptr;
-	// Reference for following lines [1]
-	auto it = find(country->occupyingArmies->begin(), country->occupyingArmies->end(), selectedArmy);
-	if (it != country->occupyingArmies->end()) { country->occupyingArmies->erase(it); }	
+	country->removeArmy(selectedArmy);
 	cout << *(this->name) << " destroyed an army of " << *(otherPlayer->name) << "'s in " << *(country->name) << endl;
 }
 
-void Player::moveArmies(Country* initCountry, Country* finalCountry, int amount)
+void Player::moveArmies(Country* initCountry, Country* finalCountry)
 {
-	for (amount; amount > 0; amount--)
-	{
-		Army* selectedArmy = initCountry->getArmy(this);
-		selectedArmy->occupiedCountry = finalCountry;
-		finalCountry->occupyingArmies->push_back(selectedArmy);
-		auto it = find(initCountry->occupyingArmies->begin(), initCountry->occupyingArmies->end(), selectedArmy);
-		if (it != initCountry->occupyingArmies->end()) { initCountry->occupyingArmies->erase(it); }
-	}
+	Army* selectedArmy = initCountry->getArmy(this);
+	selectedArmy->occupiedCountry = finalCountry;
+	initCountry->moveArmy(finalCountry, selectedArmy);
 	cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;
 }
 
@@ -241,9 +234,7 @@ void Player::moveOverLand(Country* initCountry, Country* finalCountry)
 {
 	Army* selectedArmy = initCountry->getArmy(this);
 	selectedArmy->occupiedCountry = finalCountry;
-	finalCountry->occupyingArmies->push_back(selectedArmy);
-	auto it = find(initCountry->occupyingArmies->begin(), initCountry->occupyingArmies->end(), selectedArmy);
-	if (it != initCountry->occupyingArmies->end()) { initCountry->occupyingArmies->erase(it); }
+	initCountry->moveArmy(finalCountry, selectedArmy);
 	cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;
 }
 
@@ -276,7 +267,7 @@ void Player::placeNewArmies(Country* country, int amount)
 	{
 		Army* availableArmy = this->getAvailableArmy();
 		availableArmy->occupiedCountry = country;
-		country->occupyingArmies->push_back(availableArmy);
+		country->addArmy(availableArmy);
 		cout << *(this->name) << " placed an army in " << *(country->name) << endl;
 	}
 
@@ -449,16 +440,8 @@ int goodPoints(Hand* hand)
 		+ getCarrotPoint(hand);
 }
 
-
 void Player::computeScore(Map* map)
 {	
 	*victoryPoint += ownedCountries->size();
 	*victoryPoint += goodPoints(hand);
 }
-
-
-
-
-
-// References
-// [1] https://thispointer.com/c-how-to-find-an-element-in-vector-and-get-its-index/

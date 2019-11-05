@@ -47,6 +47,9 @@ public:
 
 	Army* getArmy(Player*);
 	bool removeArmy(Army*);
+	void addCity(City*);
+	void addArmy(Army*);
+	void moveArmy(Country*, Army*);
 
 };
 
@@ -69,7 +72,7 @@ public:
 	Continent* getContinent(string);
 
 	void print();
-
+	void mapNotify();
 };
 
 

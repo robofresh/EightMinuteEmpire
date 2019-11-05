@@ -329,7 +329,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 					}
 					armiesAlreadyMoved.push_back(armyID + 1);
 
-					player->moveArmies(army->occupiedCountry, country, 1);
+					player->moveArmies(army->occupiedCountry, country);
 				}
 			}
 			else

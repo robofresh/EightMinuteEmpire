@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include "Map.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -29,10 +30,11 @@ class GameStatistics : public Observer
 {
 public:
 	GameStatistics();
-	GameStatistics(Map*);
+	GameStatistics(Map*, vector<Player*>*);
 	~GameStatistics();
 	void Update();
 	void display();
 private:
 	Map* mapSubject;
+	vector<Player*>* players;
 };

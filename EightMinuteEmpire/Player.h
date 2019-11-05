@@ -71,7 +71,7 @@ public:
 	void printPlayer();
 	void payCoin(int, int*);
 	void placeNewArmies(Country*, int);
-	void moveArmies(Country*, Country*, int);
+	void moveArmies(Country*, Country*);
 	void moveOverLand(Country*, Country*);
 	void buildCity(Country*);
 	void destroyArmy(Country*, Player*);

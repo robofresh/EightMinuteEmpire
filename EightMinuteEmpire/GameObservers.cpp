@@ -36,9 +36,10 @@ void Subject::Notify()
 GameStatistics::GameStatistics()
 {/*Intentionally Empty*/}
 
-GameStatistics::GameStatistics(Map* map)
+GameStatistics::GameStatistics(Map* map, vector<Player*>* gamePlayers)
 {
 	mapSubject = map;
+	players = gamePlayers;
 	mapSubject->Attach(this);
 }
 

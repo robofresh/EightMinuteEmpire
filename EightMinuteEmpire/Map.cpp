@@ -9,6 +9,11 @@ Map::Map()
 	startingCountry = nullptr;
 }
 
+void Map::mapNotify()
+{
+	Notify();
+}
+
 void Map::print()
 {
 	//go through all continents and print their containedCountries
@@ -174,6 +179,27 @@ Army* Country::getArmy(Player* ofPlayer)
 	return nullptr;
 }
 
+void Country::addCity(City* city)
+{
+	this->cities->push_back(city);
+	// Check and see if the country's owner changed.
+	// Get Singleton Map instance and call map->mapNotify()
+}
+
+void Country::addArmy(Army* army)
+{
+	this->occupyingArmies->push_back(army);
+	// Check and see if the country's owner changed.
+	// Get Map Singleton and call map->mapNotify();
+}
+
+void Country::moveArmy(Country* newCountry, Army* army)
+{
+	newCountry->occupyingArmies->push_back(army);
+	// Check and see if the country's owner changed.
+	this->removeArmy(army);
+}
+
 //not meant to be directly called
 Continent::Continent()
 {
@@ -202,6 +228,8 @@ bool Country::removeArmy(Army* army)
 		if (occupyingArmies->at(i) == army)
 		{
 			occupyingArmies->erase(occupyingArmies->begin() + i);
+			// Check and see if the country's owner changed.
+			// Get Map Singleton and call map->mapNotify();
 			return true;
 		}
 	}
