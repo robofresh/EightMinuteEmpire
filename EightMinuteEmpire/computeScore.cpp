@@ -14,7 +14,7 @@ void computeScore::continentScore(Map* map, vector<Player*>* players)
 
 	for (int k = 0; k < players->size(); k++)
 	{
-		for (int i = 0; i <= map->mapContinents->size(); i++)
+		for (int i = 0; i < map->mapContinents->size(); i++)
 		{
 			for (int j = 0; j < map->mapContinents->at(i)->containedCountries->size(); j++)
 			{
@@ -26,7 +26,7 @@ void computeScore::continentScore(Map* map, vector<Player*>* players)
 
 	int maxCount = 0;
 	int winningPlayer = -1;
-	for (int i = 0; playerCountryCount.size(); i++)
+	for (int i = 0; i < playerCountryCount.size(); i++)
 	{
 		if (playerCountryCount.at(i) > maxCount)
 		{
@@ -35,7 +35,7 @@ void computeScore::continentScore(Map* map, vector<Player*>* players)
 		}
 	}
 
-	for (int i = 0; playerCountryCount.size(); i++)
+	for (int i = 0; i < playerCountryCount.size(); i++)
 	{
 		if (playerCountryCount.at(i) == maxCount)
 		{
