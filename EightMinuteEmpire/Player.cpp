@@ -349,6 +349,13 @@ int getAnvilPoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
+		if (hand->faceupcards->at(i)->good->compare("2anvil") == 0)
+		{
+			temp = temp + 2;
+			*hand->goods = *hand->goods + 2;
+			continue;
+
+		}
 		if (hand->faceupcards->at(i)->good->compare("anvil") == 0)
 		{
 			temp++;
@@ -408,6 +415,12 @@ int getCarrotPoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
+		if (hand->faceupcards->at(i)->good->compare("2carrot") == 0)
+		{
+			temp= temp +2;
+			*hand->goods = *hand->goods +2;
+			continue;
+		}
 		if (hand->faceupcards->at(i)->good->compare("carrot") == 0)
 		{
 			temp++;

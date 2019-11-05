@@ -634,7 +634,7 @@ void shuffleAndAddCards(Deck* deck)
 	allCards->push_back
 	(
 		new Cards(
-			"anvil2",
+			"2anvil",
 			new vector<string*>
 			{
 				new string("move"), new string("4")
@@ -667,7 +667,7 @@ void shuffleAndAddCards(Deck* deck)
 	allCards->push_back
 	(
 		new Cards(
-			"carrot2",
+			"2carrot",
 			new vector<string*>
 			{
 				new string("placeArmies"), new string("3")
