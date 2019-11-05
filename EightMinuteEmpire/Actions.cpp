@@ -46,6 +46,8 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 			{
 				cout << "\tPlease enter a valid choice: ";
 				cin >> selection;
+				cin.clear();
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			}
 
 			//do both actions
@@ -78,6 +80,8 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 			{
 				cout << "\tPlease enter a valid choice: ";
 				cin >> selection;
+				cin.clear();
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			}
 
 			if (selection == 1)
@@ -110,6 +114,8 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 		{
 			cout << "\tPlease enter a valid choice: ";
 			cin >> selection;
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
 
 		if (selection == 1)
@@ -265,6 +271,8 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 			{
 				cout << "\tPlease give a valid placed army number (-1 to exit): ";
 				cin >> armyID;
+				cin.clear();
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 				if (armyID == -1)
 				{
