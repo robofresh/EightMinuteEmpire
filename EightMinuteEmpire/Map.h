@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include <iostream>
+#include "GameObservers.h"
 
 using namespace std;
 
@@ -50,7 +51,7 @@ public:
 };
 
 
-class Map
+class Map : public Subject
 {
 public:
 	Map();
