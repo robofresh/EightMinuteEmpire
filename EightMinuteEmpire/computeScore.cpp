@@ -48,7 +48,11 @@ Player* getOwnerOfCountry(Country* country,vector<Player*>* players)
 		}
 	}
 
-	*owningPlayer->victoryPoint++;
+	if (owningPlayer != nullptr)
+	{
+		*owningPlayer->victoryPoint = *owningPlayer->victoryPoint + 1;
+		owningPlayer->ownedCountries->push_back(country);
+	}
 
 	return owningPlayer;
 
@@ -58,43 +62,47 @@ Player* getOwnerOfCountry(Country* country,vector<Player*>* players)
 void computeScore::continentScore(Map* map, vector<Player*>* players)
 {
 
-	vector<int> playerCountryCount = vector<int>(players->size());
-
-
 	for (int i = 0; i < map->mapContinents->size(); i++)
 	{
+		vector<int> playerCountryCount = vector<int>(players->size());
 
 		for (int j = 0; j < map->mapContinents->at(i)->containedCountries->size(); j++)
 		{
+			getOwnerOfCountry(map->mapContinents->at(i)->containedCountries->at(j), players);
 			for (int k = 0; k < players->size(); k++)
 			{
-				if (getOwnerOfCountry(map->mapContinents->at(i)->containedCountries->at(j), players) == players->at(k))
-					playerCountryCount.at(k)++;
+				for (int t = 0; t < players->at(k)->ownedCountries->size(); t++)
+				{
+					if (map->mapContinents->at(i)->containedCountries->at(j) == players->at(k)->ownedCountries->at(t))
+						playerCountryCount.at(k)++;
+				}
 			}
 		}
 
 		int maxCount = 0;
-		int winningPlayer = -1;
+		Player* winningPlayer = nullptr;
 		for (int i = 0; i < playerCountryCount.size(); i++)
 		{
 			if (playerCountryCount.at(i) > maxCount)
 			{
 				maxCount = playerCountryCount.at(i);
-				winningPlayer = i;
+				winningPlayer = players->at(i);
 			}
 		}
+
 
 		for (int i = 0; i < playerCountryCount.size(); i++)
 		{
-			if (playerCountryCount.at(i) == maxCount)
+			if (playerCountryCount.at(i) == maxCount && players->at(i) != winningPlayer)
 			{
-				winningPlayer = -1;
+				winningPlayer = nullptr;
 			}
 		}
 
-		if (winningPlayer != -1)
+		if (winningPlayer != nullptr)
 		{
-			*players->at(winningPlayer)->victoryPoint = *players->at(winningPlayer)->victoryPoint + 1;
+			winningPlayer->ownedContinents->push_back(map->mapContinents->at(i));
+			*winningPlayer->victoryPoint = *winningPlayer->victoryPoint + 1;
 		}
 
 	}
