@@ -330,9 +330,9 @@ int getCoalPoint(Hand* hand)
 	};
 
 	int temp = 0;
-	for (int i = 0; i <= hand->faceupcards->size(); i++)
+	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("coal"))
+		if (hand->faceupcards->at(i)->good->compare("coal") == 0)
 			temp++;
 	}
 	return coal[temp];
@@ -346,9 +346,9 @@ int getAnvilPoint(Hand* hand)
 	};
 
 	int temp = 0;
-	for (int i = 0; i <= hand->faceupcards->size(); i++)
+	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("anvil"))
+		if (hand->faceupcards->at(i)->good->compare("anvil") == 0)
 			temp++;
 	}
 	return anvil[temp];
@@ -363,9 +363,9 @@ int getTreePoint(Hand* hand)
 	};
 
 	int temp = 0;
-	for (int i = 0; i <= hand->faceupcards->size(); i++)
+	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("tree"))
+		if (hand->faceupcards->at(i)->good->compare("tree") == 0)
 			temp++;
 	}
 	return tree[temp];
@@ -379,9 +379,9 @@ int getGemPoint(Hand* hand)
 	};
 
 	int temp = 0;
-	for (int i = 0; i <= hand->faceupcards->size(); i++)
+	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("cyrstal"))
+		if (hand->faceupcards->at(i)->good->compare("cyrstal") == 0)
 			temp++;
 	}
 	return gem[temp];
@@ -395,9 +395,9 @@ int getCarrotPoint(Hand* hand)
 	};
 
 	int temp = 0;
-	for (int i = 0; i <= hand->faceupcards->size(); i++)
+	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("carrot"))
+		if (hand->faceupcards->at(i)->good->compare("carrot") == 0)
 			temp++;
 	}
 	return carrot[temp];
