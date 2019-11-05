@@ -56,7 +56,6 @@ Player::Player()
 	cities = new vector<City*>();
 	ownedCountries = new vector<Country*>();
 	hand = new Hand();
-	goods = new vector<string*>();
 	bidFacObj = new BidingFacility(this);
 	victoryPoint = new int(0);
 	scores = new vector <Player*>();
@@ -72,7 +71,6 @@ Player::Player(string inputName, int inputAge, int coinAmount, string selectedCo
 	cities = new vector<City*>();
 	ownedCountries = new vector<Country*>();
 	hand = new Hand(mainDeck);
-	goods = new vector<string*>();
 	bidFacObj = new BidingFacility(this);
 	victoryPoint = new int(0);
 	scores = new vector <Player*>();
@@ -93,7 +91,7 @@ Player::~Player()
 		delete cities->at(i);
 		cities->at(i) = NULL;
 	}
-	delete name, age, numCoins, color, armies, cities, ownedCountries, hand, goods, bidFacObj;
+	delete name, age, numCoins, color, armies, cities, ownedCountries, hand, bidFacObj;
 	name = NULL;
 	age = NULL;
 	numCoins = NULL;
@@ -102,7 +100,6 @@ Player::~Player()
 	cities = NULL;
 	ownedCountries = NULL;
 	hand = NULL;
-	goods = NULL;
 	bidFacObj = NULL;
 	victoryPoint = NULL;
 	scores = NULL;
@@ -203,7 +200,7 @@ void Player::printPlayer()
 		}
 
 	}
-	cout << "\t" << *(this->name) << " owns " << this->ownedCountries->size() << " countries, and has " << this->goods->size() << " goods collected." << endl;
+	cout << "\t" << *(this->name) << " owns " << this->ownedCountries->size() << " countries, and has " << *this->hand->goods << " goods collected." << endl;
 	cout << "\t" << *(this->name) << " has " << this->hand->faceupcards->size() << " cards in hand." << endl;
 	cout << "\t" << *(this->name) << " has their own bidding facility.\n" << endl;
 	cout << "\t" << *name << " has " << *victoryPoint << " points." << endl;
@@ -333,7 +330,11 @@ int getCoalPoint(Hand* hand)
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
 		if (hand->faceupcards->at(i)->good->compare("coal") == 0)
+		{
 			temp++;
+			++* hand->goods;
+		}
+
 	}
 	return coal[temp];
 }
@@ -349,7 +350,10 @@ int getAnvilPoint(Hand* hand)
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
 		if (hand->faceupcards->at(i)->good->compare("anvil") == 0)
+		{
 			temp++;
+			++* hand->goods;
+		}
 	}
 	return anvil[temp];
 }
@@ -366,7 +370,10 @@ int getTreePoint(Hand* hand)
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
 		if (hand->faceupcards->at(i)->good->compare("tree") == 0)
+		{
 			temp++;
+			++* hand->goods;
+		}
 	}
 	return tree[temp];
 }
@@ -381,8 +388,12 @@ int getGemPoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("cyrstal") == 0)
+		if (hand->faceupcards->at(i)->good->compare("gem") == 0)
+		{
 			temp++;
+			++* hand->goods;
+		}
+	
 	}
 	return gem[temp];
 }
@@ -398,7 +409,12 @@ int getCarrotPoint(Hand* hand)
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
 		if (hand->faceupcards->at(i)->good->compare("carrot") == 0)
+		{
 			temp++;
+			++* hand->goods;
+
+		}
+		
 	}
 	return carrot[temp];
 }

@@ -119,6 +119,7 @@ Hand::Hand()
 {
 	faceupcards = new vector <Cards*>();
 	mainDeck = nullptr;
+	goods = new int(0);
 
 }
 
@@ -126,6 +127,7 @@ Hand::Hand(Deck* deck)
 {
 	faceupcards = new vector <Cards*>();
 	mainDeck = deck;
+	goods = new int(0);
 
 }
 
@@ -133,9 +135,11 @@ Hand::Hand(Deck* deck)
 Hand::~Hand()
 {
 	delete faceupcards;
+	delete goods;
 
 	faceupcards = NULL;
 	mainDeck = NULL;
+	goods = nullptr;
 
 }
 

@@ -44,9 +44,10 @@ public:
 	Hand(Deck*);
 	~Hand();
 	Deck* mainDeck;
+	int* goods;
 	Cards* exchange(int index);
 	vector<Cards*>* faceupcards; //faceupcards from deck => faceupcards
 								//faceupcards from each players => cards they keep
 	void print();
-	void goodPoints();
+	//void goodPoints();
 };
