@@ -421,14 +421,16 @@ int getCarrotPoint(Hand* hand)
 
 int goodPoints(Hand* hand)
 {
-	//Printing all the hand
-	cout << " Hand's goods are : ";
-	for (int i = 0; i < hand->faceupcards->size(); i++)
-	{
-		cout << *hand->faceupcards->at(i)->good
-			<< " , ";
-	}
-	cout << " ." << endl;
+	//Printing all the hand if needed for TA
+
+	//cout << " Hand's goods are : ";
+	//for (int i = 0; i < hand->faceupcards->size(); i++)
+	//{
+	//	cout << *hand->faceupcards->at(i)->good
+	//		<< " , ";
+	//}
+	//cout << " ." << endl;
+
 	return getCoalPoint(hand) + getAnvilPoint(hand)
 		+ getTreePoint(hand) + getGemPoint(hand)
 		+ getCarrotPoint(hand);
