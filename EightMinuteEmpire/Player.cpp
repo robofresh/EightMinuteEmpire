@@ -74,7 +74,7 @@ Player::Player(string inputName, int inputAge, int coinAmount, string selectedCo
 	hand = new Hand(mainDeck);
 	goods = new vector<string*>();
 	bidFacObj = new BidingFacility(this);
-	victoryPoint = new int();
+	victoryPoint = new int(0);
 	scores = new vector <Player*>();
 
 	this->createArmies();
@@ -206,6 +206,7 @@ void Player::printPlayer()
 	cout << "\t" << *(this->name) << " owns " << this->ownedCountries->size() << " countries, and has " << this->goods->size() << " goods collected." << endl;
 	cout << "\t" << *(this->name) << " has " << this->hand->faceupcards->size() << " cards in hand." << endl;
 	cout << "\t" << *(this->name) << " has their own bidding facility.\n" << endl;
+	cout << "\t" << *name << " has " << *victoryPoint << " points." << endl;
 }
 
 void Player::buildCity(Country* country)

@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "MapLoader.h"
 #include "Actions.h"
+#include "computeScore.h"
 
 using namespace std;
 
@@ -306,7 +307,7 @@ int main()
 			{
 				deck->cardsSpace->print();
 				cout << *currentPlayer->name;
-				cout << " !Select one of the face-up cards" << endl;
+				cout << "! Select one of the face-up cards" << endl;
 				cin >> cardPosition;
 				if (std::cin.fail())
 					throw InputException();
@@ -382,7 +383,7 @@ int main()
 			cout << "Every Players has " ;
 			cout << currentPlayer->hand->faceupcards->size() << " cards. "<<endl;
 			cout << "Max cards each player can own has been reach. " << endl;
-			cout << MAX_CARDS << endl;
+			//cout << MAX_CARDS << endl;
 			endGame = true;
 		}
 
@@ -393,9 +394,56 @@ int main()
 	cout << "END OF GAME" << endl;
 
 	//COMPUTE SCORE HERE
+	for (int i = 0; i < players->size(); i++)
+	{
+		players->at(i)->computeScore(map);
+	}
 
+	computeScore score = computeScore();
+	score.continentScore(map, players);
 
+	Player* winner = players->at(0);
+	for (int i = 0; i < players->size(); i++)
+	{
+		if (*players->at(i)->victoryPoint > *winner->victoryPoint)
+		{
+			winner = players->at(i);
+			continue;
+		}
+		if (*players->at(i)->victoryPoint == *winner->victoryPoint)
+		{
+			if (*players->at(i)->numCoins > * winner->numCoins)
+			{
+				winner = players->at(i);
+				continue;
+			}
+			if (*players->at(i)->victoryPoint == *winner->victoryPoint)
+			{
+				if ((14 - players->at(i)->availableArmies()) > 14 - winner->availableArmies())
+				{
+					winner = players->at(i);
+					continue;
+				}
+				if ((14 - players->at(i)->availableArmies()) == 14 - winner->availableArmies())
+				{
+					if (players->at(i)->ownedCountries->size() > winner->ownedCountries->size())
+					{
+						winner = players->at(i);
+					}
+				}
+			}
+		}
+	}
 
+	cout << "The winner is " << *winner->name << endl;
+
+	for (int i = 0; i < players->size(); i++)
+	{
+		players->at(i)->printPlayer();
+	}
+
+	int wait;
+	cin >> wait;
 
 
 
