@@ -46,6 +46,10 @@ Player* getOwnerOfCountry(Country* country,vector<Player*>* players)
 			max = playerArmyCount.at(i);
 			owningPlayer = players->at(i);
 		}
+		if (playerArmyCount.at(i) == max && players->at(i) != owningPlayer)
+		{
+			owningPlayer = nullptr;
+		}
 	}
 
 	if (owningPlayer != nullptr)
