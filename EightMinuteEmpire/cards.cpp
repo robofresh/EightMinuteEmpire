@@ -30,7 +30,7 @@ Cards::Cards()
 }
 
 //Constructor with attributes for goods and action
-Cards::Cards(string good1, vector<string*>* action1)
+Cards::Cards(const string &good1, vector<string*>* action1)
 {
 	good = new string (good1);
 	actions = action1;
@@ -172,7 +172,7 @@ void Deck::updateCardsSpace(Deck* deck, int position)
 }
 
 //Print with integrated print Cards
-void Hand::print()
+void Hand::print() const
 {
 	cout << "Here are the face-up cards:" << endl;
 	cout << "[card 1: cost 0] [card 2: cost 1] [card 3: cost 1] [card 4: cost 2] [card 5: cost 2] [card 6: cost 3]" << endl;
@@ -242,7 +242,7 @@ void Deck::initialDraw() //one time only, when the game is started
 }
 
 //Prints the whole decks
-void Deck::print()
+void Deck::print() const
 {
 	stack<Cards*> tmp;
 	tmp = *stackofCards;
