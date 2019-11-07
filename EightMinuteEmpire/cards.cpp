@@ -204,14 +204,13 @@ void Cards::print()
 	{
 		if (this != nullptr)
 		{
-			int* temp;
 			cout << "[Good is : " << *good ;
 			cout << ", Action is : ";
-			temp = new int(this->actions->size());
+			const int temp = this->actions->size();
 
 			if (temp != 0)
 			{
-				for (int j = 0; j < *temp; j++)
+				for (int j = 0; j < temp; j++)
 				{
 					cout << *actions->at(j) << " ";
 				}

@@ -1,8 +1,8 @@
 #include "Actions.h"
 #include <string>
 
-void actionProcess(string, int, Player* player, Map* map, vector<Player*>*);
-void actionPrint(string, int);
+void actionProcess(const string&, const int&, Player* player, Map* map, vector<Player*>*);
+void actionPrint(const string&, const int&);
 
 void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player*>* playerVector) const
 {
@@ -128,7 +128,7 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 }
 
 
-void actionProcess(string action, int amount, Player *player, Map* map, vector<Player*>* playersVector)
+void actionProcess(const string& action, const int& amount, Player *player, Map* map, vector<Player*>* playersVector)
 {
 	//if it is a place armies card
 	if ("placeArmies" == action)
@@ -164,9 +164,9 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 						else
 						{
 							//if the player has a city in that country
-							for (int j = 0; j < country->cities->size(); j++)
+							for (auto j : *country->cities)
 							{
-								if (country->cities->at(j)->player == player)
+								if (j->player == player)
 								{
 									isValid = true;
 									break;
@@ -303,9 +303,9 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 						string countryName;
 						cout << "\tPlease give a valid name for a country to move army " << armyID + 1 << " across land or water to; ";
 						cout << "the possible adjacent countries are (-1 to change army selection): " << endl;
-						for (auto j : *player->armies->at(armyID)->occupiedCountry->adjCountries)
+						for (auto k : *player->armies->at(armyID)->occupiedCountry->adjCountries)
 						{
-							cout << "\t" << *j->name << endl;
+							cout << "\t" << *k->name << endl;
 						}
 						cin >> countryName;
 						if (countryName == "-1")
@@ -316,10 +316,10 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 						country = map->getCountry(countryName);
 						if (country != nullptr)
 						{
-							for (auto j : *country->adjCountries)
+							for (auto k : *country->adjCountries)
 							{
 								//if the army's country is adjacent to the selected country
-								if (*army->occupiedCountry->name == *j->name)
+								if (*army->occupiedCountry->name == *k->name)
 									isValid = true;
 							}
 						}
@@ -347,10 +347,10 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 					{
 						string countryName;
 						int countryCheck = 0;
-						for (auto j : *player->armies->at(armyID)->occupiedCountry->adjCountries)
+						for (auto k : *player->armies->at(armyID)->occupiedCountry->adjCountries)
 						{
 							//if the army's country is adjacent to the selected country and if they are in the same continent
-							if (army->occupiedCountry->parentContinent == j->parentContinent)
+							if (army->occupiedCountry->parentContinent == k->parentContinent)
 								countryCheck++;
 						}
 						if (countryCheck == 0)
@@ -361,11 +361,11 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 
 						cout << "\tPlease give a valid name for a country in " << *army->occupiedCountry->parentContinent->name << " to move army " << armyID + 1 << " to; ";
 						cout << "the possible adjacent countries are (-1 to change army selection): " << endl;
-						for (auto j : *player->armies->at(armyID)->occupiedCountry->adjCountries)
+						for (auto k : *player->armies->at(armyID)->occupiedCountry->adjCountries)
 						{
 							//if the army's country is adjacent to the selected country and if they are in the same continent
-							if (army->occupiedCountry->parentContinent == j->parentContinent)
-								cout << "\t" << *j->name << endl;
+							if (army->occupiedCountry->parentContinent == k->parentContinent)
+								cout << "\t" << *k->name << endl;
 						}
 						cin >> countryName;
 						if (countryName == "-1")
@@ -376,10 +376,10 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 						country = map->getCountry(countryName);
 						if (country != nullptr)
 						{
-							for (auto j : *country->adjCountries)
+							for (auto k : *country->adjCountries)
 							{
 								//if the army's country is adjacent to the selected country and if they are in the same continent
-								if (army->occupiedCountry == j && army->occupiedCountry->parentContinent == country->parentContinent)
+								if (army->occupiedCountry == k && army->occupiedCountry->parentContinent == country->parentContinent)
 									isValid = true;
 							}
 						}
@@ -450,7 +450,7 @@ void actionProcess(string action, int amount, Player *player, Map* map, vector<P
 }
 
 
-void actionPrint(string action, int amount)
+void actionPrint(const string& action, const int& amount)
 {
 	if ("placeArmies" == action)
 	{
