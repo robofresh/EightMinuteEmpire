@@ -9,48 +9,48 @@ Map::Map()
 	startingCountry = nullptr;
 }
 
-void Map::print()
+void Map::print() const
 {
 	//go through all continents and print their containedCountries
-	for (int i = 0; i < mapContinents->size(); i++)
+	for (auto i : *mapContinents)
 	{
-		cout << "\'" << mapContinents->at(i)->name->c_str() << "\'" << " has the countries: " << endl;
-		for (int j = 0; j < mapContinents->at(i)->containedCountries->size(); j++)
+		cout << "\'" << i->name->c_str() << "\'" << " has the countries: " << endl;
+		for (auto j : *i->containedCountries)
 		{
-			cout << "\t" << "\'" << mapContinents->at(i)->containedCountries->at(j)->name->c_str() << "\'";
-			if (*mapContinents->at(i)->containedCountries->at(j)->isStartingCountry)
+			cout << "\t" << "\'" << j->name->c_str() << "\'";
+			if (*j->isStartingCountry)
 				cout << " (the starting country)";
 				
-				cout << endl;
+			cout << endl;
 
-			if (mapContinents->at(i)->containedCountries->at(j)->occupyingArmies->size() > 0)
+			if (!j->occupyingArmies->empty())
 			{
-				cout << "\t\tThe occupying armies in " << mapContinents->at(i)->containedCountries->at(j)->name->c_str() << " are: " << endl;
-				for (int k = 0; k < mapContinents->at(i)->containedCountries->at(j)->occupyingArmies->size(); k++)
+				cout << "\t\tThe occupying armies in " << j->name->c_str() << " are: " << endl;
+				for (auto k : *j->occupyingArmies)
 				{
-					cout << "\t\t\t#" << k+1 << " owned by " << *mapContinents->at(i)->containedCountries->at(j)->occupyingArmies->at(k)->player->name << endl;
+					cout << "\t\t\t#" << k+1 << " owned by " << *k->player->name << endl;
 				}
 			}
-			if (mapContinents->at(i)->containedCountries->at(j)->cities->size() > 0)
+			if (!j->cities->empty())
 			{
-				cout << "\t\tThe cities in " << mapContinents->at(i)->containedCountries->at(j)->name->c_str() << " are: " << endl;
-				for (int k = 0; k < mapContinents->at(i)->containedCountries->at(j)->cities->size(); k++)
+				cout << "\t\tThe cities in " << j->name->c_str() << " are: " << endl;
+				for (auto k : *j->cities)
 				{
-					cout << "\t\t\t#" << k+1 << " owned by " << *mapContinents->at(i)->containedCountries->at(j)->cities->at(k)->player->name << endl;
+					cout << "\t\t\t#" << k+1 << " owned by " << *k->player->name << endl;
 				}
 			}
 		}
 	}
 	
 	//go through all countries and print their adjCountries as well
-	for (int i = 0; i < mapCountries->size(); i++)
+	for (auto i : *mapCountries)
 	{
-		if (mapCountries->at(i)->adjCountries->size() > 0)
+		if (!i->adjCountries->empty())
 		{
-			cout << "\'" << mapCountries->at(i)->name->c_str() << "\'" << " is connected to the countries: " << endl;
-			for (int j = 0; j < mapCountries->at(i)->adjCountries->size(); j++)
+			cout << "\'" << i->name->c_str() << "\'" << " is connected to the countries: " << endl;
+			for (auto j : *i->adjCountries)
 			{
-				cout << "\t" <<  "\'"<< mapCountries->at(i)->adjCountries->at(j)->name->c_str() << "\'" << endl;
+				cout << "\t" <<  "\'"<< j->name->c_str() << "\'" << endl;
 			}
 		}
 	}
@@ -58,52 +58,52 @@ void Map::print()
 
 Map::~Map()
 {
-	for (int i = 0; i < mapCountries->size(); i++)
+	for (auto i : *mapCountries)
 	{
-		delete mapCountries->at(i);
-		mapCountries->at(i) = NULL;
+		delete i;
+		i = nullptr;
 	}
-	for (int i = 0; i < mapContinents->size(); i++)
+	for (auto i : *mapContinents)
 	{
-		delete mapContinents->at(i);
-		mapContinents->at(i) = NULL;
+		delete i;
+		i = nullptr;
 	}
 	delete mapCountries, mapContinents;
-	mapContinents = NULL;
-	mapCountries = NULL;
+	mapContinents = nullptr;
+	mapCountries = nullptr;
 }
 
 //check if their is already a country in the map by the same name and return a pointer to it
-Country* Map::getCountry(string str)
+Country* Map::getCountry(const string& str) const
 {
-	for (int i = 0; i < mapCountries->size(); i++)
+	for (auto i : *mapCountries)
 	{
-		if (mapCountries->at(i)->name->compare(str) == 0)
+		if (*i->name == str)
 		{
-			return mapCountries->at(i);
+			return i;
 		}
 	}
 	return nullptr;
 }
 
 //check if their is already a continent in the map by the same name and return a pointer to it
-Continent* Map::getContinent(string str)
+Continent* Map::getContinent(const string& str) const
 {
-	for (int i = 0; i < mapContinents->size(); i++)
+	for (auto i : *mapContinents)
 	{
-		if (mapContinents->at(i)->name->compare(str) == 0)
-			return mapContinents->at(i);
+		if (*i->name == str)
+			return i;
 	}
 	return nullptr;
 }
 
 //create a country and add it to the map
-Country* Map::createCountry(string inputName, Continent* cont)
+Country* Map::createCountry(const string &inputName, Continent* cont)
 {
 	//check if country already exists in map
-	for (int j = 0; j < mapCountries->size(); j++)
+	for (auto j : *mapCountries)
 	{
-		if ((inputName.compare(mapCountries->at(j)->name->c_str())) == 0)
+		if (inputName == *j->name)
 		{
 			cout << '\"' << inputName << '\"' << " already exists in the map; it will not be added again." << endl;			
 			return nullptr;
@@ -113,12 +113,12 @@ Country* Map::createCountry(string inputName, Continent* cont)
 }
 
 //create a continent and add it to the map
-Continent* Map::createContinent(string inputName)
+Continent* Map::createContinent(const string &inputName)
 {
 	//check if continent already exists in map
-	for (int j = 0; j < mapContinents->size(); j++)
+	for (auto j : *mapContinents)
 	{
-		if ((inputName.compare(mapContinents->at(j)->name->c_str())) == 0)
+		if (inputName == *j->name)
 		{
 			cout << '\"' << inputName << '\"' << " already exists in the map; it will not be added again." << endl;
 			return nullptr;
@@ -139,7 +139,7 @@ Country::Country()
 	owningPlayer = nullptr;
 }
 
-Country::Country(string inputName, Continent* cont, Map* map)
+Country::Country(const string &inputName, Continent* cont, Map* map)
 {
 	name = new string(inputName);
 	parentContinent = cont;
@@ -154,21 +154,21 @@ Country::Country(string inputName, Continent* cont, Map* map)
 Country::~Country()
 {
 	delete name, parentContinent, adjCountries, occupyingArmies, cities, owningPlayer;
-	name = NULL;
-	parentContinent = NULL;
-	adjCountries = NULL;
-	occupyingArmies = NULL;
-	cities = NULL;
-	owningPlayer = NULL;
+	name = nullptr;
+	parentContinent = nullptr;
+	adjCountries = nullptr;
+	occupyingArmies = nullptr;
+	cities = nullptr;
+	owningPlayer = nullptr;
 }
 
-Army* Country::getArmy(Player* ofPlayer)
+Army* Country::getArmy(Player* ofPlayer) const
 {
-	for (int i = 0; i < occupyingArmies->size(); i++)
+	for (auto i : *occupyingArmies)
 	{
-		if (occupyingArmies->at(i)->player == ofPlayer)
+		if (i->player == ofPlayer)
 		{
-			return occupyingArmies->at(i);
+			return i;
 		}
 	}
 	return nullptr;
@@ -181,7 +181,7 @@ Continent::Continent()
 	containedCountries = new vector<Country*>();
 }
 
-Continent::Continent(string inputName, Map* map)
+Continent::Continent(const string &inputName, Map* map)
 {
 	name = new string(inputName);
 	map->mapContinents->push_back(this); //add to map
@@ -191,11 +191,11 @@ Continent::Continent(string inputName, Map* map)
 Continent::~Continent()
 {
 	delete name, containedCountries;
-	name = NULL;
-	containedCountries = NULL;
+	name = nullptr;
+	containedCountries = nullptr;
 }
 
-bool Country::removeArmy(Army* army)
+bool Country::removeArmy(Army* army) const
 {
 	for (int i = 0; i < occupyingArmies->size(); i++)
 	{
