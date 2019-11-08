@@ -21,7 +21,8 @@ public:
 	~Continent();
 
 	string* name;
-
+	void changeOwner(Player*);
+	Player* owningPlayer;
 
 	vector<Country*>* containedCountries; //pointer to a vector of pointers to countries contained in continent
 };
@@ -46,6 +47,7 @@ public:
 
 	Army* getArmy(Player*) const;
 	bool removeArmy(Army*) const;
+	void changeOwner(Player*);
 
 };
 

@@ -476,6 +476,31 @@ void Player::computeScore(Map* map)
 }
 
 
+bool Player::removeOwnedCountry(Country* to_remove)
+{
+	for(int i = 0; i < ownedCountries->size(); i++)
+	{
+		if (ownedCountries->at(i) == to_remove)
+		{
+			ownedCountries->erase(ownedCountries->begin() + i);
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Player::removeOwnedContinent(Continent* to_remove)
+{
+	for (int i = 0; i < ownedContinents->size(); i++)
+	{
+		if (ownedContinents->at(i) == to_remove)
+		{
+			ownedContinents->erase(ownedContinents->begin() + i);
+			return true;
+		}
+	}
+	return false;
+}
 
 
 

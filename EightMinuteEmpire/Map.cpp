@@ -179,6 +179,7 @@ Continent::Continent()
 {
 	name = new string("");
 	containedCountries = new vector<Country*>();
+	owningPlayer = nullptr;
 }
 
 Continent::Continent(const string &inputName, Map* map)
@@ -186,6 +187,7 @@ Continent::Continent(const string &inputName, Map* map)
 	name = new string(inputName);
 	map->mapContinents->push_back(this); //add to map
 	containedCountries = new vector<Country*>();
+	owningPlayer = nullptr;
 }
 
 Continent::~Continent()
@@ -206,4 +208,29 @@ bool Country::removeArmy(Army* army) const
 		}
 	}
 	return false;
+}
+
+void Country::changeOwner(Player* new_owner)
+{
+	if(owningPlayer == nullptr)
+	{
+		owningPlayer = new_owner;
+	} else
+	{
+		owningPlayer->removeOwnedCountry(this);
+		owningPlayer = new_owner;
+	}
+}
+
+void Continent::changeOwner(Player* new_owner)
+{
+	if (owningPlayer == nullptr)
+	{
+		owningPlayer = new_owner;
+	}
+	else
+	{
+		owningPlayer->removeOwnedContinent(this);
+		owningPlayer = new_owner;
+	}
 }
