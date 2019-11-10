@@ -207,3 +207,10 @@ bool Country::removeArmy(Army* army) const
 	}
 	return false;
 }
+
+Map* Map::instance()
+{
+	if (!instance)
+		m_instance = new Map;
+	return m_instance;
+}

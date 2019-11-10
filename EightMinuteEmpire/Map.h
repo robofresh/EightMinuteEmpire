@@ -16,7 +16,6 @@ class Player;
 class Continent
 {
 public:
-	static Continent* instance();
 	Continent();
 	Continent(const string&, Map*);
 	~Continent();
@@ -28,7 +27,6 @@ public:
 class Country
 {
 public:
-	static Country* instance();
 	Country();
 	Country(const string&, Continent*, Map*);
 
@@ -51,7 +49,8 @@ public:
 
 class Map
 {
-
+private:
+	static Map* m_instance;
 public:
 	static Map* instance();
 	Map();
