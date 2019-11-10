@@ -210,7 +210,7 @@ bool Country::removeArmy(Army* army) const
 
 Map* Map::instance()
 {
-	if (!instance)
+	if (!m_instance)
 		m_instance = new Map;
 	return m_instance;
 }
