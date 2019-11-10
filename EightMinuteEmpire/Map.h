@@ -16,13 +16,11 @@ class Player;
 class Continent
 {
 public:
+	static Continent* instance();
 	Continent();
 	Continent(const string&, Map*);
 	~Continent();
-
 	string* name;
-
-
 	vector<Country*>* containedCountries; //pointer to a vector of pointers to countries contained in continent
 };
 
@@ -30,6 +28,7 @@ public:
 class Country
 {
 public:
+	static Country* instance();
 	Country();
 	Country(const string&, Continent*, Map*);
 
@@ -52,7 +51,9 @@ public:
 
 class Map
 {
+
 public:
+	static Map* instance();
 	Map();
 	~Map();
 
