@@ -208,7 +208,8 @@ bool Country::removeArmy(Army* army) const
 	return false;
 }
 
-Map* Map::instance()
+Map* Map::m_instance = 0;
+Map* Map::getInstance()
 {
 	if (!m_instance)
 		m_instance = new Map;

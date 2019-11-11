@@ -51,8 +51,9 @@ class Map
 {
 private:
 	static Map* m_instance;
+
 public:
-	static Map* instance();
+	static Map* getInstance();
 	Map();
 	~Map();
 
