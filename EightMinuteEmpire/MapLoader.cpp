@@ -31,15 +31,9 @@ MapLoaderException::MapLoaderException() : message("")
 MapLoaderException::MapLoaderException(string msg) : message(msg)
 {/*Intentionally Empty*/}
 
-MapLoaderException::~MapLoaderException()
-{/*Intentionally Empty*/}
-
-MapLoader::MapLoader()
-{/*Intentionally Empty*/}
-
 //map loader simply takes the file string and a map object pointer.
 //this is to simplify the verification of the files existence and to not have a whole long file operation(s) in one large if statment
-MapLoader::MapLoader(string file, Map* map)
+MapLoader::MapLoader(const string& file, Map* map)
 {
 	ifstream* mapFile = new ifstream(file);
 
@@ -76,7 +70,7 @@ void processFile(ifstream* mapFile, Map* map)
 		bool createdCont = false; //used to make sure the "Continent" section comes before the "Connections"
 
 		//if the line matches "Continents"
-		if (string("Continents").compare(*fileString) == 0)
+		if ("Continents" == *fileString)
 		{
 			//say that the section order is correct
 			contOrder = true;
@@ -120,7 +114,7 @@ void processFile(ifstream* mapFile, Map* map)
 				{
 					cleanString(fileString);
 
-					if (fileString->size() < 1)
+					if (fileString->empty())
 						continue;
 
 					if (fileString->at(0) == '*')
@@ -158,7 +152,7 @@ void processFile(ifstream* mapFile, Map* map)
 		bool insideCountry = false;
 
 		//if this line says "Connections"
-		if (string("Connections").compare(*fileString) == 0)
+		if ("Connections" == *fileString)
 		{
 			//if the file has put the sections in the wrong order
 			if (!contOrder)
@@ -249,12 +243,13 @@ void cleanString(string* str)
 		}
 		i++;
 	}
+
 }
 
 bool validateString(string* str)
 {
 	//if the string doesnt just have alphabet characters, return false
-	size_t found = str->find_first_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	const size_t found = str->find_first_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	if (found == string::npos)
 	{
 		return false;
@@ -262,6 +257,3 @@ bool validateString(string* str)
 	return true;
 }
 
-MapLoader::~MapLoader()
-{
-}

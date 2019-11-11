@@ -5,10 +5,10 @@
 class Actions
 {
 public:
-	Actions();
-	~Actions();
+	Actions() = default;
+	~Actions() = default;
 
-	void processAction(Player*, Cards*, Map*, vector<Player*>*);
+	void processAction(Player*, Cards*, Map*, vector<Player*>*) const;
 
 };
 

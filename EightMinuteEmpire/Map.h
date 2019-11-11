@@ -18,12 +18,9 @@ class Continent
 {
 public:
 	Continent();
-	Continent(string, Map*);
+	Continent(const string&, Map*);
 	~Continent();
-
 	string* name;
-
-
 	vector<Country*>* containedCountries; //pointer to a vector of pointers to countries contained in continent
 };
 
@@ -32,7 +29,7 @@ class Country
 {
 public:
 	Country();
-	Country(string, Continent*, Map*);
+	Country(const string&, Continent*, Map*);
 
 	~Country();
 
@@ -45,8 +42,8 @@ public:
 	vector<City*>* cities; //vector of all cities in the country
 	Player* owningPlayer; //pointer to the owning player
 
-	Army* getArmy(Player*);
-	bool removeArmy(Army*);
+	Army* getArmy(Player*) const;
+	bool removeArmy(Army*) const;
 	void addCity(City*);
 	void addArmy(Army*);
 	void moveArmy(Country*, Army*);
@@ -56,22 +53,26 @@ public:
 
 class Map : public Subject
 {
+private:
+	static Map* m_instance;
+
 public:
+	static Map* getInstance();
 	Map();
 	~Map();
 
-	Country* createCountry(string, Continent*);
-	Continent* createContinent(string);
+	Country* createCountry(const string&, Continent*);
+	Continent* createContinent(const string&);
 
 	Country* startingCountry;
 
 	vector<Country*> *mapCountries; //pointer to a vector of pointers to all Countries
 	vector<Continent*>* mapContinents; //ditto for continents
 
-	Country* getCountry(string); //explained in .cpp
-	Continent* getContinent(string);
+	Country* getCountry(const string&) const; //explained in .cpp
+	Continent* getContinent(const string&) const;
 
-	void print();
+	void print() const;
 	void mapNotify();
 };
 

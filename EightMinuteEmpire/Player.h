@@ -55,10 +55,9 @@ public:
 	vector<Army*>* armies;
 	vector<City*>* cities;
 	vector<Country*>* ownedCountries;
+	vector<Continent*>* ownedContinents;
 	Hand* hand;
-	//vector<string*>* goods;
 	BidingFacility* bidFacObj;
-	int* numPlayer;
 	int* victoryPoint;
 	vector<Player*>* scores; 
 	

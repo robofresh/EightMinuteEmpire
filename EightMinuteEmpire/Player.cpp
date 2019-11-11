@@ -11,7 +11,6 @@ struct InsufficientCoinsException : public exception
 	}
 };
 
-
 Army::Army()
 	: player(nullptr), occupiedCountry(nullptr) {}
 
@@ -55,6 +54,7 @@ Player::Player()
 	armies = new vector<Army*>();
 	cities = new vector<City*>();
 	ownedCountries = new vector<Country*>();
+	ownedContinents = new vector<Continent*>();
 	hand = new Hand();
 	bidFacObj = new BidingFacility(this);
 	victoryPoint = new int(0);
@@ -70,6 +70,7 @@ Player::Player(string inputName, int inputAge, int coinAmount, string selectedCo
 	armies = new vector<Army*>();
 	cities = new vector<City*>();
 	ownedCountries = new vector<Country*>();
+	ownedContinents = new vector<Continent*>();
 	hand = new Hand(mainDeck);
 	bidFacObj = new BidingFacility(this);
 	victoryPoint = new int(0);
@@ -200,7 +201,23 @@ void Player::printPlayer()
 		}
 
 	}
-	cout << "\t" << *(this->name) << " owns " << this->ownedCountries->size() << " countries, and has " << *this->hand->goods << " goods collected." << endl;
+	cout << "\t" << *(this->name) << " owns  " << this->ownedCountries->size() << " countries, and has " << *this->hand->goods << " goods collected." << endl;
+	for (int i = 0; i < ownedCountries->size(); i++)
+	{
+		cout << "\t\t" << *ownedCountries->at(i)->name << endl;
+
+	}
+
+	if (ownedContinents->size() > 0)
+	{
+		cout << "\t" << *(this->name) << " owns the continents: " << this->ownedContinents->size() << endl;
+		for (int i = 0; i < ownedContinents->size(); i++)
+		{
+			cout << "\t\t" << *ownedContinents->at(i)->name << endl;
+
+		}
+	}
+
 	cout << "\t" << *(this->name) << " has " << this->hand->faceupcards->size() << " cards in hand." << endl;
 	cout << "\t" << *(this->name) << " has their own bidding facility.\n" << endl;
 	cout << "\t" << *name << " has " << *victoryPoint << " points." << endl;
@@ -273,11 +290,13 @@ void Player::placeNewArmies(Country* country, int amount)
 
 }
 
+//Ignore action only prints out that they ignore it
 void Player::ignore(Cards* card)
 {
 	cout << "Player takes the card and ignore the action." << endl;
 }
 
+//Depending on the position of the cards, the amount to pay is different
 void Player::payCard(Cards* card,int position, int* supply)
 {
 	switch (position)
