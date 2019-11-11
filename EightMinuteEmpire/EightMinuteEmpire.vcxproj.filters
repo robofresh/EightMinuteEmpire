@@ -9,8 +9,8 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="EightMinuteEmpire.cpp" />
     <ClCompile Include="computeScore.cpp" />
+    <ClCompile Include="EightMinuteEmpire.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />

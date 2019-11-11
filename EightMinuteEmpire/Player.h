@@ -55,6 +55,7 @@ public:
 	vector<Army*>* armies;
 	vector<City*>* cities;
 	vector<Country*>* ownedCountries;
+	vector<Continent*>* ownedContinents;
 	Hand* hand;
 	BidingFacility* bidFacObj;
 	int* victoryPoint;
@@ -76,4 +77,7 @@ public:
 	void computeScore(Map*);
 	void ignore(Cards*);
 	void payCard(Cards*, int, int*);
+	bool removeOwnedCountry(Country*);
+	bool removeOwnedContinent(Continent*);
+	
 };

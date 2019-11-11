@@ -413,32 +413,32 @@ int main()
 	Player* winner = players->at(0);//Winner initialize to the first player at first
 
 	//Determine the Winner of the Game
-	for (int i = 0; i < players->size(); i++)
+	for (auto i : *players)
 	{
-		if (*players->at(i)->victoryPoint > *winner->victoryPoint)//Update Winner by comparing Points
+		if (*i->victoryPoint > *winner->victoryPoint)//Update Winner by comparing Points
 		{
-			winner = players->at(i);
+			winner = i;
 			continue;
 		}
-		if (*players->at(i)->victoryPoint == *winner->victoryPoint)//If points are equals, compare number of coins
+		if (*i->victoryPoint == *winner->victoryPoint && i != winner)//If points are equals, compare number of coins
 		{
-			if (*players->at(i)->numCoins > * winner->numCoins)
+			if (*i->numCoins > * winner->numCoins)
 			{
-				winner = players->at(i);
+				winner = i;
 				continue;
 			}
-			if (*players->at(i)->victoryPoint == *winner->victoryPoint)//If Points and coins are equals, check armies
+			if (*i->numCoins == *winner->numCoins && i != winner)//If Points and coins are equals, check armies
 			{
-				if ((14 - players->at(i)->availableArmies()) > 14 - winner->availableArmies())
+				if ((14 - i->availableArmies()) > 14 - winner->availableArmies())
 				{
-					winner = players->at(i);
+					winner = i;
 					continue;
 				}
-				if ((14 - players->at(i)->availableArmies()) == 14 - winner->availableArmies())//If everything before equals, check ownedCountries
+				if ((14 - i->availableArmies()) == 14 - winner->availableArmies() && i != winner)//If everything before equals, check ownedCountries
 				{
-					if (players->at(i)->ownedCountries->size() > winner->ownedCountries->size())
+					if (i->ownedCountries->size() > winner->ownedCountries->size())
 					{
-						winner = players->at(i);
+						winner = i;
 					}
 				}
 			}
@@ -473,7 +473,6 @@ int main()
 	currentPlayer = NULL;
 	delete currentPlayerIndex;
 	currentPlayerIndex = NULL;
-	delete lastPlayer;
 	lastPlayer = NULL;
 	delete action;
 	action = NULL;

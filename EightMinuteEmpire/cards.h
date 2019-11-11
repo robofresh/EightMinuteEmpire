@@ -14,7 +14,7 @@ class Hand;
 class Cards
 {
 public:
-	Cards(string, vector<string*>*); //1st string for good(resources), 2nd string for action
+	Cards(const string&, vector<string*>*); //1st string for good(resources), 2nd string for action
 	Cards();
 	Cards(const Cards&);
 	Cards& operator= (const Cards&);
@@ -33,7 +33,7 @@ public:
 	Hand* cardsSpace;
 	void draw();
 	stack<Cards*>* stackofCards;
-	void print();
+	void print() const;
 	void updateCardsSpace(Deck*, int);
 };
 
@@ -48,6 +48,6 @@ public:
 	Cards* exchange(int index);
 	vector<Cards*>* faceupcards; //faceupcards from deck => faceupcards
 								//faceupcards from each players => cards they keep
-	void print();
+	void print() const;
 	//void goodPoints();
 };

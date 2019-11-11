@@ -6,9 +6,9 @@
 class MapLoader
 {
 public:
-	MapLoader();
-	MapLoader(string, Map*);
-	~MapLoader();
+	MapLoader() = default;
+	MapLoader(const string&, Map*);
+	~MapLoader() = default;
 };
 
 class MapLoaderException
@@ -17,6 +17,6 @@ public:
 	string message;
 	MapLoaderException();
 	MapLoaderException(string);
-	~MapLoaderException();
+	~MapLoaderException() = default;
 };
 
