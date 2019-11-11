@@ -11,7 +11,6 @@ struct InsufficientCoinsException : public exception
 	}
 };
 
-
 Army::Army()
 	: player(nullptr), occupiedCountry(nullptr) {}
 
@@ -282,11 +281,13 @@ void Player::placeNewArmies(Country* country, int amount)
 
 }
 
+//Ignore action only prints out that they ignore it
 void Player::ignore(Cards* card)
 {
 	cout << "Player takes the card and ignore the action." << endl;
 }
 
+//Depending on the position of the cards, the amount to pay is different
 void Player::payCard(Cards* card,int position, int* supply)
 {
 	switch (position)
