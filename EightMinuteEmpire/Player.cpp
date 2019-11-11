@@ -281,7 +281,7 @@ void Player::payCoin(int amount, int* supply)
 		cout << e.what();
 		return ;
 	}
-
+	Notify();
 	cout << *(this->name) << " is paying " << amount << " coins." << endl;
 	cout << *(this->name) << " now has " << *(this->numCoins) << " coins." << endl;
 

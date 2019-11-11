@@ -61,5 +61,7 @@ void PlayerObserver::Update()
 
 void PlayerObserver::display()
 {
+	cout << _playerSubject->name << endl;
 	cout << "display from observer" << endl;
 }
+

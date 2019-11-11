@@ -37,5 +37,16 @@ private:
 	Player* _playerSubject;
 };
 
+class CurrentPOb : public Observer
+{
+public:
+	CurrentPOb();
+	CurrentPOb(Player*, Cards*, int*, int*);
+	~CurrentPOb();
+	void Update();
+	void display();
+private:
+	Player* _currentSubject;
+};
 
 
