@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include "Map.h"
+#include "cards.h"
 
 using namespace std;
 
@@ -45,8 +46,25 @@ public:
 	~CurrentPOb();
 	void Update();
 	void display();
-private:
+protected:
 	Player* _currentSubject;
+	Cards* _cardChosen;
+	int* position;
+	int* _supply;
+};
+
+class PayOb : public CurrentPOb
+{
+public:
+	PayOb();
+	PayOb(Player*, int*, int*);
+	~PayOb();
+	void Update();
+	void display();
+
+private:
+	int* cost;
+	int* supply;
 };
 
 

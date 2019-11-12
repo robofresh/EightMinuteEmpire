@@ -351,10 +351,15 @@ int main()
 		cardPosition = cardPosition - 1;
 		chosenCard = deck->cardsSpace->faceupcards->at(cardPosition);
 
-		chosenCard->print();
+		//chosenCard->print();-> To be integrated with Obs
 
 		currentPlayer->hand->faceupcards->push_back(chosenCard);//Push address 
 		currentPlayer->payCard(chosenCard, cardPosition, supply);//Pay the correct amount of coins
+		
+		//Create observer of the current player with chosen card
+
+
+
 
 // #################################################
 //				Part 4: Player Actions

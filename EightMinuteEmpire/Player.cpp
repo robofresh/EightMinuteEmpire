@@ -281,10 +281,13 @@ void Player::payCoin(int amount, int* supply)
 		cout << e.what();
 		return ;
 	}
+	PayOb* payOb;
+	payOb = new PayOb(this, &amount,supply);
 	Notify();
-	cout << *(this->name) << " is paying " << amount << " coins." << endl;
-	cout << *(this->name) << " now has " << *(this->numCoins) << " coins." << endl;
-
+	//cout << *(this->name) << " is paying " << amount << " coins." << endl;
+	//cout << *(this->name) << " now has " << *(this->numCoins) << " coins." << endl;--> TODO : added to obs
+	delete payOb;
+	payOb = NULL;
 }
 
 void Player::placeNewArmies(Country* country, int amount)
@@ -308,6 +311,9 @@ void Player::ignore(Cards* card)
 //Depending on the position of the cards, the amount to pay is different
 void Player::payCard(Cards* card,int position, int* supply)
 {
+	CurrentPOb* obCard;
+	obCard = new CurrentPOb(this, card, &position, supply);
+	
 	switch (position)
 	{
 	case 0:
