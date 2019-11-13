@@ -25,6 +25,8 @@ public:
 	string* name;
 	void changeOwner(Player*);
 	Player* owningPlayer;
+	bool updateContinentOwner();
+	Player* findContinentOwner() const;
 	vector<Country*>* containedCountries; //pointer to a vector of pointers to countries contained in continent
 };
 
@@ -47,11 +49,13 @@ public:
 	Player* owningPlayer; //pointer to the owning player
 
 	Army* getArmy(Player*) const;
-	bool removeArmy(Army*) const;
+	bool removeArmy(Army*);
 	void addCity(City*);
 	void addArmy(Army*);
 	void moveArmy(Country*, Army*);
 	void changeOwner(Player*);
+	bool updateCountryOwner();
+	Player* findCountryOwner() const;
 
 };
 

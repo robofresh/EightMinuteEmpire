@@ -1,3 +1,4 @@
+#include <map>
 #include "Map.h"
 #include "Player.h"
 
@@ -179,25 +180,170 @@ Army* Country::getArmy(Player* ofPlayer) const
 	return nullptr;
 }
 
+Player* Country::findCountryOwner() const
+{
+	Player* owningPlayer = nullptr;
+	map<Player*, int> playerCount;
+
+	if (this->occupyingArmies->size() > 0)
+	{
+		for (int j = 0; j < this->occupyingArmies->size(); j++)
+		{
+			auto search = playerCount.find(this->occupyingArmies->at(j)->player);
+			if (search != playerCount.end())
+			{
+				search->second++;
+			}
+			else
+			{
+				playerCount.insert(pair<Player*, int>(this->occupyingArmies->at(j)->player, 1));
+			}
+		}
+	}
+
+	if (this->cities->size() > 0)
+	{
+		for (int j = 0; j < this->cities->size(); j++)
+		{
+			auto search = playerCount.find(this->cities->at(j)->player);
+			if (search != playerCount.end())
+			{
+				search->second++;
+			}
+			else
+			{
+				playerCount.insert(pair<Player*, int>(this->cities->at(j)->player, 1));
+			}
+		}
+	}
+
+	int max = 0;
+	for (auto it = playerCount.begin(); it != playerCount.end(); it++)
+	{
+		if (it->second > max)
+		{
+			max = it->second;
+			owningPlayer = it->first;
+		}
+		if (it->second == max && it->first != owningPlayer)
+		{
+			owningPlayer = nullptr;
+		}
+	}
+
+	return owningPlayer;
+}
+
+Player* Continent::findContinentOwner() const
+{
+	Player* owningPlayer = nullptr;
+	map<Player*, int> playerCount;
+
+	for (int j = 0; j < this->containedCountries->size(); j++)
+	{
+		Player* countryOwningPlayer = this->containedCountries->at(j)->findCountryOwner();
+		auto search = playerCount.find(countryOwningPlayer);
+		if (search != playerCount.end())
+		{
+			search->second++;
+		}
+		else
+		{
+			playerCount.insert(pair<Player*, int>(countryOwningPlayer, 1));
+		}
+	}
+
+	int max = 0;
+	for (auto it = playerCount.begin(); it != playerCount.end(); it++)
+	{
+		if (it->second > max)
+		{
+			max = it->second;
+			owningPlayer = it->first;
+		}
+		if (it->second == max && it->first != owningPlayer)
+		{
+			owningPlayer = nullptr;
+		}
+	}
+	
+	return owningPlayer;
+}
+
+bool Country::updateCountryOwner()
+{
+	Player* countryOwner = this->findCountryOwner();
+	if (countryOwner != nullptr && this->owningPlayer != countryOwner) {
+		this->changeOwner(countryOwner);
+		this->owningPlayer->removeOwnedCountry(this);
+		*countryOwner->victoryPoint = *countryOwner->victoryPoint + 1;
+		countryOwner->addOwnedCountry(this);
+		this->parentContinent->updateContinentOwner();
+		Map* map = Map::getInstance();
+		map->mapNotify();
+		return true;
+	}
+	return false;
+}
+
+bool Continent::updateContinentOwner()
+{
+	Player* continentOwner = this->findContinentOwner();
+	if (continentOwner != nullptr && this->owningPlayer != continentOwner) {
+		this->changeOwner(continentOwner);
+		this->owningPlayer->removeOwnedContinent(this);
+		*continentOwner->victoryPoint = *continentOwner->victoryPoint + 1;
+		continentOwner->addOwnedContinent(this);
+		return true;
+	}
+	return false;
+}
+
 void Country::addCity(City* city)
 {
 	this->cities->push_back(city);
-	// Check and see if the country's owner changed.
-	// Get Singleton Map instance and call map->mapNotify()
+	bool ownerChanged = this->updateCountryOwner();
+	if (!ownerChanged)
+	{
+		Map* map = Map::getInstance();
+		map->mapNotify();
+	}
 }
 
 void Country::addArmy(Army* army)
 {
 	this->occupyingArmies->push_back(army);
-	// Check and see if the country's owner changed.
-	// Get Map Singleton and call map->mapNotify();
+	bool ownerChanged = this->updateCountryOwner();
+	if (!ownerChanged)
+	{
+		Map* map = Map::getInstance();
+		map->mapNotify();
+	}
 }
 
 void Country::moveArmy(Country* newCountry, Army* army)
 {
 	newCountry->occupyingArmies->push_back(army);
-	// Check and see if the country's owner changed.
-	this->removeArmy(army);
+	this->removeArmy(army); // Country owning update would be done in removeArmy fucntion.
+}
+
+bool Country::removeArmy(Army* army)
+{
+	for (int i = 0; i < occupyingArmies->size(); i++)
+	{
+		if (occupyingArmies->at(i) == army)
+		{
+			occupyingArmies->erase(occupyingArmies->begin() + i);
+			bool ownerChanged = this->updateCountryOwner();
+			if (!ownerChanged)
+			{
+				Map* map = Map::getInstance();
+				map->mapNotify();
+			}
+			return true;
+		}
+	}
+	return false;
 }
 
 //not meant to be directly called
@@ -221,21 +367,6 @@ Continent::~Continent()
 	delete name, containedCountries;
 	name = nullptr;
 	containedCountries = nullptr;
-}
-
-bool Country::removeArmy(Army* army) const
-{
-	for (int i = 0; i < occupyingArmies->size(); i++)
-	{
-		if (occupyingArmies->at(i) == army)
-		{
-			occupyingArmies->erase(occupyingArmies->begin() + i);
-			// Check and see if the country's owner changed.
-			// Get Map Singleton and call map->mapNotify();
-			return true;
-		}
-	}
-	return false;
 }
 
 void Country::changeOwner(Player* new_owner)

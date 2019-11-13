@@ -36,6 +36,7 @@ void Subject::Notify()
 }
 
 GameStatistics::GameStatistics()
+	: mapSubject(nullptr), players(new vector<Player*>)
 {/*Intentionally Empty*/}
 
 GameStatistics::GameStatistics(Map* map, vector<Player*>* gamePlayers)

@@ -466,6 +466,15 @@ void Player::computeScore(Map* map)
 
 }
 
+void Player::addOwnedCountry(Country* to_add)
+{
+	ownedCountries->push_back(to_add);
+}
+
+void Player::addOwnedContinent(Continent* to_add)
+{
+	ownedContinents->push_back(to_add);
+}
 
 bool Player::removeOwnedCountry(Country* to_remove)
 {
