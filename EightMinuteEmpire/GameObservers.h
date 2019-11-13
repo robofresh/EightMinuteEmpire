@@ -1,9 +1,15 @@
 #pragma once
+
 #include <list>
-#include "Map.h"
-#include "Player.h"
+#include <vector>
 
 using namespace std;
+
+class Observer;
+class Subject;
+class GameStatistics;
+class Player;
+class Map;
 
 class Observer
 {

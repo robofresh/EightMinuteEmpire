@@ -4,15 +4,17 @@
 #include <list>
 #include <string>
 #include <iostream>
+#include "Player.h"
 #include "GameObservers.h"
 
 using namespace std;
 
 class Country;
-class Map;
+class Continent;
 class Army;
 class City;
 class Player;
+class Map;
 
 class Continent
 {

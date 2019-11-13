@@ -10,9 +10,12 @@
 
 using namespace std;
 
+class Map;
 class Army;
 class City;
 class Player;
+class Country;
+class Continent;
 class BidingFacility;
 
 class Army

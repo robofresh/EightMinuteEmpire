@@ -1,4 +1,6 @@
 #include "GameObservers.h"
+#include "Player.h"
+#include "Map.h"
 
 Observer::Observer()
 {/*Intentionally Empty*/}
