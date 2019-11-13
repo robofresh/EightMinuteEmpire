@@ -1,9 +1,13 @@
 #pragma once
 #include <list>
-#include "Map.h"
-#include "cards.h"
+
 
 using namespace std;
+
+//Only way I found to actually avoid the circular referencing header files....
+class Cards;
+class Player;
+//To avoid compiler crash....
 
 class Observer
 {
@@ -30,15 +34,16 @@ class PlayerObserver : public Observer
 {
 public:
 	PlayerObserver();
-	PlayerObserver(Player* player);
+	PlayerObserver(Player*, int* );
 	~PlayerObserver();
 	void Update();
 	void display();
-private:
+protected:
 	Player* _playerSubject;
+	int* _index;
 };
 
-class CurrentPOb : public Observer
+class CurrentPOb : public PlayerObserver
 {
 public:
 	CurrentPOb();
@@ -47,7 +52,7 @@ public:
 	void Update();
 	void display();
 protected:
-	Player* _currentSubject;
+	//Player* _currentSubject;
 	Cards* _cardChosen;
 	int* position;
 	int* _supply;
@@ -67,4 +72,16 @@ private:
 	int* supply;
 };
 
-
+//class ActionOb : public CurrentPOb
+//{
+//public:
+//	ActionOb();
+//	ActionOb(Player*, Cards*, string*, int*);
+//	~ActionOb();
+//	void Update();
+//	void display();
+//protected:
+//	string* _action;
+//	int* _amount;
+//	
+//};

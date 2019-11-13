@@ -1,7 +1,8 @@
 #include "Player.h"
+#include "cards.h"
 #include "Map.h"
 #include "BidingFacility.h"
-#include "cards.h"
+
 
 struct InsufficientCoinsException : public exception
 {

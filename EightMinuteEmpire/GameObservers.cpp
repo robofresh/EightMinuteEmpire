@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObservers.h"
 #include "Player.h"
+#include "cards.h"
 
 
 Observer::Observer()
@@ -45,15 +46,18 @@ void Subject::Notify()
 PlayerObserver::PlayerObserver()
 {}
 
-PlayerObserver::PlayerObserver(Player* player)
+PlayerObserver::PlayerObserver(Player* player, int* index)
 {
 	_playerSubject = player;
 	_playerSubject->Attach(this);
+	_index = index;
 }
 
 PlayerObserver::~PlayerObserver()
 {
 	_playerSubject->Detach(this);
+	delete _index;
+	_index = NULL;
 }
 
 void PlayerObserver::Update()
@@ -63,8 +67,9 @@ void PlayerObserver::Update()
 
 void PlayerObserver::display()
 {
-	cout << *_playerSubject->name << endl;
-	cout << "display from observer" << endl;
+	cout << "**********Player "<<*this->_index  <<" " 
+		<< *_playerSubject->name << "'s turn.**********" << endl;
+
 }
 
 CurrentPOb::CurrentPOb()
@@ -72,8 +77,8 @@ CurrentPOb::CurrentPOb()
 
 CurrentPOb::CurrentPOb(Player* player, Cards* chosen, int* position, int* supply)
 {
-	_currentSubject = player;
-	_currentSubject->Attach(this);
+	_playerSubject = player;
+	_playerSubject->Attach(this);
 	_cardChosen = chosen;
 	this->position = position;
 	_supply = supply;
@@ -81,7 +86,7 @@ CurrentPOb::CurrentPOb(Player* player, Cards* chosen, int* position, int* supply
 
 CurrentPOb::~CurrentPOb()
 {
-	_currentSubject->Detach(this);
+	_playerSubject->Detach(this);
 }
 
 void CurrentPOb::Update()
@@ -97,8 +102,8 @@ void CurrentPOb::Update()
 
 void CurrentPOb::display()
 {
-	cout << "dislay observer from currentPOb" << endl;
-	cout<< "Player " <<*this->_currentSubject->name
+	cout << "*************dislay observer from currentPOb************" << endl;
+	cout<< "Player " <<*this->_playerSubject->name
 		<< " selects the " << *this->position 
 		<< "th card from the left." <<endl;
 	this->_cardChosen->print();
@@ -109,8 +114,8 @@ PayOb::PayOb()
 
 PayOb::PayOb(Player* player, int* cost, int*supply)
 {
-	_currentSubject = player;
-	_currentSubject->Attach(this);
+	_playerSubject = player;
+	_playerSubject->Attach(this);
 	this->cost = cost;
 	this->supply = supply;
 
@@ -118,13 +123,14 @@ PayOb::PayOb(Player* player, int* cost, int*supply)
 
 PayOb::~PayOb()
 {
-	_currentSubject->Detach(this);
+	_playerSubject->Detach(this);
 }
 void PayOb::display()
 {
-	cout << "Inside payOb display" << endl;
-	cout << *(_currentSubject->name) << " is paying " << cost << " coins." << endl;
-	cout << *(_currentSubject->name) << " now has " << *(_currentSubject->numCoins) << " coins." << endl;
+	cout << "************Inside payOb display***************" << endl;
+	cout << *(_playerSubject->name) << " is paying " << *cost << " coins." << endl;
+	cout << *(_playerSubject->name) << " now has " << *(_playerSubject->numCoins) << " coins." << endl;
+	cout << "The Game Supply now has : " << *supply << " coins." << endl;
 }
 
 void PayOb::Update()
@@ -132,3 +138,75 @@ void PayOb::Update()
 	display();
 }
 
+//ActionOb::ActionOb(){}
+//
+//ActionOb::ActionOb(Player* player, Cards* card, string* action, int* amount)
+//{
+//	_playerSubject = player;
+//	_cardChosen = card;
+//	card->Attach(this);
+//	_action = action;
+//	_amount = amount;
+//
+//
+//}
+//
+//ActionOb::~ActionOb()
+//{
+//
+//}
+//
+//void ActionOb::display()
+//{
+//	if ("placeArmies" == *_action)
+//	{
+//		if (*_amount > 1)
+//		{
+//			cout << "Place " << *_amount << " armies";
+//			return;
+//		}
+//		cout << "Place " << *_amount << " army";
+//	}
+//	if ("move" == *_action)
+//	{
+//		if (*_amount > 1)
+//		{
+//			cout << "Move " << *_amount << " armies";
+//			return;
+//		}
+//		cout << "Move " << *_amount << " army";
+//	}
+//	if ("createCity" == *_action)
+//	{
+//		if (*_amount > 1)
+//		{
+//			cout << "Create " << *_amount << " cities";
+//			return;
+//		}
+//		cout << "Create " << *_amount << " city";
+//	}
+//	if ("waterMove" == *_action)
+//	{
+//		if (*_amount > 1)
+//		{
+//			cout << "Move " << *_amount << " armies across water/land";
+//			return;
+//		}
+//		cout << "Move " << *_amount << " army across water/land";
+//	}
+//	if ("destroyArmies" == *_action)
+//	{
+//		if (*_amount > 1)
+//		{
+//			cout << "Destroy " << *_amount << " armies";
+//			return;
+//		}
+//		cout << "Destroy " << *_amount << " army";
+//	}
+//
+//}
+//
+//void ActionOb::Update()
+//{
+//	display();
+//}

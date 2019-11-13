@@ -143,7 +143,7 @@ string getMapFileName()
 //Iterate and create players for the game
 void createPlayers(const int numPlayers, const int numCoinsPerPlayer, vector<Player*>* players, Deck* deck, const string colors[])
 {
-	PlayerObserver* observeP;
+	
 	for (int i = 0; i < numPlayers; i++)
 	{
 		string name;
@@ -153,7 +153,6 @@ void createPlayers(const int numPlayers, const int numCoinsPerPlayer, vector<Pla
 		cout << "Enter your age: ";
 		cin >> age;
 		Player* player = new Player(name, age, numCoinsPerPlayer, colors[i], deck);
-		observeP = new PlayerObserver(player);
 		players->push_back(player);
 		player->printPlayer();
 	}
@@ -288,11 +287,31 @@ int main()
 	int lastIndex = (*currentPlayerIndex +NUM_PLAYERS - 1) % NUM_PLAYERS;
 	lastPlayer = players->at(lastIndex);
 
-	cout << "Supply is now at " << *(supply) << " coins." << endl;
-	cout << "First player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
-	cout << "First player index is " << *currentPlayerIndex << "\n" << endl;
+	//Attach PlayerOb on each player with their index
+	PlayerObserver* observeP;
+	int* track = new int(*currentPlayerIndex);
+	int* turn = new int(1);
+
+	do
+	{
+		observeP = new PlayerObserver(players->at(*track), turn);
+		track = new int((*track + 1 + NUM_PLAYERS)%NUM_PLAYERS);
+		turn = new int(*turn + 1);
+		observeP = NULL;		
+		
+
+	} while (*track != *currentPlayerIndex);
+
+	delete track;
+	track = NULL;
 
 	cout << "Let the game begin!\n" << endl;
+	//Printing first player!
+	//cout << "Supply is now at " << *(supply) << " coins." << endl;
+	//cout << "First player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
+	//cout << "First player index is " << *currentPlayerIndex << "\n" << endl;
+	currentPlayer->Notify();
+
 
 // #################################################
 //				Part 3: Main Game Loop
@@ -313,7 +332,7 @@ int main()
 			{
 				deck->cardsSpace->print();
 				cout << *currentPlayer->name;
-				cout << "! Select one of the face-up cards" << endl;
+				cout << "! Please select one of the face-up cards" << endl;
 				cin >> cardPosition;
 				if (std::cin.fail())
 					throw InputException();
@@ -385,12 +404,14 @@ int main()
 		*currentPlayerIndex = newIndex % NUM_PLAYERS;
 		currentPlayer = players->at(*currentPlayerIndex);//update current player
 
+		//Printing Current Player => TODO : To be integrated with an obs
 		cout << endl;
 		cout << "************************************************************" << endl;
 		cout << endl;
-		cout << "Supply is now at " << *(supply) << " coins." << endl;
-		cout << "Current player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
-		cout << "Current player index is " << *currentPlayerIndex << "\n" << endl;
+		//cout << "Supply is now at " << *(supply) << " coins." << endl;
+		//cout << "Current player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
+		//cout << "Current player index is " << *currentPlayerIndex << "\n" << endl;
+		currentPlayer->Notify();
 
 // #################################################
 //			Part 6: Game End, Compute Score
