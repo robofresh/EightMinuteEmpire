@@ -406,9 +406,10 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 	{
 		Country* country = nullptr;
 		Player* enemyPlayer = nullptr;
-		while (country == nullptr || enemyPlayer == nullptr)
+		string enemyName;
+
+		while (enemyPlayer == nullptr)
 		{
-			string enemyName;
 			cout << "\tGive a valid player name (-1 to exit): ";
 			cin >> enemyName;
 			if (enemyName == "-1") 
@@ -420,30 +421,31 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 				if (enemyName == *i->name)
 					enemyPlayer = i;
 			}
+		}
 
-			string countryName;
-			while (true)
+		string countryName;
+		while (country == nullptr)
+		{
+			cout << "\tGive a valid country name (-1 to exit): ";
+			cin >> countryName;
+			if (countryName == "-1")
 			{
-				cout << "\tGive a valid country name (-1 to exit): ";
-				cin >> countryName;
-				if (countryName == "-1")
+				return;
+			}
+			country = map->getCountry(countryName);
+			if (country != nullptr)
+			{
+				for (auto i : *country->occupyingArmies)
 				{
-					return;
-				}
-				country = map->getCountry(countryName);
-				if (country != nullptr)
-				{
-					for (auto i : *country->occupyingArmies)
+					if (enemyName == *i->player->name)
 					{
-						if (enemyName == *i->player->name)
-						{
-							country = i->occupiedCountry;
-							player->destroyArmy(country, enemyPlayer);
-							return;
-						}
+						country = i->occupiedCountry;
+						player->destroyArmy(country, enemyPlayer);
+						return;
 					}
-					cout << "\t" << enemyName << " does not have an army in " << countryName << endl;
 				}
+				cout << "\t" << enemyName << " does not have an army in " << countryName << endl;
+				country = nullptr;
 			}
 		}
 	}

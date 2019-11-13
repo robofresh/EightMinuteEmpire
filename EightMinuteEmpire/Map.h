@@ -21,6 +21,8 @@ public:
 	Continent(const string&, Map*);
 	~Continent();
 	string* name;
+	void changeOwner(Player*);
+	Player* owningPlayer;
 	vector<Country*>* containedCountries; //pointer to a vector of pointers to countries contained in continent
 };
 
@@ -47,6 +49,7 @@ public:
 	void addCity(City*);
 	void addArmy(Army*);
 	void moveArmy(Country*, Army*);
+	void changeOwner(Player*);
 
 };
 

@@ -77,4 +77,7 @@ public:
 	void computeScore(Map*);
 	void ignore(Cards*);
 	void payCard(Cards*, int, int*);
+	bool removeOwnedCountry(Country*);
+	bool removeOwnedContinent(Continent*);
+	
 };
