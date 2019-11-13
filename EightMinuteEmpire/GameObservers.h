@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include <string>
 
 
 using namespace std;
@@ -72,16 +73,20 @@ private:
 	int* supply;
 };
 
-//class ActionOb : public CurrentPOb
-//{
-//public:
-//	ActionOb();
-//	ActionOb(Player*, Cards*, string*, int*);
-//	~ActionOb();
-//	void Update();
-//	void display();
-//protected:
-//	string* _action;
-//	int* _amount;
-//	
-//};
+class ActionOb : public CurrentPOb
+{
+public:
+	ActionOb();
+	ActionOb(Player*, Cards*);
+	ActionOb(Player*, Cards*, string*);
+	ActionOb(Player*, Cards*, string*, int*);
+	~ActionOb();
+	void Update();
+	void display();
+	void setAction(string*);
+	void setAmount(int*);
+protected:
+	//vector<string*>* _action;
+	//int* _amount;
+	
+};

@@ -371,6 +371,8 @@ int main()
 		chosenCard = deck->cardsSpace->faceupcards->at(cardPosition);
 
 		//chosenCard->print();-> To be integrated with Obs
+		ActionOb* cardOb;
+		cardOb = new ActionOb(currentPlayer, chosenCard);
 
 		currentPlayer->hand->faceupcards->push_back(chosenCard);//Push address 
 		currentPlayer->payCard(chosenCard, cardPosition, supply);//Pay the correct amount of coins

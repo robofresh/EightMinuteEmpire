@@ -1,5 +1,6 @@
 #include "Actions.h"
 #include <string>
+#include <iostream>
 
 void actionProcess(const string&, const int&, Player* player, Map* map, vector<Player*>*);
 void actionPrint(const string&, const int&);
@@ -18,6 +19,9 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 	*/
 
 	//process action(s)
+
+	//Attach ActionOb
+
 
 	cout << endl;
 	
@@ -49,6 +53,7 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 			if (selection == 1)
 			{
 				actionProcess(*card->actions->at(0), stoi(*card->actions->at(1)), player, map, playerVector);
+			
 				actionProcess(*card->actions->at(3), stoi(*card->actions->at(4)), player, map, playerVector);
 			} 
 			//or ignore
@@ -82,6 +87,7 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 			if (selection == 1)
 			{
 				actionProcess(*card->actions->at(0), stoi(*card->actions->at(1)), player, map, playerVector);
+				
 			}
 			else if (selection == 2)
 			{
@@ -130,6 +136,7 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 
 void actionProcess(const string& action, const int& amount, Player *player, Map* map, vector<Player*>* playersVector)
 {
+
 	//if it is a place armies card
 	if ("placeArmies" == action)
 	{
@@ -178,6 +185,7 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 					}
 				}
 				player->placeNewArmies(country, 1);
+
 			}
 			else
 			{

@@ -138,75 +138,123 @@ void PayOb::Update()
 	display();
 }
 
-//ActionOb::ActionOb(){}
-//
-//ActionOb::ActionOb(Player* player, Cards* card, string* action, int* amount)
-//{
-//	_playerSubject = player;
-//	_cardChosen = card;
-//	card->Attach(this);
-//	_action = action;
-//	_amount = amount;
-//
-//
-//}
-//
-//ActionOb::~ActionOb()
-//{
-//
-//}
-//
-//void ActionOb::display()
-//{
-//	if ("placeArmies" == *_action)
-//	{
-//		if (*_amount > 1)
-//		{
-//			cout << "Place " << *_amount << " armies";
-//			return;
-//		}
-//		cout << "Place " << *_amount << " army";
-//	}
-//	if ("move" == *_action)
-//	{
-//		if (*_amount > 1)
-//		{
-//			cout << "Move " << *_amount << " armies";
-//			return;
-//		}
-//		cout << "Move " << *_amount << " army";
-//	}
-//	if ("createCity" == *_action)
-//	{
-//		if (*_amount > 1)
-//		{
-//			cout << "Create " << *_amount << " cities";
-//			return;
-//		}
-//		cout << "Create " << *_amount << " city";
-//	}
-//	if ("waterMove" == *_action)
-//	{
-//		if (*_amount > 1)
-//		{
-//			cout << "Move " << *_amount << " armies across water/land";
-//			return;
-//		}
-//		cout << "Move " << *_amount << " army across water/land";
-//	}
-//	if ("destroyArmies" == *_action)
-//	{
-//		if (*_amount > 1)
-//		{
-//			cout << "Destroy " << *_amount << " armies";
-//			return;
-//		}
-//		cout << "Destroy " << *_amount << " army";
-//	}
-//
-//}
-//
-//void ActionOb::Update()
-//{
-//	display();
-//}
+ActionOb::ActionOb(){}
+
+ActionOb::ActionOb(Player* player, Cards* card)
+{
+	_playerSubject = player;
+	_cardChosen = card;
+	card->Attach(this);
+	//_action = NULL;
+	//_amount = NULL;
+
+}
+
+ActionOb::ActionOb(Player* player, Cards* card, string* action)
+{
+	_playerSubject = player;
+	_cardChosen = card;
+	card->Attach(this);
+	//_action = action;
+	//_amount = NULL;
+
+
+}
+
+ActionOb::ActionOb(Player* player, Cards* card, string* action, int* amount)
+{
+	_playerSubject = player;
+	_cardChosen = card;
+	card->Attach(this);
+	//_action = action;
+	//_amount = amount;
+
+
+}
+
+ActionOb::~ActionOb()
+{
+
+}
+
+void ActionOb::setAction(string* action)
+{
+	//_action = action;
+}
+
+void ActionOb::setAmount(int* amount)
+{
+	//_amount = amount;
+}
+
+void ActionOb::display()
+{
+	cout << "Chosen card is : " << endl;
+
+
+	cout << "[Good is : " << *_cardChosen->good;
+	cout << ", Action is : ";
+	const int temp = _cardChosen->actions->size();
+
+	if (temp != 0)
+	{
+		for (int j = 0; j < temp; j++)
+		{
+			cout << *_cardChosen->actions->at(j) << " ";
+		}
+		cout << "]";
+
+	}
+
+	/*if ("placeArmies" == *_action)
+	{
+		if (*_amount > 1)
+		{
+			cout << "Place " << *_amount << " armies";
+			return;
+		}
+		cout << "Place " << *_amount << " army";
+	}
+	if ("move" == *_action)
+	{
+		if (*_amount > 1)
+		{
+			cout << "Move " << *_amount << " armies";
+			return;
+		}
+		cout << "Move " << *_amount << " army";
+	}
+	if ("createCity" == *_action)
+	{
+		if (*_amount > 1)
+		{
+			cout << "Create " << *_amount << " cities";
+			return;
+		}
+		cout << "Create " << *_amount << " city";
+	}
+	if ("waterMove" == *_action)
+	{
+		if (*_amount > 1)
+		{
+			cout << "Move " << *_amount << " armies across water/land";
+			return;
+		}
+		cout << "Move " << *_amount << " army across water/land";
+	}
+	if ("destroyArmies" == *_action)
+	{
+		if (*_amount > 1)
+		{
+			cout << "Destroy " << *_amount << " armies";
+			return;
+		}
+		cout << "Destroy " << *_amount << " army";
+	}*/
+
+}
+
+void ActionOb::Update()
+{
+	display();
+}
