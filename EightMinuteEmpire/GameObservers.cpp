@@ -1,3 +1,4 @@
+#include <string>
 #include "GameObservers.h"
 #include "Player.h"
 #include "Map.h"
@@ -9,7 +10,7 @@ Observer::~Observer()
 {/*Intentionally Empty*/}
 
 Subject::Subject()
-	: observers(new list<Observer*>) {}
+	: observers(new list<Observer*>()) {}
 
 Subject::~Subject()
 {
@@ -29,7 +30,7 @@ void Subject::Detach(Observer* ob)
 void Subject::Notify()
 {
 	list<Observer*>::iterator i = observers->begin();
-	for (; i != observers->end(); i++)
+	for (i; i != observers->end(); i++)
 	{
 		(*i)->Update();
 	}
@@ -53,11 +54,42 @@ GameStatistics::~GameStatistics()
 
 void GameStatistics::Update()
 {
-	display();
+	this->display();
 }
 
 void GameStatistics::display()
 {
-	cout << "GameStat Display!" << endl;
+	const int COL_WIDTH_CONTINENTS = 56;
+	cout << endl;
+	cout << string(150, '#') << endl;
+	cout << "\t\t Game Statistics" << endl;
+	cout << string(150, '-') << endl;
+	cout << "| Players  | Victory Pts | Owned Continents" << string(COL_WIDTH_CONTINENTS - 16, ' ') << "| Owned Countries" << endl;
+	cout << string(150, '-') << endl;
+
+	for (int i = 0; i < players->size(); i++)
+	{
+		string ownedContinents = "";
+		cout << "| Player " << (i)+1 << " | ";
+		cout << *players->at(i)->victoryPoint << string(9, ' ');
+		if (*players->at(i)->victoryPoint < 10) {
+			cout << " ";
+		}
+		for (int j = 0; j < players->at(i)->ownedContinents->size(); j++)
+		{
+			ownedContinents.append(*players->at(i)->ownedContinents->at(j)->name);
+			ownedContinents.append(" ");
+		}
+		cout << " | " << ownedContinents << string(COL_WIDTH_CONTINENTS - ownedContinents.size(), ' ') << "| ";
+		for (int j = 0; j < players->at(i)->ownedCountries->size(); j++)
+		{
+			cout << *players->at(i)->ownedCountries->at(j)->name << " ";
+		}
+		cout << endl;
+	}
+	cout << string(150, '-') << endl;
+	cout << endl;
+	cout << string(150, '#') << endl;
+	cout << endl;
 }
 

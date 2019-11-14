@@ -64,12 +64,11 @@ class Map : public Subject
 {
 private:
 	static Map* m_instance;
-
-public:
-	static Map* getInstance();
 	Map();
 	~Map();
-
+public:
+	static Map* getInstance();
+	
 	Country* createCountry(const string&, Continent*);
 	Continent* createContinent(const string&);
 

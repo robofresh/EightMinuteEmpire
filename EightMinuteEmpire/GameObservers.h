@@ -40,7 +40,7 @@ public:
 	~GameStatistics();
 	void Update();
 	void display();
-private:
+protected:
 	Map* mapSubject;
 	vector<Player*>* players;
 };

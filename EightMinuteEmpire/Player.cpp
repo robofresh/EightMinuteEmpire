@@ -287,7 +287,6 @@ void Player::placeNewArmies(Country* country, int amount)
 		country->addArmy(availableArmy);
 		cout << *(this->name) << " placed an army in " << *(country->name) << endl;
 	}
-
 }
 
 //Ignore action only prints out that they ignore it
@@ -459,6 +458,15 @@ int goodPoints(Hand* hand)
 		+ getCarrotPoint(hand);
 }
 
+void Player::updateVictoryPoint()
+{
+	int points = 0;
+	points = ownedCountries->size();
+	points += ownedContinents->size();
+	points += goodPoints(hand);
+	*victoryPoint = points;
+}
+
 void Player::computeScore(Map* map)
 {	
 	*victoryPoint += ownedCountries->size();
@@ -469,11 +477,13 @@ void Player::computeScore(Map* map)
 void Player::addOwnedCountry(Country* to_add)
 {
 	ownedCountries->push_back(to_add);
+	updateVictoryPoint();
 }
 
 void Player::addOwnedContinent(Continent* to_add)
 {
 	ownedContinents->push_back(to_add);
+	updateVictoryPoint();
 }
 
 bool Player::removeOwnedCountry(Country* to_remove)
@@ -483,6 +493,7 @@ bool Player::removeOwnedCountry(Country* to_remove)
 		if (ownedCountries->at(i) == to_remove)
 		{
 			ownedCountries->erase(ownedCountries->begin() + i);
+			updateVictoryPoint();
 			return true;
 		}
 	}
@@ -496,6 +507,7 @@ bool Player::removeOwnedContinent(Continent* to_remove)
 		if (ownedContinents->at(i) == to_remove)
 		{
 			ownedContinents->erase(ownedContinents->begin() + i);
+			updateVictoryPoint();
 			return true;
 		}
 	}

@@ -2,6 +2,8 @@
 #include "Map.h"
 #include "Player.h"
 
+Map* Map::m_instance = nullptr;
+
 //with each country as a class, our map nodes will be pointers to those classes on the heap
 Map::Map()
 {
@@ -12,7 +14,16 @@ Map::Map()
 
 void Map::mapNotify()
 {
-	Notify();
+	this->Notify();
+}
+
+
+Map* Map::getInstance()
+{
+	if (m_instance == 0) {
+		m_instance = new Map();
+	}
+	return m_instance;
 }
 
 void Map::print() const
@@ -256,7 +267,7 @@ Player* Continent::findContinentOwner() const
 	int max = 0;
 	for (auto it = playerCount.begin(); it != playerCount.end(); it++)
 	{
-		if (it->second > max)
+		if (it->second > max && it->first != nullptr)
 		{
 			max = it->second;
 			owningPlayer = it->first;
@@ -273,11 +284,11 @@ Player* Continent::findContinentOwner() const
 bool Country::updateCountryOwner()
 {
 	Player* countryOwner = this->findCountryOwner();
-	if (countryOwner != nullptr && this->owningPlayer != countryOwner) {
+	if (this->owningPlayer != countryOwner) {
 		this->changeOwner(countryOwner);
-		this->owningPlayer->removeOwnedCountry(this);
-		*countryOwner->victoryPoint = *countryOwner->victoryPoint + 1;
-		countryOwner->addOwnedCountry(this);
+		if (countryOwner != nullptr) {
+			countryOwner->addOwnedCountry(this);
+		}
 		this->parentContinent->updateContinentOwner();
 		Map* map = Map::getInstance();
 		map->mapNotify();
@@ -289,11 +300,12 @@ bool Country::updateCountryOwner()
 bool Continent::updateContinentOwner()
 {
 	Player* continentOwner = this->findContinentOwner();
-	if (continentOwner != nullptr && this->owningPlayer != continentOwner) {
+	if (this->owningPlayer != continentOwner) {
 		this->changeOwner(continentOwner);
-		this->owningPlayer->removeOwnedContinent(this);
-		*continentOwner->victoryPoint = *continentOwner->victoryPoint + 1;
-		continentOwner->addOwnedContinent(this);
+		if (continentOwner != nullptr) {
+			*continentOwner->victoryPoint = *continentOwner->victoryPoint + 1;
+			continentOwner->addOwnedContinent(this);
+		}
 		return true;
 	}
 	return false;
@@ -323,7 +335,7 @@ void Country::addArmy(Army* army)
 
 void Country::moveArmy(Country* newCountry, Army* army)
 {
-	newCountry->occupyingArmies->push_back(army);
+	newCountry->addArmy(army);
 	this->removeArmy(army); // Country owning update would be done in removeArmy fucntion.
 }
 
@@ -392,12 +404,4 @@ void Continent::changeOwner(Player* new_owner)
 		owningPlayer->removeOwnedContinent(this);
 		owningPlayer = new_owner;
 	}
-}
-
-Map* Map::m_instance = 0;
-Map* Map::getInstance()
-{
-	if (!m_instance)
-		m_instance = new Map;
-	return m_instance;
 }
