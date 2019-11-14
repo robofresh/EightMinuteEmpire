@@ -212,7 +212,7 @@ int main()
 	cout << "########################################\n" << endl;
 
 	// Select map from list of files.
-	Map* map = new Map();
+	Map* map = Map::getInstance();
 	MapLoader* mapLoader = nullptr;
 	while (true)
 	{

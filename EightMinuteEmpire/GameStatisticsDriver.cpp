@@ -90,4 +90,31 @@ int main()
 		}
 
 	} while (!endGame);
+
+// #################################################
+//						Cleanup
+// #################################################
+
+	for (int i = 0; i < NUM_PLAYERS; i++)
+	{
+		delete players->at(i);
+	}
+	delete players;
+	players = NULL;
+	delete deck;
+	deck = NULL;
+	delete mapLoader;
+	mapLoader = NULL;
+	delete map;
+	map = NULL;
+	startingCountry = NULL;
+	supply = NULL;
+	currentPlayer = NULL;
+	delete currentPlayerIndex;
+	currentPlayerIndex = NULL;
+	lastPlayer = NULL;
+	delete action;
+	action = NULL;
+	delete gameStats;
+	gameStats = NULL;
 }

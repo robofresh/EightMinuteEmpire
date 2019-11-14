@@ -65,9 +65,9 @@ class Map : public Subject
 private:
 	static Map* m_instance;
 	Map();
-	~Map();
 public:
 	static Map* getInstance();
+	~Map();
 	
 	Country* createCountry(const string&, Continent*);
 	Continent* createContinent(const string&);
