@@ -7,6 +7,7 @@
 #include "Map.h"
 #include "BidingFacility.h"
 #include "cards.h"
+#include "PlayerStrategies.h"
 
 using namespace std;
 
@@ -79,5 +80,6 @@ public:
 	void payCard(Cards*, int, int*);
 	bool removeOwnedCountry(Country*);
 	bool removeOwnedContinent(Continent*);
-	
+
+	Strategy* strategy;
 };
