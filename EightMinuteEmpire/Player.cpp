@@ -59,6 +59,7 @@ Player::Player()
 	bidFacObj = new BidingFacility(this);
 	victoryPoint = new int(0);
 	scores = new vector <Player*>();
+	strategy = new Human();
 }
 
 Player::Player(string inputName, int inputAge, int coinAmount, string selectedColor, Deck* mainDeck)
@@ -300,7 +301,7 @@ void Player::placeNewArmies(Country* country, int amount)
 }
 
 //Ignore action only prints out that they ignore it
-void Player::ignore(Cards* card)
+void Player::ignore()
 {
 	cout << "Player takes the card and ignore the action." << endl;
 }
@@ -500,6 +501,22 @@ bool Player::removeOwnedContinent(Continent* to_remove)
 		}
 	}
 	return false;
+}
+
+void Player::set_strategy(Strategy* strat)
+{
+	delete strategy;
+	strategy = strat;
+}
+
+void Player::execute_strategy()
+{
+	strategy->execute(*this);
+}
+
+Strategy* Player::get_strategy()
+{
+	return strategy;
 }
 
 

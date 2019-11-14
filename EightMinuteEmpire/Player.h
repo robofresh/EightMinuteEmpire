@@ -76,10 +76,16 @@ public:
 	void buildCity(Country*);
 	void destroyArmy(Country*, Player*);
 	void computeScore(Map*);
-	void ignore(Cards*);
+	void ignore();
 	void payCard(Cards*, int, int*);
 	bool removeOwnedCountry(Country*);
 	bool removeOwnedContinent(Continent*);
+	
+	void set_strategy(Strategy* strat);
+	void execute_strategy();
+	Strategy* get_strategy();
+	
+private:
+	Strategy* strategy;
 
-	//Strategy* strategy;
 };

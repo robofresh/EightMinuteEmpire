@@ -209,7 +209,7 @@ int main()
 	cout << "########################################" << endl;
 	cout << "\tEight Minute Empire" << endl;
 	cout << "########################################\n" << endl;
-
+	
 	// Select map from list of files.
 	global::main_map = new Map();
 	MapLoader* mapLoader = nullptr;

@@ -7,10 +7,8 @@ public:
 	/**
 	* Method whose implementation varies depending on the strategy adopted.
 	*/
-	virtual void execute(const Player&) = 0;
-
-	static void computer_action(const Cards&);
-	
+	virtual void execute(Player&) = 0;
+	string* type;
 	Strategy() = default;
 	virtual ~Strategy() = default;
 };
@@ -18,23 +16,26 @@ public:
 class Human : public Strategy
 {
 public:
-	Human() = default;
-	~Human() = default;
-	void execute(const Player&) override;
+	string* type;
+	Human();
+	~Human();
+	void execute(Player&) override;
 };
 
 class Greedy : public Strategy
 {
 public:
-	Greedy() = default;
-	~Greedy() = default;
-	void execute(const Player&) override;
+	string* type;
+	Greedy();
+	~Greedy();
+	void execute(Player&) override;
 };
 
 class Moderate : public Strategy
 {
 public:
-	Moderate() = default;
-	~Moderate() = default;
-	void execute(const Player&) override;
+	string* type;
+	Moderate();
+	~Moderate();
+	void execute(Player&) override;
 };
