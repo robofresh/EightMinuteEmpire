@@ -1,12 +1,11 @@
 #include <iostream>
 #include <limits>
 #include <vector>
-#include "cards.h"
 #include "Player.h"
-#include "Map.h"
 #include "MapLoader.h"
 #include "Actions.h"
 #include "computeScore.h"
+#include "global.h"
 
 using namespace std;
 
@@ -212,14 +211,14 @@ int main()
 	cout << "########################################\n" << endl;
 
 	// Select map from list of files.
-	Map* map = new Map();
+	global::main_map = new Map();
 	MapLoader* mapLoader = nullptr;
 	while (true)
 	{
 		string mapFileName = getMapFileName();
 		try
 		{
-			mapLoader = new MapLoader(mapFileName, map);
+			mapLoader = new MapLoader(mapFileName, global::main_map);
 			break;
 		}
 		catch (const MapLoaderException & e)
@@ -231,27 +230,27 @@ int main()
 		}
 	}
 	cout << "You've selected the following map: " << endl;
-	map->print();
+	global::main_map->print();
 	cout << endl;
-	Country* startingCountry = map->startingCountry; //Starting country is loaded from map
+	Country* startingCountry = global::main_map->startingCountry; //Starting country is loaded from map
 
 	// Create deck with 42 cards. Shuffle method is done when creating a deck
-	Deck* deck = new Deck();
-	cout << "All " << deck->stackofCards->size() << " cards are shuffled and then putted into a deck and assigned to the game.\n" << endl;
+	global::main_deck = new Deck();
+	cout << "All " << global::main_deck->stackofCards->size() << " cards are shuffled and then putted into a deck and assigned to the game.\n" << endl;
 		
 	// Select number of players.
 	const int NUM_PLAYERS = getNumOfPlayers();
 	const int NUM_COINS_PER_PLAYER = getNumCoinsPerPlayer(NUM_PLAYERS);
 
 	// Create correct number of players.
-	vector<Player*>* players = new vector<Player*>();
+	global::players = new vector<Player*>();
 	const string COLORS[5] = { "Red", "Blue", "Green", "Yellow", "White" };
-	createPlayers(NUM_PLAYERS, NUM_COINS_PER_PLAYER, players, deck, COLORS);
+	createPlayers(NUM_PLAYERS, NUM_COINS_PER_PLAYER, global::players, global::main_deck, COLORS);
 
 	//Other details for setting up the game
 	bool endGame = false;
 	const int MAX_CARDS = determineMaxCards(NUM_PLAYERS);
-	Actions* action = new Actions();
+	global::action = new Actions();
 
 // #######################################################################
 //				Part 2: Startup Phase
@@ -263,28 +262,28 @@ int main()
 	cout << "Total supply of coins was 44, but since each player took " << NUM_COINS_PER_PLAYER << " coins, supply is now at " << supplyVal << " coins.\n" << endl;
 
 	// Place 3 armies of each player on the starting country.
-	placeInitialPlayerArmies(players, startingCountry);
+	placeInitialPlayerArmies(global::players, startingCountry);
 
 	//draw and fill the cards space with faceups cards
-	deck->initialDraw();
+	global::main_deck->initialDraw();
 
 	// Bidding process
 	Player* currentPlayer;
 	int* currentPlayerIndex = new int(0);
 
-	bidFirstPlayer(players, NUM_COINS_PER_PLAYER, supply);
-	currentPlayer = players->at(0)->bidFacObj->winner;
-	auto it = find(players->begin(), players->end(), currentPlayer);
-	if (it != players->end())
+	bidFirstPlayer(global::players, NUM_COINS_PER_PLAYER, supply);
+	currentPlayer = global::players->at(0)->bidFacObj->winner;
+	auto it = find(global::players->begin(), global::players->end(), currentPlayer);
+	if (it != global::players->end())
 	{
-		*currentPlayerIndex = static_cast<int>(distance(players->begin(), it));
+		*currentPlayerIndex = static_cast<int>(distance(global::players->begin(), it));
 	}
-	players->at(0)->bidFacObj->clearBidingFacility();
+	global::players->at(0)->bidFacObj->clearBidingFacility();
 
 	//Keep track of the last player of each round
 	Player* lastPlayer;
 	int lastIndex = (*currentPlayerIndex +NUM_PLAYERS - 1) % NUM_PLAYERS;
-	lastPlayer = players->at(lastIndex);
+	lastPlayer = global::players->at(lastIndex);
 
 	cout << "Supply is now at " << *(supply) << " coins." << endl;
 	cout << "First player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
@@ -309,7 +308,7 @@ int main()
 			enoughCoins = true;
 			try
 			{
-				deck->cardsSpace->print();
+				global::main_deck->cardsSpace->print();
 				cout << *currentPlayer->name;
 				cout << "! Select one of the face-up cards" << endl;
 				cin >> cardPosition;
@@ -347,7 +346,7 @@ int main()
 		//OR if the Card position chosen is NOT between 1 and 6
 	
 		cardPosition = cardPosition - 1;
-		chosenCard = deck->cardsSpace->faceupcards->at(cardPosition);
+		chosenCard = global::main_deck->cardsSpace->faceupcards->at(cardPosition);
 
 		chosenCard->print();
 
@@ -360,7 +359,7 @@ int main()
 		//Display current player's action
 		//Either, do the action or ignore
 
-		action->processAction(currentPlayer, chosenCard, map, players);
+		global::action->processAction(currentPlayer, chosenCard, global::main_map, global::players);
 
 		cout << *(currentPlayer->name) << " now has " 
 			<< currentPlayer->hand->faceupcards->size()
@@ -371,12 +370,12 @@ int main()
 // #################################################
 
 		//Update face-ups cards
-		deck->updateCardsSpace(deck, cardPosition);
+		global::main_deck->updateCardsSpace(global::main_deck, cardPosition);
 
 		//Loop to the next player
 		newIndex = *currentPlayerIndex + 1;//Increasing the index position is clockwise 
 		*currentPlayerIndex = newIndex % NUM_PLAYERS;
-		currentPlayer = players->at(*currentPlayerIndex);//update current player
+		currentPlayer = global::players->at(*currentPlayerIndex);//update current player
 
 		cout << endl;
 		cout << "************************************************************" << endl;
@@ -402,18 +401,18 @@ int main()
 	cout << "****************END OF GAME****************" << endl;
 
 	//Compute Scores
-	for (int i = 0; i < players->size(); i++)
+	for (int i = 0; i < global::players->size(); i++)
 	{
-		players->at(i)->computeScore(map);
+		global::players->at(i)->computeScore(global::main_map);
 	}
 
 	computeScore score = computeScore();
-	score.continentScore(map, players);
+	score.continentScore(global::main_map, global::players);
 
-	Player* winner = players->at(0);//Winner initialize to the first player at first
+	Player* winner = global::players->at(0);//Winner initialize to the first player at first
 
 	//Determine the Winner of the Game
-	for (auto i : *players)
+	for (auto i : *global::players)
 	{
 		if (*i->victoryPoint > *winner->victoryPoint)//Update Winner by comparing Points
 		{
@@ -447,9 +446,9 @@ int main()
 
 	cout << "The winner is " << *winner->name << endl;//Print the winner of the game
 
-	for (int i = 0; i < players->size(); i++)//Prints all the players
+	for (int i = 0; i < global::players->size(); i++)//Prints all the players
 	{
-		players->at(i)->printPlayer();
+		global::players->at(i)->printPlayer();
 	}
 
 // #################################################
@@ -458,24 +457,24 @@ int main()
 
 	for (int i = 0; i < NUM_PLAYERS; i++)
 	{
-		delete players->at(i);
+		delete global::players->at(i);
 	}
-	delete players;
-	players = NULL;
-	delete deck;
-	deck = NULL;
+	delete global::players;
+	global::players = NULL;
+	delete global::main_deck;
+	global::main_deck = NULL;
 	delete mapLoader;
 	mapLoader = NULL;
-	delete map;
-	map = NULL;
+	delete global::main_map;
+	global::main_map = NULL;
 	startingCountry = NULL;
 	supply = NULL;
 	currentPlayer = NULL;
 	delete currentPlayerIndex;
 	currentPlayerIndex = NULL;
 	lastPlayer = NULL;
-	delete action;
-	action = NULL;
+	delete global::action;
+	global::action = NULL;
 
 }
 

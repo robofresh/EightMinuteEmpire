@@ -1,31 +1,40 @@
 #pragma once
 
-#include "Map.h"
 #include "Player.h"
-
 
 class Strategy {
 public:
 	/**
 	* Method whose implementation varies depending on the strategy adopted.
 	*/
-	virtual void execute(Player*, Map*);
+	virtual void execute(const Player&) = 0;
+
+	static void computer_action(const Cards&);
+	
+	Strategy() = default;
+	virtual ~Strategy() = default;
 };
 
 class Human : public Strategy
 {
 public:
-	void execute(Player*, Map*) override;
+	Human() = default;
+	~Human() = default;
+	void execute(const Player&) override;
 };
 
 class Greedy : public Strategy
 {
 public:
-	void execute(Player*, Map*) override;
+	Greedy() = default;
+	~Greedy() = default;
+	void execute(const Player&) override;
 };
 
 class Moderate : public Strategy
 {
 public:
-	void execute(Player*, Map*) override;
+	Moderate() = default;
+	~Moderate() = default;
+	void execute(const Player&) override;
 };

@@ -81,5 +81,5 @@ public:
 	bool removeOwnedCountry(Country*);
 	bool removeOwnedContinent(Continent*);
 
-	Strategy* strategy;
+	//Strategy* strategy;
 };

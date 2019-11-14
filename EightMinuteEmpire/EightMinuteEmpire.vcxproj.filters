@@ -13,6 +13,7 @@
     <ClCompile Include="EightMinuteEmpire.cpp" />
     <ClCompile Include="PlayerStrategies.cpp" />
     <ClCompile Include="StrategyDriver.cpp" />
+    <ClCompile Include="global.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />
@@ -23,6 +24,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="computeScore.h" />
     <ClInclude Include="PlayerStrategies.h" />
+    <ClInclude Include="global.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="map1.map" />
