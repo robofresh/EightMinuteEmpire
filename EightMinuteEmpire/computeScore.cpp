@@ -118,7 +118,7 @@ Player* computeScore::determineWinner(vector<Player*>* players) {
 
 	for (auto i : *players)
 	{
-		i->updateVictoryPoint();
+		i->computeScore();
 		if (*i->victoryPoint > * winner->victoryPoint)//Update Winner by comparing Points
 		{
 			winner = i;

@@ -458,8 +458,8 @@ int goodPoints(Hand* hand)
 		+ getCarrotPoint(hand);
 }
 
-void Player::updateVictoryPoint()
-{
+void Player::computeScore()
+{	
 	int points = 0;
 	points = ownedCountries->size();
 	points += ownedContinents->size();
@@ -467,23 +467,16 @@ void Player::updateVictoryPoint()
 	*victoryPoint = points;
 }
 
-void Player::computeScore(Map* map)
-{	
-	*victoryPoint += ownedCountries->size();
-	*victoryPoint += goodPoints(hand);
-
-}
-
 void Player::addOwnedCountry(Country* to_add)
 {
 	ownedCountries->push_back(to_add);
-	updateVictoryPoint();
+	computeScore();
 }
 
 void Player::addOwnedContinent(Continent* to_add)
 {
 	ownedContinents->push_back(to_add);
-	updateVictoryPoint();
+	computeScore();
 }
 
 bool Player::removeOwnedCountry(Country* to_remove)
@@ -493,7 +486,7 @@ bool Player::removeOwnedCountry(Country* to_remove)
 		if (ownedCountries->at(i) == to_remove)
 		{
 			ownedCountries->erase(ownedCountries->begin() + i);
-			updateVictoryPoint();
+			computeScore();
 			return true;
 		}
 	}
@@ -507,7 +500,7 @@ bool Player::removeOwnedContinent(Continent* to_remove)
 		if (ownedContinents->at(i) == to_remove)
 		{
 			ownedContinents->erase(ownedContinents->begin() + i);
-			updateVictoryPoint();
+			computeScore();
 			return true;
 		}
 	}
