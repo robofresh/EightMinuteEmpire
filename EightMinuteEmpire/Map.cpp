@@ -12,12 +12,6 @@ Map::Map()
 	startingCountry = nullptr;
 }
 
-void Map::mapNotify()
-{
-	this->Notify();
-}
-
-
 Map* Map::getInstance()
 {
 	if (m_instance == 0) {
@@ -291,7 +285,7 @@ bool Country::updateCountryOwner()
 		}
 		this->parentContinent->updateContinentOwner();
 		Map* map = Map::getInstance();
-		map->mapNotify();
+		map->Notify();
 		return true;
 	}
 	return false;
@@ -318,7 +312,7 @@ void Country::addCity(City* city)
 	if (!ownerChanged)
 	{
 		Map* map = Map::getInstance();
-		map->mapNotify();
+		map->Notify();
 	}
 }
 
@@ -329,7 +323,7 @@ void Country::addArmy(Army* army)
 	if (!ownerChanged)
 	{
 		Map* map = Map::getInstance();
-		map->mapNotify();
+		map->Notify();
 	}
 }
 
@@ -350,7 +344,7 @@ bool Country::removeArmy(Army* army)
 			if (!ownerChanged)
 			{
 				Map* map = Map::getInstance();
-				map->mapNotify();
+				map->Notify();
 			}
 			return true;
 		}

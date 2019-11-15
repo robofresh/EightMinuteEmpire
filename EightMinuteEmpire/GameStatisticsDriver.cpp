@@ -96,7 +96,7 @@ int main()
 	computeScore score = computeScore();
 	Player* winner = score.determineWinner(players);
 	GameWinningScores* gameWin = new GameWinningScores(map, players, winner);
-	map->mapNotify();
+	map->Notify();
 
 // #################################################
 //						Cleanup

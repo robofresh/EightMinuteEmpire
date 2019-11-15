@@ -81,7 +81,6 @@ public:
 	Continent* getContinent(const string&) const;
 
 	void print() const;
-	void mapNotify();
 };
 
 
