@@ -212,7 +212,7 @@ int main()
 	cout << "########################################\n" << endl;
 
 	// Select map from list of files.
-	Map* map = new Map();
+	Map* map = Map::getInstance();
 	MapLoader* mapLoader = nullptr;
 	while (true)
 	{
@@ -398,52 +398,12 @@ int main()
 		}
 
 	} while (!endGame);
-
+	cout << endl;
 	cout << "****************END OF GAME****************" << endl;
 
 	//Compute Scores
-	for (int i = 0; i < players->size(); i++)
-	{
-		players->at(i)->computeScore(map);
-	}
-
 	computeScore score = computeScore();
-	score.continentScore(map, players);
-
-	Player* winner = players->at(0);//Winner initialize to the first player at first
-
-	//Determine the Winner of the Game
-	for (auto i : *players)
-	{
-		if (*i->victoryPoint > *winner->victoryPoint)//Update Winner by comparing Points
-		{
-			winner = i;
-			continue;
-		}
-		if (*i->victoryPoint == *winner->victoryPoint && i != winner)//If points are equals, compare number of coins
-		{
-			if (*i->numCoins > * winner->numCoins)
-			{
-				winner = i;
-				continue;
-			}
-			if (*i->numCoins == *winner->numCoins && i != winner)//If Points and coins are equals, check armies
-			{
-				if ((14 - i->availableArmies()) > 14 - winner->availableArmies())
-				{
-					winner = i;
-					continue;
-				}
-				if ((14 - i->availableArmies()) == 14 - winner->availableArmies() && i != winner)//If everything before equals, check ownedCountries
-				{
-					if (i->ownedCountries->size() > winner->ownedCountries->size())
-					{
-						winner = i;
-					}
-				}
-			}
-		}
-	}
+	Player* winner = score.determineWinner(players);
 
 	cout << "The winner is " << *winner->name << endl;//Print the winner of the game
 
@@ -474,6 +434,7 @@ int main()
 	delete currentPlayerIndex;
 	currentPlayerIndex = NULL;
 	lastPlayer = NULL;
+	winner = NULL;
 	delete action;
 	action = NULL;
 

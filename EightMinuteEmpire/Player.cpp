@@ -227,7 +227,7 @@ void Player::buildCity(Country* country)
 {
 	City* availableCity = this->getAvailableCity();
 	availableCity->occupiedCountry = country;
-	country->cities->push_back(availableCity);
+	country->addCity(availableCity);
 	cout << *(this->name) << " now has a city built in " << *(country->name) << endl;
 }
 
@@ -235,22 +235,15 @@ void Player::destroyArmy(Country* country, Player* otherPlayer)
 {
 	Army* selectedArmy = country->getArmy(otherPlayer);
 	selectedArmy->occupiedCountry = nullptr;
-	// Reference for following lines [1]
-	auto it = find(country->occupyingArmies->begin(), country->occupyingArmies->end(), selectedArmy);
-	if (it != country->occupyingArmies->end()) { country->occupyingArmies->erase(it); }	
+	country->removeArmy(selectedArmy);
 	cout << *(this->name) << " destroyed an army of " << *(otherPlayer->name) << "'s in " << *(country->name) << endl;
 }
 
-void Player::moveArmies(Country* initCountry, Country* finalCountry, int amount)
+void Player::moveArmies(Country* initCountry, Country* finalCountry)
 {
-	for (amount; amount > 0; amount--)
-	{
-		Army* selectedArmy = initCountry->getArmy(this);
-		selectedArmy->occupiedCountry = finalCountry;
-		finalCountry->occupyingArmies->push_back(selectedArmy);
-		auto it = find(initCountry->occupyingArmies->begin(), initCountry->occupyingArmies->end(), selectedArmy);
-		if (it != initCountry->occupyingArmies->end()) { initCountry->occupyingArmies->erase(it); }
-	}
+	Army* selectedArmy = initCountry->getArmy(this);
+	selectedArmy->occupiedCountry = finalCountry;
+	initCountry->moveArmy(finalCountry, selectedArmy);
 	cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;
 }
 
@@ -258,9 +251,7 @@ void Player::moveOverLand(Country* initCountry, Country* finalCountry)
 {
 	Army* selectedArmy = initCountry->getArmy(this);
 	selectedArmy->occupiedCountry = finalCountry;
-	finalCountry->occupyingArmies->push_back(selectedArmy);
-	auto it = find(initCountry->occupyingArmies->begin(), initCountry->occupyingArmies->end(), selectedArmy);
-	if (it != initCountry->occupyingArmies->end()) { initCountry->occupyingArmies->erase(it); }
+	initCountry->moveArmy(finalCountry, selectedArmy);
 	cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;
 }
 
@@ -293,10 +284,9 @@ void Player::placeNewArmies(Country* country, int amount)
 	{
 		Army* availableArmy = this->getAvailableArmy();
 		availableArmy->occupiedCountry = country;
-		country->occupyingArmies->push_back(availableArmy);
+		country->addArmy(availableArmy);
 		cout << *(this->name) << " placed an army in " << *(country->name) << endl;
 	}
-
 }
 
 //Ignore action only prints out that they ignore it
@@ -468,13 +458,26 @@ int goodPoints(Hand* hand)
 		+ getCarrotPoint(hand);
 }
 
-
-void Player::computeScore(Map* map)
+void Player::computeScore()
 {	
-	*victoryPoint += ownedCountries->size();
-	*victoryPoint += goodPoints(hand);
+	int points = 0;
+	points = ownedCountries->size();
+	points += ownedContinents->size();
+	points += goodPoints(hand);
+	*victoryPoint = points;
 }
 
+void Player::addOwnedCountry(Country* to_add)
+{
+	ownedCountries->push_back(to_add);
+	computeScore();
+}
+
+void Player::addOwnedContinent(Continent* to_add)
+{
+	ownedContinents->push_back(to_add);
+	computeScore();
+}
 
 bool Player::removeOwnedCountry(Country* to_remove)
 {
@@ -483,6 +486,7 @@ bool Player::removeOwnedCountry(Country* to_remove)
 		if (ownedCountries->at(i) == to_remove)
 		{
 			ownedCountries->erase(ownedCountries->begin() + i);
+			computeScore();
 			return true;
 		}
 	}
@@ -496,6 +500,7 @@ bool Player::removeOwnedContinent(Continent* to_remove)
 		if (ownedContinents->at(i) == to_remove)
 		{
 			ownedContinents->erase(ownedContinents->begin() + i);
+			computeScore();
 			return true;
 		}
 	}

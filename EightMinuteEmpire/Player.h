@@ -10,9 +10,12 @@
 
 using namespace std;
 
+class Map;
 class Army;
 class City;
 class Player;
+class Country;
+class Continent;
 class BidingFacility;
 
 class Army
@@ -70,13 +73,15 @@ public:
 	void printPlayer();
 	void payCoin(int, int*);
 	void placeNewArmies(Country*, int);
-	void moveArmies(Country*, Country*, int);
+	void moveArmies(Country*, Country*);
 	void moveOverLand(Country*, Country*);
 	void buildCity(Country*);
 	void destroyArmy(Country*, Player*);
-	void computeScore(Map*);
+	void computeScore();
 	void ignore(Cards*);
 	void payCard(Cards*, int, int*);
+	void addOwnedCountry(Country*);
+	void addOwnedContinent(Continent*);
 	bool removeOwnedCountry(Country*);
 	bool removeOwnedContinent(Continent*);
 	
