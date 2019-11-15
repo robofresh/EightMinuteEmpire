@@ -44,3 +44,18 @@ protected:
 	Map* mapSubject;
 	vector<Player*>* players;
 };
+
+
+class GameWinningScores : public Observer
+{
+public:
+	GameWinningScores();
+	GameWinningScores(Map*, vector<Player*>*, Player*);
+	~GameWinningScores();
+	void Update();
+	void display();
+protected:
+	Map* mapSubject;
+	vector<Player*>* players;
+	Player* winningPlayer;
+};

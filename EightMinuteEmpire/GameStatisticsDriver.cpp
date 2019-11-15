@@ -90,6 +90,13 @@ int main()
 		}
 
 	} while (!endGame);
+	cout << endl;
+	cout << "****************END OF GAME****************" << endl;
+
+	computeScore score = computeScore();
+	Player* winner = score.determineWinner(players);
+	GameWinningScores* gameWin = new GameWinningScores(map, players, winner);
+	map->mapNotify();
 
 // #################################################
 //						Cleanup
@@ -115,6 +122,9 @@ int main()
 	lastPlayer = NULL;
 	delete action;
 	action = NULL;
+	winner = NULL;
+	delete gameWin;
+	gameWin = NULL;
 	delete gameStats;
 	gameStats = NULL;
 }

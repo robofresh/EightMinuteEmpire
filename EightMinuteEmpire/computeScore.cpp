@@ -113,4 +113,40 @@ void computeScore::continentScore(Map* map, vector<Player*>* players)
 
 }
 
+Player* computeScore::determineWinner(vector<Player*>* players) {
+	Player* winner = players->at(0);//Winner initialize to the first player at first
 
+	for (auto i : *players)
+	{
+		i->updateVictoryPoint();
+		if (*i->victoryPoint > * winner->victoryPoint)//Update Winner by comparing Points
+		{
+			winner = i;
+			continue;
+		}
+		if (*i->victoryPoint == *winner->victoryPoint && i != winner)//If points are equals, compare number of coins
+		{
+			if (*i->numCoins > * winner->numCoins)
+			{
+				winner = i;
+				continue;
+			}
+			if (*i->numCoins == *winner->numCoins && i != winner)//If Points and coins are equals, check armies
+			{
+				if ((14 - i->availableArmies()) > 14 - winner->availableArmies())
+				{
+					winner = i;
+					continue;
+				}
+				if ((14 - i->availableArmies()) == 14 - winner->availableArmies() && i != winner)//If everything before equals, check ownedCountries
+				{
+					if (i->ownedCountries->size() > winner->ownedCountries->size())
+					{
+						winner = i;
+					}
+				}
+			}
+		}
+	}
+	return winner;
+}

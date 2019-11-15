@@ -93,3 +93,50 @@ void GameStatistics::display()
 	cout << endl;
 }
 
+GameWinningScores::GameWinningScores()
+	: mapSubject(nullptr), players(new vector<Player*>), winningPlayer(nullptr)
+{/*Intentionally Empty*/
+}
+
+GameWinningScores::GameWinningScores(Map* map, vector<Player*>* gamePlayers, Player* winner)
+{
+	mapSubject = map;
+	players = gamePlayers;
+	winningPlayer = winner;
+	mapSubject->Attach(this);
+}
+
+GameWinningScores::~GameWinningScores()
+{
+	mapSubject->Detach(this);
+}
+
+void GameWinningScores::Update()
+{
+	this->display();
+}
+
+void GameWinningScores::display()
+{
+	cout << endl;
+	cout << string(30, '#') << endl;
+	cout << "\t\tPlayers and scores" << endl;
+	cout << string(30, '-') << endl;
+
+	for (int i = 0; i < players->size(); i++)
+	{
+		cout << "| Player " << (i)+1 << ":  " << *(players->at(i)->name) << " with " ;
+		cout << *players->at(i)->victoryPoint << " victory points, ";
+		cout << *players->at(i)->numCoins << " coins, ";
+		cout << 14 - players->at(i)->availableArmies() << " armies on the board, and ";
+		cout << players->at(i)->ownedCountries->size() << " owned countries." << endl;
+
+	}
+	cout << endl;
+	cout << "The winner is " << *winningPlayer->name << "!" << endl;
+	cout << string(100, '-') << endl;
+	cout << endl;
+	cout << string(100, '#') << endl;
+	cout << endl;
+}
+
