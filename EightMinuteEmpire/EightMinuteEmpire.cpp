@@ -397,52 +397,12 @@ int main()
 		}
 
 	} while (!endGame);
-
+	cout << endl;
 	cout << "****************END OF GAME****************" << endl;
 
 	//Compute Scores
-	for (int i = 0; i < global::players->size(); i++)
-	{
-		global::players->at(i)->computeScore(global::main_map);
-	}
-
 	computeScore score = computeScore();
-	score.continentScore(global::main_map, global::players);
-
-	Player* winner = global::players->at(0);//Winner initialize to the first player at first
-
-	//Determine the Winner of the Game
-	for (auto i : *global::players)
-	{
-		if (*i->victoryPoint > *winner->victoryPoint)//Update Winner by comparing Points
-		{
-			winner = i;
-			continue;
-		}
-		if (*i->victoryPoint == *winner->victoryPoint && i != winner)//If points are equals, compare number of coins
-		{
-			if (*i->numCoins > * winner->numCoins)
-			{
-				winner = i;
-				continue;
-			}
-			if (*i->numCoins == *winner->numCoins && i != winner)//If Points and coins are equals, check armies
-			{
-				if ((14 - i->availableArmies()) > 14 - winner->availableArmies())
-				{
-					winner = i;
-					continue;
-				}
-				if ((14 - i->availableArmies()) == 14 - winner->availableArmies() && i != winner)//If everything before equals, check ownedCountries
-				{
-					if (i->ownedCountries->size() > winner->ownedCountries->size())
-					{
-						winner = i;
-					}
-				}
-			}
-		}
-	}
+	Player* winner = score.determineWinner(players);
 
 	cout << "The winner is " << *winner->name << endl;//Print the winner of the game
 
@@ -475,7 +435,7 @@ int main()
 	lastPlayer = NULL;
 	delete global::action;
 	global::action = NULL;
-
+	winner = NULL;
 }
 
  //Run program: Ctrl + F5 or Debug > Start Without Debugging menu

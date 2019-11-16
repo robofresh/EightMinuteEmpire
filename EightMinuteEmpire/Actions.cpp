@@ -334,7 +334,7 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 					}
 					armiesAlreadyMoved.push_back(armyID + 1);
 
-					player->moveArmies(army->occupiedCountry, country, 1);
+					player->moveArmies(army->occupiedCountry, country);
 				}
 			}
 			else

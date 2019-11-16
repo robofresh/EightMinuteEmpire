@@ -10,10 +10,12 @@
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="computeScore.cpp" />
+    <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="EightMinuteEmpire.cpp" />
     <ClCompile Include="PlayerStrategies.cpp" />
     <ClCompile Include="StrategyDriver.cpp" />
     <ClCompile Include="global.cpp" />
+    <ClCompile Include="GameStatisticsDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />
@@ -25,6 +27,7 @@
     <ClInclude Include="computeScore.h" />
     <ClInclude Include="PlayerStrategies.h" />
     <ClInclude Include="global.h" />
+    <ClInclude Include="GameObservers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="map1.map" />
