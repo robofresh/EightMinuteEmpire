@@ -211,7 +211,7 @@ int main()
 	cout << "########################################\n" << endl;
 	
 	// Select map from list of files.
-	global::main_map = new Map();
+	global::main_map = Map::getInstance();
 	MapLoader* mapLoader = nullptr;
 	while (true)
 	{
@@ -402,7 +402,7 @@ int main()
 
 	//Compute Scores
 	computeScore score = computeScore();
-	Player* winner = score.determineWinner(players);
+	Player* winner = score.determineWinner(global::players);
 
 	cout << "The winner is " << *winner->name << endl;//Print the winner of the game
 

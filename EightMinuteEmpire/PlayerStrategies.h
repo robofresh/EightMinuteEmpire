@@ -1,6 +1,9 @@
 #pragma once
+#include <string>
 
-#include "Player.h"
+class Player;
+
+using namespace std;
 
 class Strategy {
 public:

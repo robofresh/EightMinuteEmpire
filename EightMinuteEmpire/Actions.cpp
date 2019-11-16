@@ -4,7 +4,7 @@
 
 void actionProcess(const string&, const int&, Player* player, Map* map, vector<Player*>*);
 void actionPrint(const string&, const int&);
-bool computer_process(const string&, const int&, Player&);
+void computer_process(const string&, const int&, Player&);
 
 void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player*>* playerVector) const
 {
@@ -579,329 +579,186 @@ void Actions::computer_action(Player& p, Cards& c) const
 
 int random_prime();
 
-bool computer_process(const string& action, const int& amount, Player& p)
+void computer_process(const string& action, const int& amount, Player& p)
 {
-	//if it is a place armies card
-	if ("placeArmies" == action)
-	{
-		string countryName;
-		for (int i = 0; i < amount; i++) //for every army to be placed
+
+		//if it is a place armies card
+		if ("placeArmies" == action)
 		{
-			if (p.availableArmies() > 0) //if the player has any available armies
+			for (int i = 0; i < amount; i++) //for every army to be placed
 			{
-				Army* newArmy = p.getAvailableArmy(); //get an army from the player
-
-				Country* country = nullptr;
-				bool isValid = false;
-
-				while (country == nullptr || !isValid) //until is valid country name
+				if (p.availableArmies() > 0) //if the player has any available armies
 				{
-					cout << "\t" << i + 1 << ": Please give a valid country\'s name for the army to be placed in (-1 to exit): ";
-					cin >> countryName;
-					if (countryName == "-1")
+					//computer will get a country that is the starting country or a country it has a city in but does not own
+					for (auto i : *p.cities)
 					{
-						return;
+						if (i->occupiedCountry != nullptr && i->occupiedCountry->owningPlayer != &p)
+						{
+							p.placeNewArmies(i->occupiedCountry, 1);
+							cout << "\tComputer placed an army in " << *i->occupiedCountry->name << endl;
+							break;
+						}
 					}
-					//cout << *country->name << endl;
-					country = global::main_map->getCountry(countryName); //get pointer to specified country
 
-					if (country != nullptr) //if the getCountry method doesnt return nullptr
+					if (global::main_map->startingCountry->owningPlayer != &p)
 					{
-						//if the country is the starting country
-						if (*country->isStartingCountry)
-						{
-							isValid = true;
-						}
-						else
-						{
-							//if the player has a city in that country
-							for (auto j : *country->cities)
-							{
-								if (j->player == &p)
-								{
-									isValid = true;
-									break;
-								}
-							}
-							if (!isValid)
-								cout << "\t" << *country->name << " is either not the starting country or the player does not own a city there. " << endl;
-						}
+						p.placeNewArmies(global::main_map->startingCountry, 1);
+						cout << "\tComputer placed an army in " << *global::main_map->startingCountry->name << endl;
+						break;
 					}
+
+
 				}
-				p.placeNewArmies(country, 1);
-			}
-			else
-			{
-				cout << "\tComputer has no more armies to place. " << endl;
-				break;
+				else
+				{
+					cout << "\tComputer has no more armies to place. " << endl;
+					break;
+				}
+
+				return;
 			}
 		}
-		return;
-	}
-	if ("createCity" == action) //virtually the same as the last block but for city placement
-	{
-		string countryName;
-		for (int i = 0; i < amount; i++) //for all place city count (i think it's only ever 1)
+		if ("createCity" == action) //virtually the same as the last block but for city placement
 		{
+
 			if (p.availableCities() > 0)
 			{
-				City* newCity = p.getAvailableCity();
-
-				Country* country = nullptr;
-
-				bool isValid = false;
-				while (country == nullptr || !isValid)
+				for (auto i : *p.armies)
 				{
-					cout << "\tPlease give a valid country\'s name for the city to be placed in (-1 to exit): ";
-					cin >> countryName;
-					if (countryName == "-1")
+					if (i->occupiedCountry != nullptr)
 					{
-						return;
-					}
-					//cout << *country->name << endl;
-					country = global::main_map->getCountry(countryName);
-
-					if (country != nullptr)
-					{
-						//if the player has amn army in that country
-						for (auto k : *country->occupyingArmies)
+						for (auto j : *i->occupiedCountry->cities)
 						{
-							if (k->player == &p)
+							if (j->player != &p)
 							{
-								isValid = true;
+								p.buildCity(i->occupiedCountry);
+								cout << "\tComputer placed a city in " << *i->occupiedCountry->name << endl;
 								break;
 							}
 						}
-						if (!isValid)
-							cout << "\t" << *p.name << " does not have an army in " << *country->name << endl;
 					}
 				}
-				p.buildCity(country);
 			}
 			else
 			{
 				cout << "\tComputer has no more cities to place. " << endl;
-				break;
 			}
+
+			return;
 		}
-		return;
-	}
-	if ("move" == action || "waterMove" == action)
-	{
-
-		vector<int> armiesAlreadyMoved; //vector for the armies that have already been moved this turn
-
-		for (int j = 0; j < amount; j++)
+		if ("move" == action || "waterMove" == action)
 		{
 
 			if (p.availableArmies() == 14) // check if any armies have been placed
 			{
-				cout << "\tNo armies have been placed." << endl;
-				return;
-			}
-
-			//if the card's amount of armies to move is greater than the player's placed armies
-			if (armiesAlreadyMoved.size() >= 14 - p.availableArmies())
-			{
+				cout << "\tThe computer player has not placed and armies." << endl;
 				return;
 			}
 
 			Army* army = nullptr;
-			int armyID;
+			
+			int placements = amount;
 
+			const auto prime = random_prime();
+			const int size = p.armies->size();
+			auto q = prime % size;
+			auto t = q;
 
-			p.printPlayer();
+			bool been_placed = false;
 
-			bool newArmy = false;
-			while (army == nullptr || newArmy == false)
+			for (auto k = 0; k < size; k++, q = (q + prime) % size)
 			{
-				cout << "\tPlease give a valid placed army number (-1 to exit): ";
-				cin >> armyID;
-				cin.clear();
-				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				if (placements < 1)
+					break;
+				
+				army = p.armies->at(q);
 
-				if (armyID == -1)
+				if (army->occupiedCountry == nullptr)
 				{
-					return;
+					continue;
 				}
 
-				armyID--;
+				const auto prime2 = random_prime();
+				const int size2 = army->occupiedCountry->adjCountries->size();
+				auto q2 = prime2 % size2;
+				auto t2 = q2;
 
-				newArmy = true;
-				for (auto i : armiesAlreadyMoved)
+				for (auto x = 0; x < size2; x++, q2 = (q2 + prime2) % size2)
 				{
-					if (armyID + 1 == i)
-						newArmy = false;
-				}
-
-				if (armyID < 14 && armyID > -1)
-				{
-					if (p.armies->at(armyID)->occupiedCountry != nullptr)
-						army = p.armies->at(armyID);
-				}
-			}
-
-
-			if ("waterMove" == action)
-			{
-				if (p.armies->at(armyID)->occupiedCountry != nullptr)
-				{
-					Country* country = nullptr;
-					bool isValid = false;
-					bool goBack = false;
-					while (!isValid)
+					Country* country = army->occupiedCountry->adjCountries->at(x);
+					if ("waterMove" == action)
 					{
-						string countryName;
-						cout << "\tPlease give a valid name for a country to move army " << armyID + 1 << " across land or water to; ";
-						cout << "the possible adjacent countries are (-1 to change army selection): " << endl;
-						for (auto k : *p.armies->at(armyID)->occupiedCountry->adjCountries)
+						p.moveArmies(army->occupiedCountry, country);
+						placements--;
+						been_placed = true;
+						break;
+					}
+					if ("move" == action)
+					{
+						if (army->occupiedCountry->parentContinent == country->parentContinent)
 						{
-							cout << "\t" << *k->name << endl;
-						}
-						cin >> countryName;
-						if (countryName == "-1")
-						{
-							goBack = true;
+							p.moveArmies(army->occupiedCountry, country);
+							placements--;
+							been_placed = true;
 							break;
 						}
-						country = global::main_map->getCountry(countryName);
-						if (country != nullptr)
-						{
-							for (auto k : *country->adjCountries)
-							{
-								//if the army's country is adjacent to the selected country
-								if (*army->occupiedCountry->name == *k->name)
-									isValid = true;
-							}
-						}
 					}
 
-					if (goBack)
-					{
-						j--;
-						continue;
-					}
-					armiesAlreadyMoved.push_back(armyID + 1);
-
-					p.moveArmies(army->occupiedCountry, country, 1);
 				}
-			}
-			else
-			{
-				if (p.armies->at(armyID)->occupiedCountry != nullptr)
-				{
-					Country* country = nullptr;
-					bool isValid = false;
-					bool isIsland = false;
-					bool goBack = false;
-					while (!isValid)
-					{
-						string countryName;
-						int countryCheck = 0;
-						for (auto k : *p.armies->at(armyID)->occupiedCountry->adjCountries)
-						{
-							//if the army's country is adjacent to the selected country and if they are in the same continent
-							if (army->occupiedCountry->parentContinent == k->parentContinent)
-								countryCheck++;
-						}
-						if (countryCheck == 0)
-						{
-							goBack = true;
-							break;
-						}
 
-						cout << "\tPlease give a valid name for a country in " << *army->occupiedCountry->parentContinent->name << " to move army " << armyID + 1 << " to; ";
-						cout << "the possible adjacent countries are (-1 to change army selection): " << endl;
-						for (auto k : *p.armies->at(armyID)->occupiedCountry->adjCountries)
-						{
-							//if the army's country is adjacent to the selected country and if they are in the same continent
-							if (army->occupiedCountry->parentContinent == k->parentContinent)
-								cout << "\t" << *k->name << endl;
-						}
-						cin >> countryName;
-						if (countryName == "-1")
-						{
-							isIsland = true;
-							break;
-						}
-						country = global::main_map->getCountry(countryName);
-						if (country != nullptr)
-						{
-							for (auto k : *country->adjCountries)
-							{
-								//if the army's country is adjacent to the selected country and if they are in the same continent
-								if (army->occupiedCountry == k && army->occupiedCountry->parentContinent == country->parentContinent)
-									isValid = true;
-							}
-						}
-					}
-					if (isIsland)
-					{
-						cout << "\tInvalid: this country is an island" << endl;
-						j--;
-						continue;
-					}
-					if (goBack)
-					{
-						j--;
-						continue;
-					}
-					armiesAlreadyMoved.push_back(armyID + 1);
-
-					p.moveOverLand(army->occupiedCountry, country);
-				}
 			}
+
+			if (!been_placed)
+				cout << "The computer could not move any armies." << endl;
 		}
-	}
-	if ("destroyArmies" == action)
-	{
-
-
-		
-		Country* country = nullptr;
-		Player* enemyPlayer = nullptr;
-
-
-
-		//choose random ish player order 
-		int prime = random_prime();
-		int size = global::players->size();
-		int q = prime % size;
-		
-		for(auto i = 0; i < size; i++)
+		if ("destroyArmies" == action)
 		{
-			global::players->at(q);
-			q = (q + prime) % size;
-		}
 
-
-
-		string countryName;
-		while (country == nullptr)
-		{
-			cout << "\tGive a valid country name (-1 to exit): ";
-			cin >> countryName;
-			if (countryName == "-1")
+			if (global::players == nullptr)
 			{
+				cout << "Error: destroy armies was called but players are not set in global." << endl;
 				return;
 			}
-			country = global::main_map->getCountry(countryName);
-			if (country != nullptr)
+
+			if (global::players->size() < 2)
 			{
-				for (auto i : *country->occupyingArmies)
+				cout << "Computer was trying to destroy an army but it is the only one playing." << endl;
+				return;
+			}
+
+			Player* enemy = nullptr;
+
+			//choose random ish player order 
+			const auto prime = random_prime();
+			const int size = global::players->size();
+			auto q = prime % size;
+			auto t = q;
+
+			for (auto k = 0; k < size; k++, q = (q + prime) % size)
+			{
+				enemy = global::players->at(q);
+
+				if (enemy == &p)
 				{
-					if (enemyName == *i->player->name)
+					continue;
+				}
+
+				for (auto j : *enemy->armies)
+				{
+					if (j->occupiedCountry != nullptr)
 					{
-						country = i->occupiedCountry;
-						p.destroyArmy(country, enemyPlayer);
+						p.destroyArmy(j->occupiedCountry, enemy);
 						return;
 					}
 				}
-				cout << "\t" << enemyName << " does not have an army in " << countryName << endl;
-				country = nullptr;
 			}
+
+			cout << "\tComputer had no armies it could destroy." << endl;
+
+			return;
+
 		}
-	}
+	
 }
 
 #include <random> 
@@ -915,22 +772,7 @@ int random_prime()
 		 73,    79,    83,    89,    97,   101,   103,   107,   109,   113,
 		127,   131,   137,   139,   149,   151,   157,   163,   167,   173,
 		179,   181,   191,   193,   197,   199,   211,   223,   227,   229,
-		233,   239,   241,   251,   257,   263,   269,   271,   277,   281,
-		283,   293,   307,   311,   313,   317,   331,   337,   347,   349,
-		353,   359,   367,   373,   379,   383,   389,   397,   401,   409,
-		419,   421,   431,   433,   439,   443,   449,   457,   461,   463,
-		467,   479,   487,   491,   499,   503,   509,   521,   523,   541,
-		547,   557,   563,   569,   571,   577,   587,   593,   599,   601,
-		607,   613,   617,   619,   631,   641,   643,   647,   653,   659,
-		661,   673,   677,   683,   691,   701,   709,   719,   727,   733
 	};
 
-	std::random_device rd;  //Will be used to obtain a seed for the random number engine
-	std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-
-	int a = 0, b = 9;
-
-	// Initializing of uniform_int_distribution class 
-	std::uniform_int_distribution<int> dis(0, 119);
-	return arr[dis(gen)];
+	return arr[global::random_range_int(0, 39)];
 }
