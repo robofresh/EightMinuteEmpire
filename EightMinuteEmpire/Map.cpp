@@ -69,6 +69,14 @@ void Map::print() const
 
 Map::~Map()
 {
+	if (0 != m_instance)
+	{
+		Map* pTemp = m_instance;
+		m_instance = 0;
+
+		delete pTemp;
+	}
+	
 	for (auto i : *mapCountries)
 	{
 		delete i;
@@ -82,6 +90,8 @@ Map::~Map()
 	delete mapCountries, mapContinents;
 	mapContinents = nullptr;
 	mapCountries = nullptr;
+	
+	
 }
 
 //check if their is already a country in the map by the same name and return a pointer to it
