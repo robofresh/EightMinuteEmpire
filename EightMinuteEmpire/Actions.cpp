@@ -633,7 +633,7 @@ void computer_process(const string& action, const int& amount, Player& p)
 							if (j->player != &p)
 							{
 								p.buildCity(i->occupiedCountry);
-								break;
+								return;
 							}
 						}
 					}
@@ -643,7 +643,7 @@ void computer_process(const string& action, const int& amount, Player& p)
 					if (i->occupiedCountry != nullptr)
 					{
 						p.buildCity(i->occupiedCountry);
-						break;
+						return;
 					}
 				}
 			}
