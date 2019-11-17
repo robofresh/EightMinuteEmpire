@@ -694,7 +694,7 @@ void computer_process(const string& action, const int& amount, Player& p)
 				
 				while (count < army->occupiedCountry->adjCountries->size())
 				{
-					if (i > army->occupiedCountry->adjCountries->size())
+					if (i > army->occupiedCountry->adjCountries->size()-1)
 						i = 0;
 				
 					Country* country = army->occupiedCountry->adjCountries->at(i);
