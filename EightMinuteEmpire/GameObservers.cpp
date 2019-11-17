@@ -1,28 +1,10 @@
-<<<<<<< HEAD
 #pragma once
 #include "GameObservers.h"
 #include "Player.h"
 #include "cards.h"
-
-
-Observer::Observer()
-{/*Intentionally Empty*/
-}
-
-Observer::~Observer()
-{/*Intentionally Empty*/
-}
-
-Subject::Subject()
-{
-	observers = new list<Observer*>;
-}
-
-=======
 #include <string>
-#include "GameObservers.h"
-#include "Player.h"
 #include "Map.h"
+
 
 Observer::Observer()
 {/*Intentionally Empty*/}
@@ -32,7 +14,6 @@ Observer::~Observer()
 
 Subject::Subject()
 	: observers(new list<Observer*>()) {}
->>>>>>> 23b0be89e2aef5e12fbe2086d1f6aa7c202170c6
 
 Subject::~Subject()
 {
@@ -52,19 +33,12 @@ void Subject::Detach(Observer* ob)
 void Subject::Notify()
 {
 	list<Observer*>::iterator i = observers->begin();
-<<<<<<< HEAD
-	for (; i != observers->end(); i++)
-	{
-		
-=======
 	for (i; i != observers->end(); i++)
 	{
->>>>>>> 23b0be89e2aef5e12fbe2086d1f6aa7c202170c6
 		(*i)->Update();
 	}
 }
 
-<<<<<<< HEAD
 PlayerObserver::PlayerObserver()
 {}
 
@@ -301,17 +275,12 @@ void ActionOb::display()
 			cout << "~ACTION TAKEN :Destroy " << *_amount->at(i) << " army"<<endl;
 		}
 	}
-
-
-
-
 }
 
 void ActionOb::Update()
 {
 	display();
 }
-=======
 GameStatistics::GameStatistics()
 	: mapSubject(nullptr), players(new vector<Player*>)
 {/*Intentionally Empty*/}
@@ -416,4 +385,3 @@ void GameWinningScores::display()
 	cout << endl;
 }
 
->>>>>>> 23b0be89e2aef5e12fbe2086d1f6aa7c202170c6
