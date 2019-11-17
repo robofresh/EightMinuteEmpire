@@ -64,7 +64,7 @@ void GameStatistics::display()
 	cout << string(150, '#') << endl;
 	cout << "\t\t Game Statistics" << endl;
 	cout << string(150, '-') << endl;
-	cout << "| Players  | Victory Pts | Owned Continents" << string(COL_WIDTH_CONTINENTS - 16, ' ') << "| Owned Countries" << endl;
+	cout << "| Players  | Victory Pts | Coins | Owned Continents" << string(COL_WIDTH_CONTINENTS - 16, ' ') << "| Owned Countries" << endl;
 	cout << string(150, '-') << endl;
 
 	for (int i = 0; i < players->size(); i++)
@@ -73,6 +73,11 @@ void GameStatistics::display()
 		cout << "| Player " << (i)+1 << " | ";
 		cout << *players->at(i)->victoryPoint << string(9, ' ');
 		if (*players->at(i)->victoryPoint < 10) {
+			cout << " ";
+		}
+		cout << " | ";
+		cout << *players->at(i)->numCoins << string(3, ' ');
+		if (*players->at(i)->numCoins < 10) {
 			cout << " ";
 		}
 		for (int j = 0; j < players->at(i)->ownedContinents->size(); j++)
@@ -119,24 +124,39 @@ void GameWinningScores::Update()
 void GameWinningScores::display()
 {
 	cout << endl;
-	cout << string(30, '#') << endl;
+	cout << string(80, '#') << endl;
 	cout << "\t\tPlayers and scores" << endl;
-	cout << string(30, '-') << endl;
-
+	cout << string(80, '-') << endl;
+	cout << "| Players  | Victory Pts | Coins | Armies on Board | Owned Countries" << endl;
+	cout << string(80, '-') << endl;
 	for (int i = 0; i < players->size(); i++)
 	{
-		cout << "| Player " << (i)+1 << ":  " << *(players->at(i)->name) << " with " ;
-		cout << *players->at(i)->victoryPoint << " victory points, ";
-		cout << *players->at(i)->numCoins << " coins, ";
-		cout << 14 - players->at(i)->availableArmies() << " armies on the board, and ";
-		cout << players->at(i)->ownedCountries->size() << " owned countries." << endl;
+		cout << "| Player " << (i)+1 << " | ";
+		cout << *players->at(i)->victoryPoint << string(9, ' ');
+		if (*players->at(i)->victoryPoint < 10) {
+			cout << " ";
+		}
+		cout << " | ";
+		cout << *players->at(i)->numCoins << string(3, ' ');
+		if (*players->at(i)->numCoins < 10) {
+			cout << " ";
+		}
+		cout << " | ";
+		cout << 14 - players->at(i)->availableArmies() << string(14, ' ');
+		if (14 - players->at(i)->availableArmies() < 10) {
+			cout << " ";
+		}
+		cout << " | ";
+		cout << players->at(i)->ownedCountries->size() << string(14, ' ');
+		if (players->at(i)->ownedCountries->size() < 10) {
+			cout << " ";
+		}
+		cout << endl;
 
 	}
+	cout << string(80, '-') << endl;
 	cout << endl;
 	cout << "The winner is " << *winningPlayer->name << "!" << endl;
-	cout << string(100, '-') << endl;
-	cout << endl;
-	cout << string(100, '#') << endl;
-	cout << endl;
+	cout << string(80, '#') << endl;
 }
 
