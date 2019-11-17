@@ -222,7 +222,7 @@ void ActionOb::display()
 	}
 	cout << endl;
 	cout << endl;
-	for (int i = 0; i < _cardChosen->actions->size(); i++)
+	for (int i = 0; i < _action->size(); i++)
 	{
 
 		if (*_action->at(i) == "Ignore")
@@ -273,10 +273,10 @@ void ActionOb::display()
 		{
 			if (*_amount->at(i) > 1)
 			{
-				cout << "~ACTION TAKEN :Destroy " << *_amount->at(i) << " armies";
+				cout << "~ACTION TAKEN :Destroy " << *_amount->at(i) << " armies" << endl;
 				return;
 			}
-			cout << "~ACTION TAKEN :Destroy " << *_amount->at(i) << " army";
+			cout << "~ACTION TAKEN :Destroy " << *_amount->at(i) << " army"<<endl;
 		}
 	}
 

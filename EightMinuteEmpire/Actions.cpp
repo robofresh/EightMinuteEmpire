@@ -2,6 +2,8 @@
 #include <string>
 #include <iostream>
 
+using namespace std;
+
 void actionProcess(const string&, const int&, Player* player, Map* map, vector<Player*>*);
 void actionPrint(const string&, const int&);
 
@@ -238,8 +240,10 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 		}
 		return;
 	}
+	std::cout << "Avant process createCity" << endl;
 	if ("createCity" == action) //virtually the same as the last block but for city placement
 	{
+		std::cout << "Inside the function but before loop" << endl;
 		string countryName;
 		for (int i = 0; i < amount; i++) //for all place city count (i think it's only ever 1)
 		{
