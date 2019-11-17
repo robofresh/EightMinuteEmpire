@@ -21,6 +21,8 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 	//process action(s)
 
 	//Attach ActionOb
+	ActionOb* actOb;
+	actOb = new ActionOb(player, card);
 
 
 	cout << endl;
@@ -52,16 +54,30 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 			//do both actions
 			if (selection == 1)
 			{
+				
+				actOb->setAction(card->actions->at(0));
+				int amount;
+				amount = stoi(*card->actions->at(1));
+				actOb->setAmount(&amount);
+				actOb->setAction(card->actions->at(3));
+				int amount2;
+				amount2 = stoi(*card->actions->at(4));
+				actOb->setAmount(&amount2);
+				card->Notify();
 				actionProcess(*card->actions->at(0), stoi(*card->actions->at(1)), player, map, playerVector);
-			
 				actionProcess(*card->actions->at(3), stoi(*card->actions->at(4)), player, map, playerVector);
+
 			} 
 			//or ignore
 			else if (selection == 2)
 			{
-
+				string* answer;
+				answer = new string("Ignore");
+				actOb->setAction(answer);
+				answer = nullptr;
 				player->ignore(card);
-				return;
+				card->Notify();
+					return;
 			}
 		}
 
@@ -86,16 +102,31 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 
 			if (selection == 1)
 			{
+				actOb->setAction(card->actions->at(0));
+				int amount;
+				amount = stoi(*card->actions->at(1));
+				actOb->setAmount(&amount);
+				card->Notify();
 				actionProcess(*card->actions->at(0), stoi(*card->actions->at(1)), player, map, playerVector);
-				
+
 			}
 			else if (selection == 2)
 			{
+				actOb->setAction(card->actions->at(3));
+				int amount;
+				amount = stoi(*card->actions->at(4));
+				actOb->setAmount(&amount);
+				card->Notify();
 				actionProcess(*card->actions->at(3), stoi(*card->actions->at(4)), player, map, playerVector);
 			}
 			else if (selection == 3)
 			{
+				string* answer;
+				answer = new string("Ignore");
+				actOb->setAction(answer);
+				answer = nullptr;
 				player->ignore(card);
+				card->Notify();
 				return;
 			}
 
@@ -121,10 +152,22 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 
 		if (selection == 1)
 		{
+			actOb->setAction(card->actions->at(0));
+			int amount;
+			amount = stoi(*card->actions->at(1));
+			actOb->setAmount(&amount);
+			card->Notify();
+
 			actionProcess(*card->actions->at(0), stoi(*card->actions->at(1)), player, map, playerVector);
+
 		}
 		else if (selection == 2)
 		{
+			string* answer;
+			answer = new string("Ignore");
+			actOb->setAction(answer);
+			answer = nullptr;
+			card->Notify();
 			player->ignore(card);
 			return;
 		}

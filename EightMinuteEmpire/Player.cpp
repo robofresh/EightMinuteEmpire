@@ -229,7 +229,7 @@ void Player::buildCity(Country* country)
 	City* availableCity = this->getAvailableCity();
 	availableCity->occupiedCountry = country;
 	country->cities->push_back(availableCity);
-	cout << *(this->name) << " now has a city built in " << *(country->name) << endl;
+	//cout << *(this->name) << " now has a city built in " << *(country->name) << endl; //TODO: Into Obs
 }
 
 void Player::destroyArmy(Country* country, Player* otherPlayer)
@@ -239,7 +239,7 @@ void Player::destroyArmy(Country* country, Player* otherPlayer)
 	// Reference for following lines [1]
 	auto it = find(country->occupyingArmies->begin(), country->occupyingArmies->end(), selectedArmy);
 	if (it != country->occupyingArmies->end()) { country->occupyingArmies->erase(it); }	
-	cout << *(this->name) << " destroyed an army of " << *(otherPlayer->name) << "'s in " << *(country->name) << endl;
+	//cout << *(this->name) << " destroyed an army of " << *(otherPlayer->name) << "'s in " << *(country->name) << endl;//TODO: Into Obs
 }
 
 void Player::moveArmies(Country* initCountry, Country* finalCountry, int amount)
@@ -252,7 +252,7 @@ void Player::moveArmies(Country* initCountry, Country* finalCountry, int amount)
 		auto it = find(initCountry->occupyingArmies->begin(), initCountry->occupyingArmies->end(), selectedArmy);
 		if (it != initCountry->occupyingArmies->end()) { initCountry->occupyingArmies->erase(it); }
 	}
-	cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;
+	//cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;//TODO : Into Obs
 }
 
 void Player::moveOverLand(Country* initCountry, Country* finalCountry)
@@ -262,7 +262,7 @@ void Player::moveOverLand(Country* initCountry, Country* finalCountry)
 	finalCountry->occupyingArmies->push_back(selectedArmy);
 	auto it = find(initCountry->occupyingArmies->begin(), initCountry->occupyingArmies->end(), selectedArmy);
 	if (it != initCountry->occupyingArmies->end()) { initCountry->occupyingArmies->erase(it); }
-	cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;
+	//cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;//TODO : Into Obs
 }
 
 void Player::payCoin(int amount, int* supply)
@@ -306,7 +306,8 @@ void Player::placeNewArmies(Country* country, int amount)
 //Ignore action only prints out that they ignore it
 void Player::ignore(Cards* card)
 {
-	cout << "Player takes the card and ignore the action." << endl;
+	//card->Notify();
+	//cout << "Player takes the card and ignore the action." << endl;
 }
 
 //Depending on the position of the cards, the amount to pay is different

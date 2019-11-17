@@ -145,8 +145,8 @@ ActionOb::ActionOb(Player* player, Cards* card)
 	_playerSubject = player;
 	_cardChosen = card;
 	card->Attach(this);
-	//_action = NULL;
-	//_amount = NULL;
+	_action = new vector<string*>();
+	_amount = new vector<int*>();
 
 }
 
@@ -155,19 +155,29 @@ ActionOb::ActionOb(Player* player, Cards* card, string* action)
 	_playerSubject = player;
 	_cardChosen = card;
 	card->Attach(this);
-	//_action = action;
-	//_amount = NULL;
+	_action = new vector<string*>();
+
+	for (int i = 0; i < _cardChosen->actions->size(); i++)
+	{
+		_action->push_back(_cardChosen->actions->at(i));
+	}
+	_amount = new vector<int*>();;
 
 
 }
 
+//TODO: Modify args
 ActionOb::ActionOb(Player* player, Cards* card, string* action, int* amount)
 {
 	_playerSubject = player;
 	_cardChosen = card;
 	card->Attach(this);
-	//_action = action;
-	//_amount = amount;
+	_action = new vector<string*>();
+	for (int i = 0; i < _cardChosen->actions->size(); i++)
+	{
+		_action->push_back(_cardChosen->actions->at(i));
+	}
+	_amount = new vector<int*>();
 
 
 }
@@ -179,18 +189,23 @@ ActionOb::~ActionOb()
 
 void ActionOb::setAction(string* action)
 {
-	//_action = action;
+	//for (int i = 0; i < _cardChosen->actions->size(); i++)
+	//{
+	//	_action->push_back(_cardChosen->actions->at(i));
+	//}
+	this->_action->push_back(action);
+
 }
 
 void ActionOb::setAmount(int* amount)
 {
-	//_amount = amount;
+	_amount->push_back(amount);
 }
 
 void ActionOb::display()
 {
+	cout << "****** INSIDE ACTION OB******" << endl;
 	cout << "Chosen card is : " << endl;
-
 
 	cout << "[Good is : " << *_cardChosen->good;
 	cout << ", Action is : ";
@@ -205,52 +220,68 @@ void ActionOb::display()
 		cout << "]";
 
 	}
+	cout << endl;
+	cout << endl;
+	for (int i = 0; i < _cardChosen->actions->size(); i++)
+	{
 
-	/*if ("placeArmies" == *_action)
-	{
-		if (*_amount > 1)
+		if (*_action->at(i) == "Ignore")
 		{
-			cout << "Place " << *_amount << " armies";
+			cout << "~ACTION TAKEN : Player " << *this->_playerSubject->name
+				<< " choose to ignore the card.~" << endl;
 			return;
 		}
-		cout << "Place " << *_amount << " army";
+
+		if ("placeArmies" == *_action->at(i))
+		{
+			if (*_amount->at(i) > 1)
+			{
+				cout << "~ACTION TAKEN : Place " << *_amount->at(i) << " armies"<<endl;
+				return;
+			}
+			cout << "~ACTION TAKEN : Place " << *_amount->at(i) << " army" << endl;;
+		}
+
+		if ("move" == *_action->at(i))
+		{
+			if (*_amount->at(i) > 1)
+			{
+				cout << "~ACTION TAKEN : Move " << *_amount->at(i) << " armies~" << endl;
+				return;
+			}
+			cout << "~ACTION TAKEN : Move " << *_amount->at(i) << " army~"<<endl;
+		}
+		if ("createCity" == *_action->at(i))
+		{
+			if (*_amount->at(i) > 1)
+			{
+				cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " cities~";
+				return;
+			}
+			cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " city~";
+		}
+		if ("waterMove" == *_action->at(i))
+		{
+			if (*_amount->at(i) > 1)
+			{
+				cout << "~ACTION TAKEN : Move " << *_amount->at(i) << " armies across water/land"<< endl;
+				return;
+			}
+			cout << "~ACTION TAKEN : Move " << *_amount->at(i) << " army across water/land" << endl;
+		}
+		if ("destroyArmies" == *_action->at(i))
+		{
+			if (*_amount->at(i) > 1)
+			{
+				cout << "~ACTION TAKEN :Destroy " << *_amount->at(i) << " armies";
+				return;
+			}
+			cout << "~ACTION TAKEN :Destroy " << *_amount->at(i) << " army";
+		}
 	}
-	if ("move" == *_action)
-	{
-		if (*_amount > 1)
-		{
-			cout << "Move " << *_amount << " armies";
-			return;
-		}
-		cout << "Move " << *_amount << " army";
-	}
-	if ("createCity" == *_action)
-	{
-		if (*_amount > 1)
-		{
-			cout << "Create " << *_amount << " cities";
-			return;
-		}
-		cout << "Create " << *_amount << " city";
-	}
-	if ("waterMove" == *_action)
-	{
-		if (*_amount > 1)
-		{
-			cout << "Move " << *_amount << " armies across water/land";
-			return;
-		}
-		cout << "Move " << *_amount << " army across water/land";
-	}
-	if ("destroyArmies" == *_action)
-	{
-		if (*_amount > 1)
-		{
-			cout << "Destroy " << *_amount << " armies";
-			return;
-		}
-		cout << "Destroy " << *_amount << " army";
-	}*/
+
+
+
 
 }
 

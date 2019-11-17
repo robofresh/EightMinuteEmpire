@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include <string>
+#include <vector>
 
 
 using namespace std;
@@ -85,8 +86,9 @@ public:
 	void display();
 	void setAction(string*);
 	void setAmount(int*);
-protected:
-	//vector<string*>* _action;
-	//int* _amount;
+
+private:
+	vector<string*>* _action;
+	vector<int*>* _amount;
 	
 };

@@ -371,8 +371,8 @@ int main()
 		chosenCard = deck->cardsSpace->faceupcards->at(cardPosition);
 
 		//chosenCard->print();-> To be integrated with Obs
-		ActionOb* cardOb;
-		cardOb = new ActionOb(currentPlayer, chosenCard);
+		//ActionOb* cardOb; take out cuz already inside of action process
+		//cardOb = new ActionOb(currentPlayer, chosenCard);
 
 		currentPlayer->hand->faceupcards->push_back(chosenCard);//Push address 
 		currentPlayer->payCard(chosenCard, cardPosition, supply);//Pay the correct amount of coins
@@ -390,9 +390,9 @@ int main()
 
 		action->processAction(currentPlayer, chosenCard, map, players);
 
-		cout << *(currentPlayer->name) << " now has " 
-			<< currentPlayer->hand->faceupcards->size()
-			<< " cards" << endl;
+		//cout << *(currentPlayer->name) << " now has " 
+		//	<< currentPlayer->hand->faceupcards->size()
+		//	<< " cards" << endl; //TODO: Put into Obs!!
 
 // #################################################
 //				Part 5: After Action
