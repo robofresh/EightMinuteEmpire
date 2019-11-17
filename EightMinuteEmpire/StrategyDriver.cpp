@@ -397,13 +397,14 @@ int main()
 
 	cout << "The winner is " << *winner->name << endl;//Print the winner of the game
 
-	system("PAUSE");
+
 	
 	for (int i = 0; i < global::players->size(); i++)//Prints all the players
 	{
 		global::players->at(i)->printPlayer();
 	}
 
+	system("PAUSE");
 	// #################################################
 	//						Cleanup
 	// #################################################
