@@ -19,7 +19,6 @@ public:
 class Human : public Strategy
 {
 public:
-	string* type;
 	Human();
 	~Human();
 	void execute(Player&) override;

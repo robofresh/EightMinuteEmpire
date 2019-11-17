@@ -81,7 +81,7 @@ public:
 	void ignore();
 	void computeScore();
 	void ignore(Cards*);
-	void payCard(Cards*, int, int*);
+	void payCard(Cards*, int*);
 	void addOwnedCountry(Country*);
 	void addOwnedContinent(Continent*);
 	bool removeOwnedCountry(Country*);

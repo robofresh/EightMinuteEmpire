@@ -34,7 +34,7 @@ public:
 	void draw();
 	stack<Cards*>* stackofCards;
 	void print() const;
-	void updateCardsSpace(Deck*, int);
+	void updateCardsSpace(Deck*, Cards*);
 };
 
 class Hand

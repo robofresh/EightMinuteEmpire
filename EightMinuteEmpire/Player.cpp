@@ -2,6 +2,7 @@
 #include "Map.h"
 #include "BidingFacility.h"
 #include "cards.h"
+#include "global.h"
 
 struct InsufficientCoinsException : public exception
 {
@@ -297,8 +298,19 @@ void Player::ignore()
 }
 
 //Depending on the position of the cards, the amount to pay is different
-void Player::payCard(Cards* card,int position, int* supply)
+void Player::payCard(Cards* c, int* supply)
 {
+	int position = 0;
+
+	for (auto i : *global::main_deck->cardsSpace->faceupcards)
+	{
+		if (i == c)
+		{
+			break;
+		}
+		position++;
+	}
+	
 	switch (position)
 	{
 	case 0:
@@ -339,7 +351,7 @@ int getCoalPoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("coal") == 0)
+		if (*(hand->faceupcards->at(i)->good) == "coal")
 		{
 			temp++;
 			++* hand->goods;
@@ -359,14 +371,14 @@ int getAnvilPoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("2anvil") == 0)
+		if (*(hand->faceupcards->at(i)->good) == "2anvil")
 		{
 			temp = temp + 2;
 			*hand->goods = *hand->goods + 2;
 			continue;
 
 		}
-		if (hand->faceupcards->at(i)->good->compare("anvil") == 0)
+		if(*(hand->faceupcards->at(i)->good) == "anvil")
 		{
 			temp++;
 			++* hand->goods;
@@ -386,7 +398,7 @@ int getTreePoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("tree") == 0)
+		if (*(hand->faceupcards->at(i)->good) == "tree")
 		{
 			temp++;
 			++* hand->goods;
@@ -405,7 +417,7 @@ int getGemPoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("gem") == 0)
+		if (*(hand->faceupcards->at(i)->good) == "gem")
 		{
 			temp++;
 			++* hand->goods;
@@ -425,13 +437,13 @@ int getCarrotPoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("2carrot") == 0)
+		if (*(hand->faceupcards->at(i)->good) == "2carrot")
 		{
 			temp= temp +2;
 			*hand->goods = *hand->goods +2;
 			continue;
 		}
-		if (hand->faceupcards->at(i)->good->compare("carrot") == 0)
+		if (*(hand->faceupcards->at(i)->good) == "carrot")
 		{
 			temp++;
 			++* hand->goods;

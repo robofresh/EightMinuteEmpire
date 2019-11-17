@@ -153,8 +153,19 @@ Cards* Hand::exchange(int index)
 }
 
 //Shift all cards to the left and draw a new card and put it on the rightmost side
-void Deck::updateCardsSpace(Deck* deck, int position)
+void Deck::updateCardsSpace(Deck* deck, Cards* c)
 {
+
+	int position = 0;
+	
+	for(auto i : *deck->cardsSpace->faceupcards)
+	{
+		if(i == c)
+		{
+			break;
+		}
+		position++;
+	}
 
 	for (int i = position + 1; i < 6; i++)
 	{

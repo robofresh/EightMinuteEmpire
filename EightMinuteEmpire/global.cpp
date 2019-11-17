@@ -9,6 +9,7 @@ namespace global
 	Deck* main_deck = nullptr;
 	vector<Player*>* players = nullptr;
 	Actions* action = nullptr;
+	int* supply;
 	Player* random_player()
 	{
 		if(players != nullptr)
@@ -29,4 +30,5 @@ namespace global
 		return dis(gen);
 	}
 	
+
 }

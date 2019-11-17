@@ -525,8 +525,9 @@ void Actions::computer_action(Player& p, Cards& c) const
 		// same as last block
 		if ("OR" == *c.actions->at(2))
 		{
-			if (*p.get_strategy()->type == "greedy")
+			if (*(p.get_strategy()->type) == "greedy")
 			{
+				auto action_index = 0;
 				//go through all actions of face-up cards
 				for (auto j : *c.actions)
 				{
@@ -534,20 +535,24 @@ void Actions::computer_action(Player& p, Cards& c) const
 					if (*j == "destroyArmies")
 					{
 						cout << "\tSelected action: destroyArmies" << endl;
-						computer_action(p, c);
+						computer_process(*c.actions->at(action_index), stoi(*c.actions->at(action_index +1)), p);
 						return;
 					}
 					if (*j == "createCity")
 					{
 						cout << "\tSelected action: createCity" << endl;
-						c.print();
-						computer_action(p, c);
+						computer_process(*c.actions->at(action_index), stoi(*c.actions->at(action_index +1)), p);
 						return;
 					}
+					action_index++;
 				}
+				cout << "\tSelected action: " << *c.actions->at(0) << endl;
+				computer_process(*c.actions->at(0), stoi(*c.actions->at(1)), p);
+				return;
 			}
-			else if (*p.get_strategy()->type == "moderate")
+			else if (*(p.get_strategy()->type) == "moderate")
 			{
+				auto action_index = 0;
 				//go through all actions of face-up cards
 				for (auto j : *c.actions)
 				{
@@ -555,15 +560,14 @@ void Actions::computer_action(Player& p, Cards& c) const
 					if (*j == "placeArmies")
 					{
 						cout << "\tSelected action: placeArmies" << endl;
-						c.print();
-						computer_action(p, c);
+						computer_process(*c.actions->at(action_index), stoi(*c.actions->at(action_index + 1)), p);
 						return;
 					}
+					action_index++;
 				}
 				
 				cout << "\tSelected action: " << *c.actions->at(0) << endl;
-				c.print();
-				computer_action(p, c);
+				computer_process(*c.actions->at(0), stoi(*c.actions->at(1)), p);
 				return;
 				
 			}
@@ -595,7 +599,6 @@ void computer_process(const string& action, const int& amount, Player& p)
 						if (i->occupiedCountry != nullptr && i->occupiedCountry->owningPlayer != &p)
 						{
 							p.placeNewArmies(i->occupiedCountry, 1);
-							cout << "\tComputer placed an army in " << *i->occupiedCountry->name << endl;
 							break;
 						}
 					}
@@ -603,10 +606,10 @@ void computer_process(const string& action, const int& amount, Player& p)
 					if (global::main_map->startingCountry->owningPlayer != &p)
 					{
 						p.placeNewArmies(global::main_map->startingCountry, 1);
-						cout << "\tComputer placed an army in " << *global::main_map->startingCountry->name << endl;
-						break;
+						continue;
 					}
 
+					p.placeNewArmies(global::main_map->startingCountry, 1);
 
 				}
 				else
@@ -614,8 +617,6 @@ void computer_process(const string& action, const int& amount, Player& p)
 					cout << "\tComputer has no more armies to place. " << endl;
 					break;
 				}
-
-				return;
 			}
 		}
 		if ("createCity" == action) //virtually the same as the last block but for city placement
@@ -632,10 +633,17 @@ void computer_process(const string& action, const int& amount, Player& p)
 							if (j->player != &p)
 							{
 								p.buildCity(i->occupiedCountry);
-								cout << "\tComputer placed a city in " << *i->occupiedCountry->name << endl;
 								break;
 							}
 						}
+					}
+				}
+				for (auto i : *p.armies)
+				{
+					if (i->occupiedCountry != nullptr)
+					{
+						p.buildCity(i->occupiedCountry);
+						break;
 					}
 				}
 			}
@@ -668,24 +676,28 @@ void computer_process(const string& action, const int& amount, Player& p)
 
 			for (auto k = 0; k < size; k++, q = (q + prime) % size)
 			{
-				if (placements < 1)
+				if (placements < 0)
 					break;
-				
+
 				army = p.armies->at(q);
 
 				if (army->occupiedCountry == nullptr)
 				{
 					continue;
 				}
-
-				const auto prime2 = random_prime();
-				const int size2 = army->occupiedCountry->adjCountries->size();
-				auto q2 = prime2 % size2;
-				auto t2 = q2;
-
-				for (auto x = 0; x < size2; x++, q2 = (q2 + prime2) % size2)
+				
+				cout << "army: " << q << endl;
+				
+				int count = 0;
+				int i = global::random_range_int(0, army->occupiedCountry->adjCountries->size()-1);
+				
+				while (count < army->occupiedCountry->adjCountries->size())
 				{
-					Country* country = army->occupiedCountry->adjCountries->at(x);
+					if (i > army->occupiedCountry->adjCountries->size())
+						i = 0;
+				
+					Country* country = army->occupiedCountry->adjCountries->at(i);
+					
 					if ("waterMove" == action)
 					{
 						p.moveArmies(army->occupiedCountry, country);
@@ -703,7 +715,8 @@ void computer_process(const string& action, const int& amount, Player& p)
 							break;
 						}
 					}
-
+					i++;
+					count++;
 				}
 
 			}
