@@ -581,6 +581,7 @@ void Actions::computer_action(Player& p, Cards& c) const
 	cout << endl;
 }
 
+
 int random_prime();
 
 void computer_process(const string& action, const int& amount, Player& p)
