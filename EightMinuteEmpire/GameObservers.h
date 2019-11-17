@@ -3,13 +3,14 @@
 #include <string>
 #include <vector>
 
-
 using namespace std;
 
-//Only way I found to actually avoid the circular referencing header files....
 class Cards;
+class Observer;
+class Subject;
+class GameStatistics;
 class Player;
-//To avoid compiler crash....
+class Map;
 
 class Observer
 {
@@ -94,5 +95,32 @@ private:
 	int* _supply;
 	vector<string*>* _action;
 	vector<int*>* _amount;
+};
 	
+class GameStatistics : public Observer
+{
+public:
+	GameStatistics();
+	GameStatistics(Map*, vector<Player*>*);
+	~GameStatistics();
+	void Update();
+	void display();
+protected:
+	Map* mapSubject;
+	vector<Player*>* players;
+};
+
+
+class GameWinningScores : public Observer
+{
+public:
+	GameWinningScores();
+	GameWinningScores(Map*, vector<Player*>*, Player*);
+	~GameWinningScores();
+	void Update();
+	void display();
+protected:
+	Map* mapSubject;
+	vector<Player*>* players;
+	Player* winningPlayer;
 };

@@ -238,7 +238,6 @@ void Deck::initialDraw() //one time only, when the game is started
 		draw();
 	}
 	cout << "Initial draw" << endl;
-	this->cardsSpace->print();
 }
 
 //Prints the whole decks

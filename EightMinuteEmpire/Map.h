@@ -4,14 +4,17 @@
 #include <list>
 #include <string>
 #include <iostream>
+#include "Player.h"
+#include "GameObservers.h"
 
 using namespace std;
 
 class Country;
-class Map;
+class Continent;
 class Army;
 class City;
 class Player;
+class Map;
 
 class Continent
 {
@@ -20,6 +23,10 @@ public:
 	Continent(const string&, Map*);
 	~Continent();
 	string* name;
+	void changeOwner(Player*);
+	Player* owningPlayer;
+	bool updateContinentOwner();
+	Player* findContinentOwner() const;
 	vector<Country*>* containedCountries; //pointer to a vector of pointers to countries contained in continent
 };
 
@@ -42,21 +49,26 @@ public:
 	Player* owningPlayer; //pointer to the owning player
 
 	Army* getArmy(Player*) const;
-	bool removeArmy(Army*) const;
+	bool removeArmy(Army*);
+	void addCity(City*);
+	void addArmy(Army*);
+	void moveArmy(Country*, Army*);
+	void changeOwner(Player*);
+	bool updateCountryOwner();
+	Player* findCountryOwner() const;
 
 };
 
 
-class Map
+class Map : public Subject
 {
 private:
 	static Map* m_instance;
-
+	Map();
 public:
 	static Map* getInstance();
-	Map();
 	~Map();
-
+	
 	Country* createCountry(const string&, Continent*);
 	Continent* createContinent(const string&);
 
@@ -69,7 +81,6 @@ public:
 	Continent* getContinent(const string&) const;
 
 	void print() const;
-
 };
 
 
