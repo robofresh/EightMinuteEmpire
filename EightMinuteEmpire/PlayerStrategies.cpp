@@ -136,7 +136,7 @@ void Greedy::execute(Player& p)
 
 
 	p.hand->faceupcards->push_back(global::main_deck->cardsSpace->faceupcards->at(0));//Push address 
-	p.payCard(0, global::supply);//Pay the correct amount of coins
+	p.payCard(global::main_deck->cardsSpace->faceupcards->at(0), global::supply);//Pay the correct amount of coins
 	global::action->computer_action(p, *global::main_deck->cardsSpace->faceupcards->at(0));
 
 	//Update face-ups cards
@@ -178,7 +178,7 @@ void Moderate::execute(Player& p)
 	global::main_deck->cardsSpace->faceupcards->at(0)->print();
 
 	p.hand->faceupcards->push_back(global::main_deck->cardsSpace->faceupcards->at(0));//Push address 
-	p.payCard(0, global::supply);//Pay the correct amount of coins
+	p.payCard(global::main_deck->cardsSpace->faceupcards->at(0), global::supply);//Pay the correct amount of coins
 	global::action->computer_action(p, *global::main_deck->cardsSpace->faceupcards->at(0));
 
 	//Update face-ups cards
