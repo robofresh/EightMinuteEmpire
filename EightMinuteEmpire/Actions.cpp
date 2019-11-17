@@ -6,6 +6,7 @@ using namespace std;
 
 void actionProcess(const string&, const int&, Player* player, Map* map, vector<Player*>*);
 void actionPrint(const string&, const int&);
+ActionOb* actOb;
 
 void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player*>* playerVector) const
 {
@@ -23,7 +24,7 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 	//process action(s)
 
 	//Attach ActionOb
-	ActionOb* actOb;
+
 	actOb = new ActionOb(player, card);
 
 
@@ -66,6 +67,8 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 				amount2 = stoi(*card->actions->at(4));
 				actOb->setAmount(&amount2);
 				card->Notify();
+				delete actOb;
+				actOb = NULL;
 				actionProcess(*card->actions->at(0), stoi(*card->actions->at(1)), player, map, playerVector);
 				actionProcess(*card->actions->at(3), stoi(*card->actions->at(4)), player, map, playerVector);
 
@@ -79,7 +82,9 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 				answer = nullptr;
 				player->ignore(card);
 				card->Notify();
-					return;
+				delete actOb;
+				actOb = NULL;
+				return;
 			}
 		}
 
@@ -109,6 +114,8 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 				amount = stoi(*card->actions->at(1));
 				actOb->setAmount(&amount);
 				card->Notify();
+				delete actOb;
+				actOb = NULL;
 				actionProcess(*card->actions->at(0), stoi(*card->actions->at(1)), player, map, playerVector);
 
 			}
@@ -119,6 +126,8 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 				amount = stoi(*card->actions->at(4));
 				actOb->setAmount(&amount);
 				card->Notify();
+				delete actOb;
+				actOb = NULL;
 				actionProcess(*card->actions->at(3), stoi(*card->actions->at(4)), player, map, playerVector);
 			}
 			else if (selection == 3)
@@ -129,6 +138,8 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 				answer = nullptr;
 				player->ignore(card);
 				card->Notify();
+				delete actOb;
+				actOb = NULL;
 				return;
 			}
 
@@ -159,6 +170,8 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 			amount = stoi(*card->actions->at(1));
 			actOb->setAmount(&amount);
 			card->Notify();
+			delete actOb;
+			actOb = NULL;
 
 			actionProcess(*card->actions->at(0), stoi(*card->actions->at(1)), player, map, playerVector);
 
@@ -170,6 +183,8 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 			actOb->setAction(answer);
 			answer = nullptr;
 			card->Notify();
+			delete actOb;
+			actOb = NULL;
 			player->ignore(card);
 			return;
 		}

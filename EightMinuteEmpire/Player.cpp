@@ -310,27 +310,41 @@ void Player::ignore(Cards* card)
 	//cout << "Player takes the card and ignore the action." << endl;
 }
 
+CurrentPOb* obCard;
+
 //Depending on the position of the cards, the amount to pay is different
 void Player::payCard(Cards* card,int position, int* supply)
 {
-	CurrentPOb* obCard;
+
 	obCard = new CurrentPOb(this, card, &position, supply);
 	
 	switch (position)
 	{
 	case 0:
 		this->payCoin(0,supply);
+		this->Detach(obCard);
+		delete obCard;
+		obCard = NULL;
 		break;
 	case 1:
 	case 2:
 		this->payCoin(1,supply);
+		this->Detach(obCard);
+		delete obCard;
+		obCard = NULL;
 		break;
 	case 3:
 	case 4:
 		this->payCoin(2,supply);
+		this->Detach(obCard);
+		delete obCard;
+		obCard = NULL;
 		break;
 	case 5:
 		this->payCoin(3,supply);
+		this->Detach(obCard);
+		delete obCard;
+		obCard = NULL;
 		break;
 	default:
 		cout << "Invalid input" << endl;

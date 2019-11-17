@@ -104,7 +104,7 @@ void CurrentPOb::display()
 {
 	cout << "*************dislay observer from currentPOb************" << endl;
 	cout<< "Player " <<*this->_playerSubject->name
-		<< " selects the " << *this->position 
+		<< " selects the " << *this->position+1 
 		<< "th card from the left." <<endl;
 	this->_cardChosen->print();
 }

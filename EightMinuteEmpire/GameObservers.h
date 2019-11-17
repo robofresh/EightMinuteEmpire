@@ -38,8 +38,8 @@ public:
 	PlayerObserver();
 	PlayerObserver(Player*, int* );
 	~PlayerObserver();
-	void Update();
-	void display();
+	virtual void Update();
+	virtual void display();
 protected:
 	Player* _playerSubject;
 	int* _index;
@@ -51,8 +51,8 @@ public:
 	CurrentPOb();
 	CurrentPOb(Player*, Cards*, int*, int*);
 	~CurrentPOb();
-	void Update();
-	void display();
+	virtual void Update();
+	virtual void display();
 protected:
 	//Player* _currentSubject;
 	Cards* _cardChosen;
@@ -66,15 +66,15 @@ public:
 	PayOb();
 	PayOb(Player*, int*, int*);
 	~PayOb();
-	void Update();
-	void display();
+	virtual void Update();
+	virtual void display();
 
 private:
 	int* cost;
 	int* supply;
 };
 
-class ActionOb : public CurrentPOb
+class ActionOb:public Observer
 {
 public:
 	ActionOb();
@@ -88,6 +88,10 @@ public:
 	void setAmount(int*);
 
 private:
+	Player* _playerSubject;
+	Cards* _cardChosen;
+	int* position;
+	int* _supply;
 	vector<string*>* _action;
 	vector<int*>* _amount;
 	
