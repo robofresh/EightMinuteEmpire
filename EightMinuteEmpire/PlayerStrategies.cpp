@@ -78,7 +78,7 @@ void Human::execute(Player& p)
 	p.hand->faceupcards->push_back(chosenCard);//Push address 
 	p.payCard(chosenCard, global::supply);//Pay the correct amount of coins
 
-	global::action->processAction(&p, chosenCard, global::main_map, global::players);
+	global::action->processAction(&p, chosenCard, Map::getInstance(), global::players);
 	
 	//Update face-ups cards
 	global::main_deck->updateCardsSpace(global::main_deck, global::main_deck->cardsSpace->faceupcards->at(cardPosition));
@@ -157,7 +157,7 @@ void Moderate::execute(Player& p)
 		for (auto j : *i->actions)
 		{
 			//do action if any card has them
-			if (*j == "placeArmies")
+			if (*j == "placeArmies" && Map::getInstance()->startingCountry->owningPlayer != &p)
 			{
 				cout << "\tSelected card: " << endl;
 				i->print();
@@ -173,8 +173,8 @@ void Moderate::execute(Player& p)
 		}
 	}
 	//if no face-up card has destroyArmies or createCity, choose the first one (cheapest) and do it's action
-	cout << "\tThe moderate computer did not find any place army cards." << endl;
-	cout << "\tIt will take the cheapest one." << endl;
+	cout << "\tThe moderate computer did not find any place army cards or already owns the starting country." << endl;
+	cout << "\tIt will take the cheapest card." << endl;
 	global::main_deck->cardsSpace->faceupcards->at(0)->print();
 
 	p.hand->faceupcards->push_back(global::main_deck->cardsSpace->faceupcards->at(0));//Push address 

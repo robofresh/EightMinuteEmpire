@@ -608,14 +608,14 @@ void computer_process(const string& action, const int& amount, Player& p)
 						}
 					}
 
-					if (global::main_map->startingCountry->owningPlayer != &p && !placed)
+					if (Map::getInstance()->startingCountry->owningPlayer != &p && !placed)
 					{
-						p.placeNewArmies(global::main_map->startingCountry, 1);
+						p.placeNewArmies(Map::getInstance()->startingCountry, 1);
 						continue;
 					}
 
 					if(!placed)
-						p.placeNewArmies(global::main_map->startingCountry, 1);
+						p.placeNewArmies(Map::getInstance()->startingCountry, 1);
 
 				}
 				else
@@ -706,8 +706,6 @@ void computer_process(const string& action, const int& amount, Player& p)
 					{
 						p.moveArmies(army->occupiedCountry, country);
 						placements--;
-						p.printPlayer();
-
 						been_placed = true;
 						break;
 					}
@@ -717,8 +715,6 @@ void computer_process(const string& action, const int& amount, Player& p)
 						{
 							p.moveArmies(army->occupiedCountry, country);
 							placements--;
-							p.printPlayer();
-
 							been_placed = true;
 							break;
 						}

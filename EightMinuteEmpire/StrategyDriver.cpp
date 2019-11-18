@@ -262,14 +262,13 @@ int main()
 	cout << "########################################\n" << endl;
 
 	// Select map from list of files.
-	global::main_map = Map::getInstance();
 	MapLoader* mapLoader = nullptr;
 	while (true)
 	{
 		string mapFileName = getMapFileName();
 		try
 		{
-			mapLoader = new MapLoader(mapFileName, global::main_map);
+			mapLoader = new MapLoader(mapFileName, Map::getInstance());
 			break;
 		}
 		catch (const MapLoaderException& e)
@@ -281,9 +280,9 @@ int main()
 		}
 	}
 	cout << "You've selected the following map: " << endl;
-	global::main_map->print();
+	Map::getInstance()->print();
 	cout << endl;
-	Country* startingCountry = global::main_map->startingCountry; //Starting country is loaded from map
+	Country* startingCountry = Map::getInstance()->startingCountry; //Starting country is loaded from map
 
 	// Create deck with 42 cards. Shuffle method is done when creating a deck
 	global::main_deck = new Deck();
@@ -419,8 +418,7 @@ int main()
 	global::main_deck = NULL;
 	delete mapLoader;
 	mapLoader = NULL;
-	delete global::main_map;
-	global::main_map = NULL;
+	delete Map::getInstance();
 	startingCountry = NULL;
 	global::supply = NULL;
 	currentPlayer = NULL;
