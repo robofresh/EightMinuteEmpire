@@ -70,8 +70,6 @@ class ActionOb:public Observer
 public:
 	ActionOb();
 	ActionOb(Player*, Cards*);
-	ActionOb(Player*, Cards*, string*);
-	ActionOb(Player*, Cards*, string*, int*);
 	~ActionOb();
 	void Update();
 	void display();

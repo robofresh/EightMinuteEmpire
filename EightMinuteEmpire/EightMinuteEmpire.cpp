@@ -306,10 +306,6 @@ int main()
 	track = NULL;
 
 	cout << "Let the game begin!\n" << endl;
-	//Printing first player!
-	//cout << "Supply is now at " << *(supply) << " coins." << endl;
-	//cout << "First player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
-	//cout << "First player index is " << *currentPlayerIndex << "\n" << endl;
 	currentPlayer->Notify();
 
 
@@ -370,18 +366,9 @@ int main()
 		cardPosition = cardPosition - 1;
 		chosenCard = deck->cardsSpace->faceupcards->at(cardPosition);
 
-		//chosenCard->print();-> To be integrated with Obs
-		//ActionOb* cardOb; take out cuz already inside of action process
-		//cardOb = new ActionOb(currentPlayer, chosenCard);
-
-		currentPlayer->hand->faceupcards->push_back(chosenCard);//Push address 
+		currentPlayer->hand->faceupcards->push_back(chosenCard);//Put card into the player's hand
 		currentPlayer->payCard(chosenCard, cardPosition, supply);//Pay the correct amount of coins
 		
-		//Create observer of the current player with chosen card
-
-
-
-
 // #################################################
 //				Part 4: Player Actions
 // #################################################
@@ -389,10 +376,6 @@ int main()
 		//Either, do the action or ignore
 
 		action->processAction(currentPlayer, chosenCard, map, players);
-
-		//cout << *(currentPlayer->name) << " now has " 
-		//	<< currentPlayer->hand->faceupcards->size()
-		//	<< " cards" << endl; //TODO: Put into Obs!!
 
 // #################################################
 //				Part 5: After Action
@@ -406,13 +389,9 @@ int main()
 		*currentPlayerIndex = newIndex % NUM_PLAYERS;
 		currentPlayer = players->at(*currentPlayerIndex);//update current player
 
-		//Printing Current Player => TODO : To be integrated with an obs
 		cout << endl;
 		cout << "************************************************************" << endl;
 		cout << endl;
-		//cout << "Supply is now at " << *(supply) << " coins." << endl;
-		//cout << "Current player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
-		//cout << "Current player index is " << *currentPlayerIndex << "\n" << endl;
 		currentPlayer->Notify();
 
 // #################################################
@@ -467,6 +446,8 @@ int main()
 	winner = NULL;
 	delete action;
 	action = NULL;
+	delete observeP;
+	observeP = NULL;
 
 
 }
