@@ -67,6 +67,8 @@ void PlayerObserver::display()
 {
 	cout << "**********Player "<<*this->_index  <<" " 
 		<< *_playerSubject->name << "'s turn.**********" << endl;
+	cout << "Player currently have " << *_playerSubject->numCoins << " coins. " << endl;
+
 }
 
 //CurrentPOb is an to track the chosen card and the person's turn
