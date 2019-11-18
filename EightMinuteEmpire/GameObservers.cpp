@@ -79,6 +79,7 @@ CurrentPOb::CurrentPOb()
 	_cardChosen=nullptr;
 	position=nullptr;
 	_supply = nullptr;
+	_cost = nullptr;
 }
 
 CurrentPOb::CurrentPOb(Player* player, Cards* chosen, int* position, int* supply)
@@ -88,6 +89,7 @@ CurrentPOb::CurrentPOb(Player* player, Cards* chosen, int* position, int* supply
 	_cardChosen = chosen;
 	this->position = position;
 	_supply = supply;
+	_cost = nullptr;
 }
 
 CurrentPOb::~CurrentPOb()
