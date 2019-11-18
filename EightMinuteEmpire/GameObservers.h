@@ -1,15 +1,18 @@
 #pragma once
-
 #include <list>
+#include <string>
 #include <vector>
 
 using namespace std;
 
+class Cards;
 class Observer;
 class Subject;
 class GameStatistics;
 class Player;
 class Map;
+class Country;
+class Actions;
 
 class Observer
 {
@@ -32,6 +35,77 @@ private:
 	list<Observer*>* observers;
 };
 
+class PlayerObserver : public Observer
+{
+public:
+	PlayerObserver();
+	PlayerObserver(Player*, int* );
+	~PlayerObserver();
+	void Update();
+	void display();
+protected:
+	Player* _playerSubject;
+	int* _index;
+};
+
+class CurrentPOb : public PlayerObserver
+{
+public:
+	CurrentPOb();
+	CurrentPOb(Player*, Cards*, int*, int*);
+	~CurrentPOb();
+	void Update();
+	void display();
+	void setCost(int*);
+	void setSupply(int*);
+
+protected:
+	Cards* _cardChosen;
+	int* position;
+	int* _supply;
+	int* _cost;
+};
+
+class ActionOb:public Observer
+{
+public:
+	ActionOb();
+	ActionOb(Player*, Cards*);
+	~ActionOb();
+	void Update();
+	void display();
+	void setAction(string*);
+	void setAmount(int*);
+
+private:
+	Player* _playerSubject;
+	Cards* _cardChosen;
+	vector<string*>* _action;
+	vector<int*>* _amount;
+};
+
+class ProcessActOb :public Observer
+{
+public:
+	ProcessActOb();
+	ProcessActOb(Actions*, Player*);
+	ProcessActOb(Actions*, Player*, Country*, int);
+	ProcessActOb(Actions*, Player*, Country*, Country*);
+	ProcessActOb(Actions*, Player*, Country*);
+	ProcessActOb(Actions*, Player*, Country*, Player*);
+	~ProcessActOb();
+	void Update();
+	void display();
+
+private:
+	Actions* aObject;
+	Player* _playerSubject;
+	Country* _initCountry;
+	Country* _finalCountry;
+	Player* _playerTarget;
+	int* _numArmy;
+};
+	
 class GameStatistics : public Observer
 {
 public:
