@@ -40,8 +40,8 @@ public:
 	PlayerObserver();
 	PlayerObserver(Player*, int* );
 	~PlayerObserver();
-	virtual void Update();
-	virtual void display();
+	void Update();
+	void display();
 protected:
 	Player* _playerSubject;
 	int* _index;
@@ -73,7 +73,6 @@ public:
 
 private:
 	int* cost;
-	int* supply;
 };
 
 class ActionOb:public Observer
@@ -103,6 +102,10 @@ class ProcessActOb :public Observer
 public:
 	ProcessActOb();
 	ProcessActOb(Player*);
+	ProcessActOb(Player*, Country*, int);
+	ProcessActOb(Player*, Country*, Country*);
+	ProcessActOb(Player*, Country*);
+	ProcessActOb(Player*, Country*, Player*);
 	~ProcessActOb();
 	void Update();
 	void display();
