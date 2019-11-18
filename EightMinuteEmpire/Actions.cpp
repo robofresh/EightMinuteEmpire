@@ -241,11 +241,9 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						}
 					}
 				}
-				proOb = new ProcessActOb(player,country, 1);
-				actionObject->Attach(proOb);
+				proOb = new ProcessActOb(actionObject, player,country, 1);
 				actionObject->Notify();
 				player->placeNewArmies(country, 1);
-				actionObject->Detach(proOb);
 				delete proOb;
 				proOb = nullptr;
 
@@ -261,7 +259,6 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 	}
 	if ("createCity" == action) //virtually the same as the last block but for city placement
 	{
-		std::cout << "Inside the function but before loop" << endl;
 		string countryName;
 		for (int i = 0; i < amount; i++) //for all place city count (i think it's only ever 1)
 		{
@@ -298,11 +295,9 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 							std::cout << "\t" <<*player->name << " does not have an army in " << *country->name << endl;
 					}
 				}
-				proOb = new ProcessActOb(player, country);
-				actionObject->Attach(proOb);
+				proOb = new ProcessActOb(actionObject, player, country);
 				actionObject->Notify();
 				player->buildCity(country);
-				actionObject->Detach(proOb);
 				delete proOb;
 				proOb = nullptr;
 			}
@@ -410,11 +405,9 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						continue;
 					}
 					armiesAlreadyMoved.push_back(armyID + 1);
-					proOb = new ProcessActOb(player, army->occupiedCountry, country);
-					actionObject->Attach(proOb);
+					proOb = new ProcessActOb(actionObject, player, army->occupiedCountry, country);
 					actionObject->Notify();
 					player->moveArmies(army->occupiedCountry, country);
-					actionObject->Detach(proOb);
 					delete proOb;
 					proOb = nullptr;
 				}
@@ -479,12 +472,10 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						j--;
 						continue;
 					}
-					proOb = new ProcessActOb(player, army->occupiedCountry, country);
-					actionObject->Attach(proOb);
+					proOb = new ProcessActOb(actionObject, player, army->occupiedCountry, country);
 					armiesAlreadyMoved.push_back(armyID + 1);
 					actionObject->Notify();
 					player->moveOverLand(army->occupiedCountry, country);
-					actionObject->Detach(proOb);
 					delete proOb;
 					proOb = nullptr;
 				}
@@ -528,12 +519,10 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 				{
 					if (enemyName == *i->player->name)
 					{
-						proOb = new ProcessActOb(player, country, enemyPlayer );
-						actionObject->Attach(proOb);
+						proOb = new ProcessActOb(actionObject, player, country, enemyPlayer );
 						country = i->occupiedCountry;
 						actionObject->Notify();
 						player->destroyArmy(country, enemyPlayer);
-						actionObject->Detach(proOb);
 						delete proOb;
 						proOb = nullptr;
 						return;

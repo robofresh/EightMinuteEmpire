@@ -12,6 +12,7 @@ class GameStatistics;
 class Player;
 class Map;
 class Country;
+class Actions;
 
 class Observer
 {
@@ -87,16 +88,17 @@ class ProcessActOb :public Observer
 {
 public:
 	ProcessActOb();
-	ProcessActOb(Player*);
-	ProcessActOb(Player*, Country*, int);
-	ProcessActOb(Player*, Country*, Country*);
-	ProcessActOb(Player*, Country*);
-	ProcessActOb(Player*, Country*, Player*);
+	ProcessActOb(Actions*, Player*);
+	ProcessActOb(Actions*, Player*, Country*, int);
+	ProcessActOb(Actions*, Player*, Country*, Country*);
+	ProcessActOb(Actions*, Player*, Country*);
+	ProcessActOb(Actions*, Player*, Country*, Player*);
 	~ProcessActOb();
 	void Update();
 	void display();
 
 private:
+	Actions* aObject;
 	Player* _playerSubject;
 	Country* _initCountry;
 	Country* _finalCountry;

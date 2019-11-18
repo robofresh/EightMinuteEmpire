@@ -4,6 +4,7 @@
 #include "cards.h"
 #include <string>
 #include "Map.h"
+#include "Actions.h"
 
 
 Observer::Observer()
@@ -228,29 +229,50 @@ void ActionOb::Update()
 	display();
 }
 
-ProcessActOb::ProcessActOb() :_playerSubject(nullptr), _initCountry(nullptr)
+ProcessActOb::ProcessActOb() : aObject(nullptr), _playerSubject(nullptr), _initCountry(nullptr)
 , _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) {}
 
-ProcessActOb::ProcessActOb(Player* player) : _playerSubject(player), _initCountry(nullptr)
-, _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) {}
+ProcessActOb::ProcessActOb(Actions* aObject, Player* player) : _playerSubject(player), _initCountry(nullptr)
+, _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) 
+{
+	this->aObject = aObject;
+	aObject->Attach(this);
+}
 
-ProcessActOb::ProcessActOb(Player* player, Country* country, int num) : _playerSubject(player)
-, _initCountry(country), _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) {}
+ProcessActOb::ProcessActOb(Actions* aObject, Player* player, Country* country, int num) : _playerSubject(player)
+, _initCountry(country), _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) 
+{
+	this->aObject = aObject;
+	aObject->Attach(this);
+}
 
-ProcessActOb::ProcessActOb(Player* player, Country* initialCountry, Country* finalCountry):
+ProcessActOb::ProcessActOb(Actions* aObject, Player* player, Country* initialCountry, Country* finalCountry):
 	_playerSubject(player)	, _initCountry(initialCountry), _finalCountry(finalCountry)
-	, _playerTarget(nullptr), _numArmy(nullptr) {}
+	, _playerTarget(nullptr), _numArmy(nullptr)
+{
+	this->aObject = aObject;
+	aObject->Attach(this);
+}
 
-ProcessActOb::ProcessActOb(Player* player, Country* initialCountry):
+ProcessActOb::ProcessActOb(Actions* aObject, Player* player, Country* initialCountry):
 	_playerSubject(player), _initCountry(initialCountry)
-	, _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) {}
+	, _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr)
+{
+	this->aObject = aObject;
+	aObject->Attach(this);
+}
 
-ProcessActOb::ProcessActOb(Player* player, Country* initialCountry, Player* target)
+ProcessActOb::ProcessActOb(Actions* aObject, Player* player, Country* initialCountry, Player* target)
 	: _playerSubject(player), _initCountry(initialCountry)
-	, _finalCountry(nullptr), _playerTarget(target), _numArmy(nullptr) {}
+	, _finalCountry(nullptr), _playerTarget(target), _numArmy(nullptr)
+{
+	this->aObject = aObject;
+	aObject->Attach(this);
+}
 
 ProcessActOb::~ProcessActOb()
 {
+	aObject->Detach(this);
 	_playerSubject = nullptr;
 	_initCountry = nullptr;
 	_finalCountry = nullptr;
