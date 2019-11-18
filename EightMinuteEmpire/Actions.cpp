@@ -590,8 +590,11 @@ void computer_process(const string& action, const int& amount, Player& p)
 		//if it is a place armies card
 		if ("placeArmies" == action)
 		{
+			
 			for (int i = 0; i < amount; i++) //for every army to be placed
 			{
+				bool placed = false;
+
 				if (p.availableArmies() > 0) //if the player has any available armies
 				{
 					//computer will get a country that is the starting country or a country it has a city in but does not own
@@ -600,17 +603,19 @@ void computer_process(const string& action, const int& amount, Player& p)
 						if (i->occupiedCountry != nullptr && i->occupiedCountry->owningPlayer != &p)
 						{
 							p.placeNewArmies(i->occupiedCountry, 1);
+							placed = true;
 							break;
 						}
 					}
 
-					if (global::main_map->startingCountry->owningPlayer != &p)
+					if (global::main_map->startingCountry->owningPlayer != &p && !placed)
 					{
 						p.placeNewArmies(global::main_map->startingCountry, 1);
 						continue;
 					}
 
-					p.placeNewArmies(global::main_map->startingCountry, 1);
+					if(!placed)
+						p.placeNewArmies(global::main_map->startingCountry, 1);
 
 				}
 				else
@@ -668,27 +673,25 @@ void computer_process(const string& action, const int& amount, Player& p)
 			
 			int placements = amount;
 
-			const auto prime = random_prime();
-			const int size = p.armies->size();
-			auto q = prime % size;
-			auto t = q;
-
 			bool been_placed = false;
 
-			for (auto k = 0; k < size; k++, q = (q + prime) % size)
+			int t = global::random_range_int(0, p.armies->size() - 1);
+			
+			for (auto k = 0; k < p.armies->size(); k++, t++)
 			{
 				if (placements < 0)
 					break;
 
-				army = p.armies->at(q);
+				if (t > p.armies->size() - 1)
+					t = 0;
+
+				army = p.armies->at(k);
 
 				if (army->occupiedCountry == nullptr)
 				{
 					continue;
 				}
-				
-				cout << "army: " << q << endl;
-				
+								
 				int count = 0;
 				int i = global::random_range_int(0, army->occupiedCountry->adjCountries->size()-1);
 				
@@ -703,6 +706,8 @@ void computer_process(const string& action, const int& amount, Player& p)
 					{
 						p.moveArmies(army->occupiedCountry, country);
 						placements--;
+						p.printPlayer();
+
 						been_placed = true;
 						break;
 					}
@@ -712,6 +717,8 @@ void computer_process(const string& action, const int& amount, Player& p)
 						{
 							p.moveArmies(army->occupiedCountry, country);
 							placements--;
+							p.printPlayer();
+
 							been_placed = true;
 							break;
 						}
