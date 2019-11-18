@@ -8,6 +8,7 @@
 #include "BidingFacility.h"
 #include "cards.h"
 #include "PlayerStrategies.h"
+#include "GameObservers.h"
 
 using namespace std;
 
@@ -45,7 +46,7 @@ public:
 	void setOccupiedCountry(Country*);
 };
 
-class Player
+class Player: public Subject
 {
 public:
 	Player();

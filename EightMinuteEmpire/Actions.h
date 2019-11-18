@@ -1,8 +1,9 @@
 #pragma once
 #include "Player.h"
 #include "cards.h"
+#include "GameObservers.h"
 
-class Actions
+class Actions: public Subject
 {
 public:
 	Actions() = default;

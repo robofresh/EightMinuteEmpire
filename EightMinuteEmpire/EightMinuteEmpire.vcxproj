@@ -19,9 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BidingDriver.cpp" />
     <ClCompile Include="Actions.cpp" />
-    <ClCompile Include="ActionsDriver.cpp" />
     <ClCompile Include="BidingFacility.cpp" />
     <ClCompile Include="cards.cpp" />
     <ClCompile Include="computeScore.cpp" />

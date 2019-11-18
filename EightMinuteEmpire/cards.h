@@ -5,13 +5,16 @@
 #include <vector>
 #include <stack>
 
+#include "GameObservers.h"
+//#include "Player.h"
+
 using namespace std;
 
 class Cards;
 class Deck;
 class Hand;
 
-class Cards
+class Cards: public Subject
 {
 public:
 	Cards(const string&, vector<string*>*); //1st string for good(resources), 2nd string for action

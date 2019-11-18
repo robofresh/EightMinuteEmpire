@@ -1,10 +1,15 @@
+#pragma once
 #include <iostream>
 #include <iomanip>
 #include <string>
 #include <set>
 #include "GameObservers.h"
 #include "Player.h"
+#include "cards.h"
+#include <string>
 #include "Map.h"
+#include "Actions.h"
+
 
 using namespace std;
 
@@ -39,6 +44,281 @@ void Subject::Notify()
 	{
 		(*i)->Update();
 	}
+}
+
+//PlayerObserver check whose turn it is
+PlayerObserver::PlayerObserver():_playerSubject(nullptr), _index(nullptr)
+{//Empty
+}
+
+PlayerObserver::PlayerObserver(Player* player, int* index)
+{
+	_playerSubject = player;
+	_playerSubject->Attach(this);
+	_index = index;
+}
+
+PlayerObserver::~PlayerObserver()
+{
+	_playerSubject->Detach(this);
+	delete _index;
+	_index = NULL;
+}
+
+void PlayerObserver::Update()
+{
+	display();
+}
+
+void PlayerObserver::display()
+{
+	cout << "**********Player "<<*this->_index  <<" " 
+		<< *_playerSubject->name << "'s turn.**********" << endl;
+	cout << "Player currently have " << *_playerSubject->numCoins << " coins. " << endl;
+
+}
+
+//CurrentPOb is an to track the chosen card and the person's turn
+CurrentPOb::CurrentPOb()
+{
+	_playerSubject= nullptr;
+	_index= nullptr;
+	_cardChosen=nullptr;
+	position=nullptr;
+	_supply = nullptr;
+	_cost = nullptr;
+}
+
+CurrentPOb::CurrentPOb(Player* player, Cards* chosen, int* position, int* supply)
+{
+	_playerSubject = player;
+	_playerSubject->Attach(this);
+	_cardChosen = chosen;
+	this->position = position;
+	_supply = supply;
+	_cost = nullptr;
+}
+
+CurrentPOb::~CurrentPOb()
+{
+	_playerSubject->Detach(this);
+	_supply = nullptr;
+	delete _cost;
+	_cost = nullptr;
+}
+
+void CurrentPOb::Update()
+{
+	display();
+}
+
+void CurrentPOb::display()
+{
+	cout << "Player " << *this->_playerSubject->name
+		<< " selects the " << *this->position + 1
+		<< "th card from the left. The card is : ";
+	this->_cardChosen->print();
+
+	cout << "Player " << *(_playerSubject->name) << " needs to pay " << *_cost << " coins." << endl;
+	cout << "Player " << *(_playerSubject->name) << " now has " << *(_playerSubject->numCoins) << " coins." << endl;
+	cout << "The Game Supply now has : " << *_supply << " coins." << endl;
+}
+
+void CurrentPOb::setCost(int* cost)
+{
+	_cost =cost;
+}
+
+void CurrentPOb::setSupply(int* supply)
+{
+	_supply = supply;
+}
+
+ActionOb::ActionOb()
+{
+	_playerSubject = nullptr;
+	_cardChosen = nullptr;
+	_action = new vector<string*>();
+	_amount = new vector<int*>();
+}
+
+ActionOb::ActionOb(Player* player, Cards* card)
+{
+	_playerSubject = player;
+	_cardChosen = card;
+	card->Attach(this);
+	_action = new vector<string*>();
+	_amount = new vector<int*>();
+
+}
+
+ActionOb::~ActionOb()
+{
+	_cardChosen->Detach(this);
+}
+
+void ActionOb::setAction(string* action)
+{
+	this->_action->push_back(action);
+}
+
+void ActionOb::setAmount(int* amount)
+{
+	_amount->push_back(amount);
+}
+
+void ActionOb::display()
+{
+	cout << endl;
+	cout << endl;
+	for (int i = 0; i < _action->size(); i++)
+	{
+
+		if (*_action->at(i) == "Ignore")
+		{
+			cout << "~ACTION TAKEN : Player " << *this->_playerSubject->name
+				<< " choose to ignore the card.~" << endl;
+			return;
+		}
+
+		if ("placeArmies" == *_action->at(i))
+		{
+			if (*_amount->at(i) > 1)
+			{
+				cout << "~ACTION TAKEN : Place " << *_amount->at(i) << " armies"<<endl;
+				return;
+			}
+			cout << "~ACTION TAKEN : Place " << *_amount->at(i) << " army" << endl;;
+		}
+
+		if ("move" == *_action->at(i))
+		{
+			if (*_amount->at(i) > 1)
+			{
+				cout << "~ACTION TAKEN : Move " << *_amount->at(i) << " armies~" << endl;
+				return;
+			}
+			cout << "~ACTION TAKEN : Move " << *_amount->at(i) << " army~"<<endl;
+		}
+		if ("createCity" == *_action->at(i))
+		{
+			if (*_amount->at(i) > 1)
+			{
+				cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " cities~";
+				return;
+			}
+			cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " city~";
+		}
+		if ("waterMove" == *_action->at(i))
+		{
+			if (*_amount->at(i) > 1)
+			{
+				cout << "~ACTION TAKEN : Move " << *_amount->at(i) << " armies across water/land~"<< endl;
+				return;
+			}
+			cout << "~ACTION TAKEN : Move " << *_amount->at(i) << " army across water/land~" << endl;
+		}
+		if ("destroyArmies" == *_action->at(i))
+		{
+			if (*_amount->at(i) > 1)
+			{
+				cout << "~ACTION TAKEN :Destroy " << *_amount->at(i) << " armies~" << endl;
+				return;
+			}
+			cout << "~ACTION TAKEN :Destroy " << *_amount->at(i) << " army~"<<endl;
+		}
+	}
+}
+
+void ActionOb::Update()
+{
+	display();
+}
+
+ProcessActOb::ProcessActOb() : aObject(nullptr), _playerSubject(nullptr), _initCountry(nullptr)
+, _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) {}
+
+ProcessActOb::ProcessActOb(Actions* aObject, Player* player) : _playerSubject(player), _initCountry(nullptr)
+, _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) 
+{
+	this->aObject = aObject;
+	aObject->Attach(this);
+}
+
+ProcessActOb::ProcessActOb(Actions* aObject, Player* player, Country* country, int num) : _playerSubject(player)
+, _initCountry(country), _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) 
+{
+	this->aObject = aObject;
+	aObject->Attach(this);
+}
+
+ProcessActOb::ProcessActOb(Actions* aObject, Player* player, Country* initialCountry, Country* finalCountry):
+	_playerSubject(player)	, _initCountry(initialCountry), _finalCountry(finalCountry)
+	, _playerTarget(nullptr), _numArmy(nullptr)
+{
+	this->aObject = aObject;
+	aObject->Attach(this);
+}
+
+ProcessActOb::ProcessActOb(Actions* aObject, Player* player, Country* initialCountry):
+	_playerSubject(player), _initCountry(initialCountry)
+	, _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr)
+{
+	this->aObject = aObject;
+	aObject->Attach(this);
+}
+
+ProcessActOb::ProcessActOb(Actions* aObject, Player* player, Country* initialCountry, Player* target)
+	: _playerSubject(player), _initCountry(initialCountry)
+	, _finalCountry(nullptr), _playerTarget(target), _numArmy(nullptr)
+{
+	this->aObject = aObject;
+	aObject->Attach(this);
+}
+
+ProcessActOb::~ProcessActOb()
+{
+	aObject->Detach(this);
+	_playerSubject = nullptr;
+	_initCountry = nullptr;
+	_finalCountry = nullptr;
+	_playerTarget = nullptr;
+	delete _numArmy;
+	_numArmy = nullptr;
+}
+
+void ProcessActOb::display()
+{
+	if (_initCountry!=nullptr && _finalCountry!= nullptr)
+	{
+		 cout <<"~ACTION OCCURING: " << *(this->_playerSubject->name) 
+			 << " moved an army from " << *(_initCountry->name) << " to " << *(_finalCountry->name) << endl;	
+		 return;
+	}
+
+	if (_initCountry != nullptr && _playerTarget != nullptr)
+	{
+		cout << "~ACTION OCCURING: " << *(this->_playerSubject->name) 
+			<< " destroyed an army of " << *(_playerTarget->name) << "'s in " << *(_initCountry->name) << endl;
+		return;
+	}
+
+	if (_initCountry != nullptr && _numArmy != nullptr)
+	{
+		cout << "~ACTION OCCURING: " << *(this->_playerSubject->name) 
+			<< " placed an army in " << *(_initCountry->name) << endl;
+		return;
+	}
+	if(_initCountry!=nullptr)
+	{
+		cout << "~ACTION OCCURING: " << *(this->_playerSubject->name) 
+			<< " now has a city built in " << *(_initCountry->name) << endl;
+	}
+}
+
+void ProcessActOb::Update()
+{
+	display();
 }
 
 GameStatistics::GameStatistics()
