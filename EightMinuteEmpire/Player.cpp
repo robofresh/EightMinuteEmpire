@@ -262,6 +262,7 @@ void Player::payCoin(int amount, int* supply)
 		{
 			*(this->numCoins) = *(this->numCoins) - amount;
 			*supply = *supply + amount;
+			computeScore();
 		}
 	}
 	catch (InsufficientCoinsException e)
@@ -339,7 +340,6 @@ more armies than other player in a country,
 cities counted as armies, if the numer is the same, no point for everyone
 */
 
-
 int getCoalPoint(Hand* hand)
 {
 	int coal[6] =
@@ -353,10 +353,10 @@ int getCoalPoint(Hand* hand)
 		if (hand->faceupcards->at(i)->good->compare("coal") == 0)
 		{
 			temp++;
-			++* hand->goods;
 		}
 
 	}
+	*hand->goods = *hand->goods + coal[temp];
 	return coal[temp];
 }
 
@@ -373,16 +373,15 @@ int getAnvilPoint(Hand* hand)
 		if (hand->faceupcards->at(i)->good->compare("2anvil") == 0)
 		{
 			temp = temp + 2;
-			*hand->goods = *hand->goods + 2;
 			continue;
 
 		}
 		if (hand->faceupcards->at(i)->good->compare("anvil") == 0)
 		{
 			temp++;
-			++* hand->goods;
 		}
 	}
+	*hand->goods = *hand->goods + anvil[temp];
 	return anvil[temp];
 }
 
@@ -400,9 +399,9 @@ int getTreePoint(Hand* hand)
 		if (hand->faceupcards->at(i)->good->compare("tree") == 0)
 		{
 			temp++;
-			++* hand->goods;
 		}
 	}
+	*hand->goods = *hand->goods + tree[temp];
 	return tree[temp];
 }
 
@@ -419,10 +418,10 @@ int getGemPoint(Hand* hand)
 		if (hand->faceupcards->at(i)->good->compare("gem") == 0)
 		{
 			temp++;
-			++* hand->goods;
 		}
 	
 	}
+	*hand->goods = *hand->goods + gem[temp];
 	return gem[temp];
 }
 
@@ -439,35 +438,23 @@ int getCarrotPoint(Hand* hand)
 		if (hand->faceupcards->at(i)->good->compare("2carrot") == 0)
 		{
 			temp= temp +2;
-			*hand->goods = *hand->goods +2;
 			continue;
 		}
 		if (hand->faceupcards->at(i)->good->compare("carrot") == 0)
 		{
 			temp++;
-			++* hand->goods;
-
 		}
 		
 	}
+	*hand->goods = *hand->goods + carrot[temp];
 	return carrot[temp];
 }
 
 int goodPoints(Hand* hand)
 {
-	//Printing all the hand if needed for TA
-
-	//cout << " Hand's goods are : ";
-	//for (int i = 0; i < hand->faceupcards->size(); i++)
-	//{
-	//	cout << *hand->faceupcards->at(i)->good
-	//		<< " , ";
-	//}
-	//cout << " ." << endl;
-
-	return getCoalPoint(hand) + getAnvilPoint(hand)
-		+ getTreePoint(hand) + getGemPoint(hand)
-		+ getCarrotPoint(hand);
+	*hand->goods = 0;
+	int newGoodPoints = getCoalPoint(hand) + getAnvilPoint(hand) + getTreePoint(hand) + getGemPoint(hand) + getCarrotPoint(hand);
+	return newGoodPoints;
 }
 
 void Player::computeScore()
