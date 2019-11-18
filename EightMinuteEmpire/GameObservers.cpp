@@ -302,15 +302,12 @@ ProcessActOb::ProcessActOb(Player* player)
 
 ProcessActOb::~ProcessActOb()
 {
-	delete _playerSubject;
-	delete _initCountry;
-	delete _finalCountry;
-	delete _playerTarget;
-	delete _numArmy;
+
 	_playerSubject = nullptr;
 	_initCountry = nullptr;
 	_finalCountry = nullptr;
 	_playerTarget = nullptr;
+	delete _numArmy;
 	_numArmy = nullptr;
 }
 
@@ -326,7 +323,7 @@ void ProcessActOb::setFinalCountry(Country* country)
 
 void ProcessActOb::setNumArmy(int num)
 {
-	*_numArmy = num;
+	_numArmy = new int(num);
 }
 
 void ProcessActOb::setPlayerTarget(Player* target)
