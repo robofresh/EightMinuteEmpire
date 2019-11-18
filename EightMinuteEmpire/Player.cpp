@@ -229,7 +229,6 @@ void Player::buildCity(Country* country)
 	City* availableCity = this->getAvailableCity();
 	availableCity->occupiedCountry = country;
 	country->addCity(availableCity);
-	// cout << *(this->name) << " now has a city built in " << *(country->name) << endl;
 }
 
 void Player::destroyArmy(Country* country, Player* otherPlayer)
@@ -237,7 +236,6 @@ void Player::destroyArmy(Country* country, Player* otherPlayer)
 	Army* selectedArmy = country->getArmy(otherPlayer);
 	selectedArmy->occupiedCountry = nullptr;
 	country->removeArmy(selectedArmy);
-	// cout << *(this->name) << " destroyed an army of " << *(otherPlayer->name) << "'s in " << *(country->name) << endl;
 }
 
 void Player::moveArmies(Country* initCountry, Country* finalCountry)
@@ -245,7 +243,6 @@ void Player::moveArmies(Country* initCountry, Country* finalCountry)
 	Army* selectedArmy = initCountry->getArmy(this);
 	selectedArmy->occupiedCountry = finalCountry;
 	initCountry->moveArmy(finalCountry, selectedArmy);
-	// cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;
 }
 
 void Player::moveOverLand(Country* initCountry, Country* finalCountry)
@@ -253,7 +250,6 @@ void Player::moveOverLand(Country* initCountry, Country* finalCountry)
 	Army* selectedArmy = initCountry->getArmy(this);
 	selectedArmy->occupiedCountry = finalCountry;
 	initCountry->moveArmy(finalCountry, selectedArmy);
-	// cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;
 }
 
 void Player::payCoin(int amount, int* supply)
@@ -285,7 +281,6 @@ void Player::placeNewArmies(Country* country, int amount)
 		Army* availableArmy = this->getAvailableArmy();
 		availableArmy->occupiedCountry = country;
 		country->addArmy(availableArmy);
-		// cout << *(this->name) << " placed an army in " << *(country->name) << endl;
 	}
 }
 
@@ -293,7 +288,6 @@ void Player::placeNewArmies(Country* country, int amount)
 void Player::ignore(Cards* card)
 {
 	//card->Notify();
-	//cout << "Player takes the card and ignore the action." << endl;
 }
 
 CurrentPOb* obCard;
