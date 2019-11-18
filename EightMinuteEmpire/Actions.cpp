@@ -200,8 +200,7 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 	Actions* actionObject;
 	actionObject = new Actions();
 	ProcessActOb* proOb;
-	proOb = new ProcessActOb(player);
-	actionObject->Attach(proOb);
+
 
 	//if it is a place armies card
 	if ("placeArmies" == action)
@@ -250,6 +249,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						}
 					}
 				}
+				proOb = new ProcessActOb(player);
+				actionObject->Attach(proOb);
 				proOb->setInitCountry(country);
 				proOb->setNumArmy(1);
 				actionObject->Notify();
@@ -307,6 +308,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 							std::cout << "\t" <<*player->name << " does not have an army in " << *country->name << endl;
 					}
 				}
+				proOb = new ProcessActOb(player);
+				actionObject->Attach(proOb);
 				proOb->setInitCountry(country);
 				actionObject->Notify();
 				player->buildCity(country);
@@ -418,7 +421,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						continue;
 					}
 					armiesAlreadyMoved.push_back(armyID + 1);
-
+					proOb = new ProcessActOb(player);
+					actionObject->Attach(proOb);
 					proOb->setInitCountry(army->occupiedCountry);
 					proOb->setFinalCountry(country);
 					actionObject->Notify();
@@ -488,6 +492,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						j--;
 						continue;
 					}
+					proOb = new ProcessActOb(player);
+					actionObject->Attach(proOb);
 					armiesAlreadyMoved.push_back(armyID + 1);
 					proOb->setInitCountry(army->occupiedCountry);
 					proOb->setFinalCountry(country);
@@ -537,6 +543,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 				{
 					if (enemyName == *i->player->name)
 					{
+						proOb = new ProcessActOb(player);
+						actionObject->Attach(proOb);
 						country = i->occupiedCountry;
 						proOb->setInitCountry(country);
 						proOb->setPlayerTarget(enemyPlayer);
