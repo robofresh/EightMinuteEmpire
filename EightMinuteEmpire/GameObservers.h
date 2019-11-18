@@ -53,26 +53,16 @@ public:
 	CurrentPOb();
 	CurrentPOb(Player*, Cards*, int*, int*);
 	~CurrentPOb();
-	virtual void Update();
-	virtual void display();
+	void Update();
+	void display();
+	void setCost(int*);
+	void setSupply(int*);
+
 protected:
-	//Player* _currentSubject;
 	Cards* _cardChosen;
 	int* position;
 	int* _supply;
-};
-
-class PayOb : public CurrentPOb
-{
-public:
-	PayOb();
-	PayOb(Player*, int*, int*);
-	~PayOb();
-	virtual void Update();
-	virtual void display();
-
-private:
-	int* cost;
+	int* _cost;
 };
 
 class ActionOb:public Observer
@@ -91,8 +81,6 @@ public:
 private:
 	Player* _playerSubject;
 	Cards* _cardChosen;
-	int* position;
-	int* _supply;
 	vector<string*>* _action;
 	vector<int*>* _amount;
 };
@@ -109,10 +97,6 @@ public:
 	~ProcessActOb();
 	void Update();
 	void display();
-	void setInitCountry(Country*);
-	void setFinalCountry(Country*);
-	void setPlayerTarget(Player*);
-	void setNumArmy(int);
 
 private:
 	Player* _playerSubject;

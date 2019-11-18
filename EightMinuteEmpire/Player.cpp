@@ -273,11 +273,9 @@ void Player::payCoin(int amount, int* supply)
 		cout << e.what();
 		return ;
 	}
-	PayOb* payOb;
-	payOb = new PayOb(this, &amount,supply);
+
 	Notify();
-	delete payOb;
-	payOb = NULL;
+
 }
 
 void Player::placeNewArmies(Country* country, int amount)
@@ -309,28 +307,28 @@ void Player::payCard(Cards* card,int position, int* supply)
 	switch (position)
 	{
 	case 0:
+		obCard->setCost(new int(0));
 		this->payCoin(0,supply);
-		this->Detach(obCard);
 		delete obCard;
 		obCard = NULL;
 		break;
 	case 1:
 	case 2:
+		obCard->setCost(new int(1));
 		this->payCoin(1,supply);
-		this->Detach(obCard);
 		delete obCard;
 		obCard = NULL;
 		break;
 	case 3:
 	case 4:
+		obCard->setCost(new int(2));
 		this->payCoin(2,supply);
-		this->Detach(obCard);
 		delete obCard;
 		obCard = NULL;
 		break;
 	case 5:
+		obCard->setCost(new int(3));
 		this->payCoin(3,supply);
-		this->Detach(obCard);
 		delete obCard;
 		obCard = NULL;
 		break;

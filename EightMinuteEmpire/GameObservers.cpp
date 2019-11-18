@@ -91,6 +91,9 @@ CurrentPOb::CurrentPOb(Player* player, Cards* chosen, int* position, int* supply
 CurrentPOb::~CurrentPOb()
 {
 	_playerSubject->Detach(this);
+	_supply = nullptr;
+	delete _cost;
+	_cost = nullptr;
 }
 
 void CurrentPOb::Update()
@@ -104,44 +107,29 @@ void CurrentPOb::display()
 		<< " selects the " << *this->position + 1
 		<< "th card from the left. The card is : ";
 	this->_cardChosen->print();
-}
 
-PayOb::PayOb()
-{
-	_playerSubject = nullptr;
-	_index = nullptr;
-	_cardChosen = nullptr;
-	position = nullptr;
-	_supply = nullptr;
-
-}
-
-PayOb::PayOb(Player* player, int* cost, int*supply)
-{
-	_playerSubject = player;
-	_playerSubject->Attach(this);
-	this->cost = cost;
-	_supply = supply;
-
-}
-
-PayOb::~PayOb()
-{
-	_playerSubject->Detach(this);
-}
-void PayOb::display()
-{
-	cout <<"Player "<< *(_playerSubject->name) << " needs to pay " << *cost << " coins." << endl;
+	cout << "Player " << *(_playerSubject->name) << " needs to pay " << *_cost << " coins." << endl;
 	cout << "Player " << *(_playerSubject->name) << " now has " << *(_playerSubject->numCoins) << " coins." << endl;
 	cout << "The Game Supply now has : " << *_supply << " coins." << endl;
 }
 
-void PayOb::Update()
+void CurrentPOb::setCost(int* cost)
 {
-	display();
+	_cost =cost;
 }
 
-ActionOb::ActionOb(){}
+void CurrentPOb::setSupply(int* supply)
+{
+	_supply = supply;
+}
+
+ActionOb::ActionOb()
+{
+	_playerSubject = nullptr;
+	_cardChosen = nullptr;
+	_action = new vector<string*>();
+	_amount = new vector<int*>();
+}
 
 ActionOb::ActionOb(Player* player, Cards* card)
 {
@@ -153,39 +141,9 @@ ActionOb::ActionOb(Player* player, Cards* card)
 
 }
 
-ActionOb::ActionOb(Player* player, Cards* card, string* action)
-{
-	_playerSubject = player;
-	_cardChosen = card;
-	card->Attach(this);
-	_action = new vector<string*>();
-
-	for (int i = 0; i < _cardChosen->actions->size(); i++)
-	{
-		_action->push_back(_cardChosen->actions->at(i));
-	}
-	_amount = new vector<int*>();;
-
-
-}
-
-//TODO: Modify args
-ActionOb::ActionOb(Player* player, Cards* card, string* action, int* amount)
-{
-	_playerSubject = player;
-	_cardChosen = card;
-	card->Attach(this);
-	_action = new vector<string*>();
-	for (int i = 0; i < _cardChosen->actions->size(); i++)
-	{
-		_action->push_back(_cardChosen->actions->at(i));
-	}
-	_amount = new vector<int*>();
-}
-
 ActionOb::~ActionOb()
 {
-
+	_cardChosen->Detach(this);
 }
 
 void ActionOb::setAction(string* action)
@@ -266,61 +224,26 @@ void ActionOb::Update()
 	display();
 }
 
-ProcessActOb::ProcessActOb()
-{
-	_playerSubject = nullptr;
-	_initCountry = nullptr;
-	_finalCountry = nullptr;
-	_playerTarget = nullptr;
-	_numArmy = nullptr;
-}
+ProcessActOb::ProcessActOb() :_playerSubject(nullptr), _initCountry(nullptr)
+, _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) {}
 
-ProcessActOb::ProcessActOb(Player* player)
-{
-	_playerSubject = player;
-	_initCountry = nullptr;
-	_finalCountry = nullptr;
-	_playerTarget = nullptr;
-	_numArmy = nullptr;
-}
+ProcessActOb::ProcessActOb(Player* player) : _playerSubject(player), _initCountry(nullptr)
+, _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) {}
 
-ProcessActOb::ProcessActOb(Player* player, Country* country, int num)
-{
-	_playerSubject = player;
-	_initCountry = country;
-	_finalCountry = nullptr;
-	_playerTarget = nullptr;
-	_numArmy = new int(num);
-}
+ProcessActOb::ProcessActOb(Player* player, Country* country, int num) : _playerSubject(player)
+, _initCountry(country), _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) {}
 
-ProcessActOb::ProcessActOb(Player* player, Country* initialCountry, Country* finalCountry)
-{
-	_playerSubject = player;
-	_initCountry = initialCountry;
-	_finalCountry = finalCountry;
-	_playerTarget = nullptr;
-	_numArmy = nullptr;
-}
+ProcessActOb::ProcessActOb(Player* player, Country* initialCountry, Country* finalCountry):
+	_playerSubject(player)	, _initCountry(initialCountry), _finalCountry(finalCountry)
+	, _playerTarget(nullptr), _numArmy(nullptr) {}
 
-ProcessActOb::ProcessActOb(Player* player, Country* initialCountry)
-{
-	_playerSubject = player;
-	_initCountry = initialCountry;
-	_finalCountry = nullptr;
-	_playerTarget = nullptr;
-	_numArmy = nullptr;
-}
+ProcessActOb::ProcessActOb(Player* player, Country* initialCountry):
+	_playerSubject(player), _initCountry(initialCountry)
+	, _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) {}
 
 ProcessActOb::ProcessActOb(Player* player, Country* initialCountry, Player* target)
-{
-	_playerSubject = player;
-	_initCountry = initialCountry;
-	_finalCountry = nullptr;
-	_playerTarget = target;
-	_numArmy = nullptr;
-}
-
-
+	: _playerSubject(player), _initCountry(initialCountry)
+	, _finalCountry(nullptr), _playerTarget(target), _numArmy(nullptr) {}
 
 ProcessActOb::~ProcessActOb()
 {
@@ -365,7 +288,6 @@ void ProcessActOb::Update()
 {
 	display();
 }
-
 
 GameStatistics::GameStatistics()
 	: mapSubject(nullptr), players(new vector<Player*>)
