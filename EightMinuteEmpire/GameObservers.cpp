@@ -281,6 +281,91 @@ void ActionOb::Update()
 {
 	display();
 }
+
+ProcessActOb::ProcessActOb()
+{
+	_playerSubject = nullptr;
+	_initCountry = nullptr;
+	_finalCountry = nullptr;
+	_playerTarget = nullptr;
+	_numArmy = nullptr;
+}
+
+ProcessActOb::ProcessActOb(Player* player)
+{
+	_playerSubject = player;
+	_initCountry = nullptr;
+	_finalCountry = nullptr;
+	_playerTarget = nullptr;
+	_numArmy = nullptr;
+}
+
+ProcessActOb::~ProcessActOb()
+{
+	delete _playerSubject;
+	delete _initCountry;
+	delete _finalCountry;
+	delete _playerTarget;
+	delete _numArmy;
+	_playerSubject = nullptr;
+	_initCountry = nullptr;
+	_finalCountry = nullptr;
+	_playerTarget = nullptr;
+	_numArmy = nullptr;
+}
+
+void ProcessActOb::setInitCountry(Country* country)
+{
+	_initCountry= country; 
+}
+
+void ProcessActOb::setFinalCountry(Country* country) 
+{
+	_finalCountry = country;
+}
+
+void ProcessActOb::setNumArmy(int num)
+{
+	*_numArmy = num;
+}
+
+void ProcessActOb::setPlayerTarget(Player* target)
+{
+	_playerTarget = target;
+}
+
+void ProcessActOb::display()
+{
+	if (_initCountry!=nullptr && _finalCountry!= nullptr)
+	{
+		 cout << *(this->_playerSubject->name) << " moved an army from " << *(_initCountry->name) << " to " << *(_finalCountry->name) << endl;	
+		 return;
+	}
+
+	if (_initCountry != nullptr && _playerTarget != nullptr)
+	{
+		cout << *(this->_playerSubject->name) << " destroyed an army of " << *(_playerTarget->name) << "'s in " << *(_initCountry->name) << endl;
+		return;
+	}
+
+	if (_initCountry != nullptr && _numArmy != nullptr)
+	{
+		cout << *(this->_playerSubject->name) << " placed an army in " << *(_initCountry->name) << endl;
+		return;
+	}
+	if(_initCountry!=nullptr)
+	{
+		cout << *(this->_playerSubject->name) << " now has a city built in " << *(_initCountry->name) << endl;
+	}
+	
+}
+
+void ProcessActOb::Update()
+{
+	display();
+}
+
+
 GameStatistics::GameStatistics()
 	: mapSubject(nullptr), players(new vector<Player*>)
 {/*Intentionally Empty*/}

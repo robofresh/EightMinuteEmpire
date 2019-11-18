@@ -11,6 +11,7 @@ class Subject;
 class GameStatistics;
 class Player;
 class Map;
+class Country;
 
 class Observer
 {
@@ -95,6 +96,27 @@ private:
 	int* _supply;
 	vector<string*>* _action;
 	vector<int*>* _amount;
+};
+
+class ProcessActOb :public Observer
+{
+public:
+	ProcessActOb();
+	ProcessActOb(Player*);
+	~ProcessActOb();
+	void Update();
+	void display();
+	void setInitCountry(Country*);
+	void setFinalCountry(Country*);
+	void setPlayerTarget(Player*);
+	void setNumArmy(int);
+
+private:
+	Player* _playerSubject;
+	Country* _initCountry;
+	Country* _finalCountry;
+	Player* _playerTarget;
+	int* _numArmy;
 };
 	
 class GameStatistics : public Observer
