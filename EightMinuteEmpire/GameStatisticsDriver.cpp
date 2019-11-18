@@ -112,8 +112,6 @@ int main()
 	deck = NULL;
 	delete mapLoader;
 	mapLoader = NULL;
-	delete map;
-	map = NULL;
 	startingCountry = NULL;
 	supply = NULL;
 	currentPlayer = NULL;
@@ -127,4 +125,6 @@ int main()
 	gameWin = NULL;
 	delete gameStats;
 	gameStats = NULL;
+	delete map;
+	map = NULL;
 }
