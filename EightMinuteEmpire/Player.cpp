@@ -287,7 +287,7 @@ void Player::placeNewArmies(Country* country, int amount)
 //Ignore action only prints out that they ignore it
 void Player::ignore(Cards* card)
 {
-	//card->Notify();
+	card->Notify();
 }
 
 CurrentPOb* obCard;
