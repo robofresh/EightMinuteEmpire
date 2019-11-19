@@ -23,6 +23,7 @@
     <ClCompile Include="BidingFacility.cpp" />
     <ClCompile Include="cards.cpp" />
     <ClCompile Include="computeScore.cpp" />
+    <ClCompile Include="GameStatisticsDriver.cpp" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -30,7 +31,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerStrategies.cpp" />
     <ClCompile Include="singletonTest.cpp" />
-    <ClCompile Include="StrategyDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />
