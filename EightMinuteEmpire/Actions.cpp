@@ -192,7 +192,8 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 
 void actionProcess(const string& action, const int& amount, Player *player, Map* map, vector<Player*>* playersVector)
 {
-
+	Actions* actionObject;
+	actionObject = new Actions();
 	ProcessActOb* proOb;
 
 
@@ -243,8 +244,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						}
 					}
 				}
-				proOb = new ProcessActOb(global::action, player,country, 1);
-				global::action->Notify();
+				proOb = new ProcessActOb(actionObject, player,country, 1);
+				actionObject->Notify();
 				player->placeNewArmies(country, 1);
 				delete proOb;
 				proOb = nullptr;
@@ -297,8 +298,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 							std::cout << "\t" <<*player->name << " does not have an army in " << *country->name << endl;
 					}
 				}
-				proOb = new ProcessActOb(global::action, player, country, 1);
-				global::action->Notify();
+				proOb = new ProcessActOb(actionObject, player, country);
+				actionObject->Notify();
 				player->buildCity(country);
 				delete proOb;
 				proOb = nullptr;
@@ -407,8 +408,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						continue;
 					}
 					armiesAlreadyMoved.push_back(armyID + 1);
-					proOb = new ProcessActOb(global::action, player, country, 1);
-					global::action->Notify();
+					proOb = new ProcessActOb(actionObject, player, army->occupiedCountry, country);
+					actionObject->Notify();
 					player->moveArmies(army->occupiedCountry, country);
 					delete proOb;
 					proOb = nullptr;
@@ -474,9 +475,9 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						j--;
 						continue;
 					}
-					proOb = new ProcessActOb(global::action, player, country, 1);
+					proOb = new ProcessActOb(actionObject, player, army->occupiedCountry, country);
 					armiesAlreadyMoved.push_back(armyID + 1);
-					global::action->Notify();
+					actionObject->Notify();
 					player->moveOverLand(army->occupiedCountry, country);
 					delete proOb;
 					proOb = nullptr;
@@ -521,9 +522,9 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 				{
 					if (enemyName == *i->player->name)
 					{
-						proOb = new ProcessActOb(global::action, player, country, 1);
+						proOb = new ProcessActOb(actionObject, player, country, enemyPlayer );
 						country = i->occupiedCountry;
-						global::action->Notify();
+						actionObject->Notify();
 						player->destroyArmy(country, enemyPlayer);
 						delete proOb;
 						proOb = nullptr;
@@ -671,197 +672,194 @@ int random_prime();
 void computer_process(const string& action, const int& amount, Player& p)
 {
 
-	ProcessActOb* proOb;
-
-	
-	//if it is a place armies card
-	if ("placeArmies" == action)
-	{
-		
-		for (int i = 0; i < amount; i++) //for every army to be placed
+		//if it is a place armies card
+		if ("placeArmies" == action)
 		{
-			bool placed = false;
-
-			if (p.availableArmies() > 0) //if the player has any available armies
+			
+			for (int i = 0; i < amount; i++) //for every army to be placed
 			{
-				//computer will get a country that is the starting country or a country it has a city in but does not own
-				for (auto i : *p.cities)
+				bool placed = false;
+
+				if (p.availableArmies() > 0) //if the player has any available armies
 				{
-					if (i->occupiedCountry != nullptr && i->occupiedCountry->owningPlayer != &p)
+					//computer will get a country that is the starting country or a country it has a city in but does not own
+					for (auto i : *p.cities)
 					{
-						p.placeNewArmies(i->occupiedCountry, 1);
-						placed = true;
-						break;
+						if (i->occupiedCountry != nullptr && i->occupiedCountry->owningPlayer != &p)
+						{
+							p.placeNewArmies(i->occupiedCountry, 1);
+							placed = true;
+							break;
+						}
 					}
-				}
 
-				if (Map::getInstance()->startingCountry->owningPlayer != &p && !placed)
+					if (Map::getInstance()->startingCountry->owningPlayer != &p && !placed)
+					{
+						p.placeNewArmies(Map::getInstance()->startingCountry, 1);
+						continue;
+					}
+
+					if(!placed)
+						p.placeNewArmies(Map::getInstance()->startingCountry, 1);
+
+				}
+				else
 				{
-					p.placeNewArmies(Map::getInstance()->startingCountry, 1);
-					continue;
+					cout << "\tComputer has no more armies to place. " << endl;
+					break;
 				}
-
-				if(!placed)
-					p.placeNewArmies(Map::getInstance()->startingCountry, 1);
-
-			}
-			else
-			{
-				cout << "\tComputer has no more armies to place. " << endl;
-				break;
 			}
 		}
-	}
-	if ("createCity" == action) //virtually the same as the last block but for city placement
-	{
-
-		if (p.availableCities() > 0)
+		if ("createCity" == action) //virtually the same as the last block but for city placement
 		{
-			for (auto i : *p.armies)
+
+			if (p.availableCities() > 0)
 			{
-				if (i->occupiedCountry != nullptr)
+				for (auto i : *p.armies)
 				{
-					for (auto j : *i->occupiedCountry->cities)
+					if (i->occupiedCountry != nullptr)
 					{
-						if (j->player != &p)
+						for (auto j : *i->occupiedCountry->cities)
 						{
-							p.buildCity(i->occupiedCountry);
-							return;
+							if (j->player != &p)
+							{
+								p.buildCity(i->occupiedCountry);
+								return;
+							}
 						}
 					}
 				}
-			}
-			for (auto i : *p.armies)
-			{
-				if (i->occupiedCountry != nullptr)
+				for (auto i : *p.armies)
 				{
-					p.buildCity(i->occupiedCountry);
-					return;
+					if (i->occupiedCountry != nullptr)
+					{
+						p.buildCity(i->occupiedCountry);
+						return;
+					}
 				}
 			}
-		}
-		else
-		{
-			cout << "\tComputer has no more cities to place. " << endl;
-		}
+			else
+			{
+				cout << "\tComputer has no more cities to place. " << endl;
+			}
 
-		return;
-	}
-	if ("move" == action || "waterMove" == action)
-	{
-
-		if (p.availableArmies() == 14) // check if any armies have been placed
-		{
-			cout << "\tThe computer player has not placed and armies." << endl;
 			return;
 		}
-
-		Army* army = nullptr;
-		
-		int placements = amount;
-
-		bool been_placed = false;
-
-		int t = global::random_range_int(0, p.armies->size() - 1);
-		
-		for (auto k = 0; k < p.armies->size(); k++, t++)
+		if ("move" == action || "waterMove" == action)
 		{
-			if (placements < 0)
-				break;
 
-			if (t > p.armies->size() - 1)
-				t = 0;
-
-			army = p.armies->at(k);
-
-			if (army->occupiedCountry == nullptr)
+			if (p.availableArmies() == 14) // check if any armies have been placed
 			{
-				continue;
+				cout << "\tThe computer player has not placed and armies." << endl;
+				return;
 			}
-							
-			int count = 0;
-			int i = global::random_range_int(0, army->occupiedCountry->adjCountries->size()-1);
+
+			Army* army = nullptr;
 			
-			while (count < army->occupiedCountry->adjCountries->size())
+			int placements = amount;
+
+			bool been_placed = false;
+
+			int t = global::random_range_int(0, p.armies->size() - 1);
+			
+			for (auto k = 0; k < p.armies->size(); k++, t++)
 			{
-				if (i > army->occupiedCountry->adjCountries->size()-1)
-					i = 0;
-			
-				Country* country = army->occupiedCountry->adjCountries->at(i);
-				
-				if ("waterMove" == action)
-				{
-					p.moveArmies(army->occupiedCountry, country);
-					placements--;
-					been_placed = true;
+				if (placements < 0)
 					break;
-				}
-				if ("move" == action)
+
+				if (t > p.armies->size() - 1)
+					t = 0;
+
+				army = p.armies->at(k);
+
+				if (army->occupiedCountry == nullptr)
 				{
-					if (army->occupiedCountry->parentContinent == country->parentContinent)
+					continue;
+				}
+								
+				int count = 0;
+				int i = global::random_range_int(0, army->occupiedCountry->adjCountries->size()-1);
+				
+				while (count < army->occupiedCountry->adjCountries->size())
+				{
+					if (i > army->occupiedCountry->adjCountries->size()-1)
+						i = 0;
+				
+					Country* country = army->occupiedCountry->adjCountries->at(i);
+					
+					if ("waterMove" == action)
 					{
 						p.moveArmies(army->occupiedCountry, country);
 						placements--;
 						been_placed = true;
 						break;
 					}
+					if ("move" == action)
+					{
+						if (army->occupiedCountry->parentContinent == country->parentContinent)
+						{
+							p.moveArmies(army->occupiedCountry, country);
+							placements--;
+							been_placed = true;
+							break;
+						}
+					}
+					i++;
+					count++;
 				}
-				i++;
-				count++;
+
 			}
 
+			if (!been_placed)
+				cout << "The computer could not move any armies." << endl;
 		}
-
-		if (!been_placed)
-			cout << "The computer could not move any armies." << endl;
-	}
-	if ("destroyArmies" == action)
-	{
-
-		if (global::players == nullptr)
+		if ("destroyArmies" == action)
 		{
-			cout << "Error: destroy armies was called but players are not set in global." << endl;
-			return;
-		}
 
-		if (global::players->size() < 2)
-		{
-			cout << "Computer was trying to destroy an army but it is the only one playing." << endl;
-			return;
-		}
-
-		Player* enemy = nullptr;
-
-		//choose random ish player order 
-		const auto prime = random_prime();
-		const int size = global::players->size();
-		auto q = prime % size;
-		auto t = q;
-
-		for (auto k = 0; k < size; k++, q = (q + prime) % size)
-		{
-			enemy = global::players->at(q);
-
-			if (enemy == &p)
+			if (global::players == nullptr)
 			{
-				continue;
+				cout << "Error: destroy armies was called but players are not set in global." << endl;
+				return;
 			}
 
-			for (auto j : *enemy->armies)
+			if (global::players->size() < 2)
 			{
-				if (j->occupiedCountry != nullptr)
+				cout << "Computer was trying to destroy an army but it is the only one playing." << endl;
+				return;
+			}
+
+			Player* enemy = nullptr;
+
+			//choose random ish player order 
+			const auto prime = random_prime();
+			const int size = global::players->size();
+			auto q = prime % size;
+			auto t = q;
+
+			for (auto k = 0; k < size; k++, q = (q + prime) % size)
+			{
+				enemy = global::players->at(q);
+
+				if (enemy == &p)
 				{
-					p.destroyArmy(j->occupiedCountry, enemy);
-					return;
+					continue;
+				}
+
+				for (auto j : *enemy->armies)
+				{
+					if (j->occupiedCountry != nullptr)
+					{
+						p.destroyArmy(j->occupiedCountry, enemy);
+						return;
+					}
 				}
 			}
+
+			cout << "\tComputer had no armies it could destroy." << endl;
+
+			return;
+
 		}
-
-		cout << "\tComputer had no armies it could destroy." << endl;
-
-		return;
-
-	}
 	
 }
 
