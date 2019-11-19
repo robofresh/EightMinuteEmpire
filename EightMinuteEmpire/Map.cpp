@@ -71,7 +71,10 @@ Map::~Map()
 {
 	if (0 != m_instance)
 	{
-		m_instance = nullptr;
+		Map* pTemp = m_instance;
+		m_instance = 0;
+
+		delete pTemp;
 	}
 	
 	for (auto i : *mapCountries)
