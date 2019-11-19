@@ -246,8 +246,9 @@ ProcessActOb::ProcessActOb(Actions* aObject, Player* player) : _playerSubject(pl
 }
 
 ProcessActOb::ProcessActOb(Actions* aObject, Player* player, Country* country, int num) : _playerSubject(player)
-, _initCountry(country), _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) 
+, _initCountry(country), _finalCountry(nullptr), _playerTarget(nullptr) 
 {
+	_numArmy =new int(num);
 	this->aObject = aObject;
 	aObject->Attach(this);
 }
