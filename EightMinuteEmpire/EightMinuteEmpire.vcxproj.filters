@@ -13,6 +13,7 @@
     <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="EightMinuteEmpire.cpp" />
     <ClCompile Include="GameStatisticsDriver.cpp" />
+    <ClCompile Include="singletonTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />

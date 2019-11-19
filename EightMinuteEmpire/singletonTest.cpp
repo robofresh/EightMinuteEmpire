@@ -231,8 +231,7 @@
 //		}
 //	}
 //	cout << "You've selected the following map: " << endl;
-////	Map::getInstance()->print();
-////	map->print();
+//	map->print();
 //	cout << endl;
 //	Country* startingCountry = map->startingCountry; //Starting country is loaded from map
 //
