@@ -11,11 +11,9 @@
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerStrategies.cpp" />
-    <ClCompile Include="StrategyDriver.cpp" />
     <ClCompile Include="computeScore.cpp" />
-    <ClCompile Include="EightMinuteEmpire.cpp" />
-    <ClCompile Include="GameStatisticsDriver.cpp" />
     <ClCompile Include="singletonTest.cpp" />
+    <ClCompile Include="EightMinuteEmpire.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />

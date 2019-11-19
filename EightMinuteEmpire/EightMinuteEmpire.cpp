@@ -212,14 +212,13 @@ int main()
 	cout << "########################################\n" << endl;
 	
 	// Select map from list of files.
-	global::main_map = Map::getInstance();
 	MapLoader* mapLoader = nullptr;
 	while (true)
 	{
 		string mapFileName = getMapFileName();
 		try
 		{
-			mapLoader = new MapLoader(mapFileName, global::main_map);
+			mapLoader = new MapLoader(mapFileName, Map::getInstance());
 			break;
 		}
 		catch (const MapLoaderException & e)
@@ -231,9 +230,9 @@ int main()
 		}
 	}
 	cout << "You've selected the following map: " << endl;
-	global::main_map->print();
+	Map::getInstance()->print();
 	cout << endl;
-	Country* startingCountry = global::main_map->startingCountry; //Starting country is loaded from map
+	Country* startingCountry = Map::getInstance()->startingCountry; //Starting country is loaded from map
 
 	// Create deck with 42 cards. Shuffle method is done when creating a deck
 	global::main_deck = new Deck();
@@ -293,7 +292,7 @@ int main()
 
 	do
 	{
-		observeP = new PlayerObserver(players->at(*track), turn);
+		observeP = new PlayerObserver(global::players->at(*track), turn);
 		track = new int((*track + 1 + NUM_PLAYERS)%NUM_PLAYERS);
 		turn = new int(*turn + 1);
 		observeP = NULL;		
@@ -366,7 +365,7 @@ int main()
 		chosenCard = global::main_deck->cardsSpace->faceupcards->at(cardPosition);
 
 		currentPlayer->hand->faceupcards->push_back(chosenCard);//Put card into the player's hand
-		currentPlayer->payCard(chosenCard, cardPosition, supply);//Pay the correct amount of coins
+		currentPlayer->payCard(chosenCard, supply);//Pay the correct amount of coins
 		
 // #################################################
 //				Part 4: Player Actions
@@ -374,14 +373,14 @@ int main()
 		//Display current player's action
 		//Either, do the action or ignore
 
-		global::action->processAction(currentPlayer, chosenCard, global::main_map, global::players);
+		global::action->processAction(currentPlayer, chosenCard, Map::getInstance(), global::players);
 
 // #################################################
 //				Part 5: After Action
 // #################################################
 
 		//Update face-ups cards
-		global::main_deck->updateCardsSpace(global::main_deck, cardPosition);
+		global::main_deck->updateCardsSpace(global::main_deck, chosenCard);
 
 		//Loop to the next player
 		newIndex = *currentPlayerIndex + 1;//Increasing the index position is clockwise 
@@ -434,8 +433,7 @@ int main()
 	global::main_deck = NULL;
 	delete mapLoader;
 	mapLoader = NULL;
-	delete global::main_map;
-	global::main_map = NULL;
+	delete Map::getInstance();
 	startingCountry = NULL;
 	supply = NULL;
 	currentPlayer = NULL;
@@ -445,8 +443,8 @@ int main()
 	delete global::action;
 	global::action = NULL;
 	winner = NULL;
-	delete action;
-	action = NULL;
+	delete global::action;
+global::action = NULL;
 	delete observeP;
 	observeP = NULL;
 
