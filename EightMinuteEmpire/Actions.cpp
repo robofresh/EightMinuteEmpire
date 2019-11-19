@@ -480,7 +480,6 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 			}
 		}
 	}
-	delete actionObject;
 	if ("destroyArmies" == action)
 	{
 		Country* country = nullptr;
