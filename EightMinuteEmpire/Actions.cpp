@@ -591,6 +591,9 @@ void actionPrint(const string& action, const int& amount)
 
 void Actions::computer_action(Player& p, Cards& c) const
 {
+
+	actOb = new ActionOb(&p, &c);
+
 	cout << endl;
 
 	//if there is more than one action
@@ -602,6 +605,17 @@ void Actions::computer_action(Player& p, Cards& c) const
 		//if it is a 'and' card, then choose between both actions or ignoring
 		if ("AND" == *c.actions->at(2))
 		{
+			actOb->setAction(c.actions->at(0));
+			int amount;
+			amount = stoi(*c.actions->at(1));
+			actOb->setAmount(&amount);
+			actOb->setAction(c.actions->at(3));
+			int amount2;
+			amount2 = stoi(*c.actions->at(4));
+			actOb->setAmount(&amount2);
+			c.Notify();
+			delete actOb;
+			actOb = NULL;
 			computer_process(*c.actions->at(0), stoi(*c.actions->at(1)), p);
 			computer_process(*c.actions->at(3), stoi(*c.actions->at(4)), p);
 		}
@@ -619,19 +633,36 @@ void Actions::computer_action(Player& p, Cards& c) const
 					//do action if any card has them
 					if (*j == "destroyArmies")
 					{
-						cout << "\tSelected action: destroyArmies" << endl;
+						actOb->setAction(j);
+						int amount;
+						amount = stoi(*c.actions->at(action_index + 1));
+						actOb->setAmount(&amount);
+						c.Notify();
+						delete actOb;
+						actOb = NULL;
 						computer_process(*c.actions->at(action_index), stoi(*c.actions->at(action_index +1)), p);
 						return;
 					}
 					if (*j == "createCity")
 					{
-						cout << "\tSelected action: createCity" << endl;
+						actOb->setAction(j);
+						int amount;
+						amount = stoi(*c.actions->at(action_index + 1));
+						actOb->setAmount(&amount);
+						c.Notify();
+						delete actOb;
+						actOb = NULL;
 						computer_process(*c.actions->at(action_index), stoi(*c.actions->at(action_index +1)), p);
 						return;
 					}
 					action_index++;
 				}
-				cout << "\tSelected action: " << *c.actions->at(0) << endl;
+				actOb->setAction(c.actions->at(0));
+				int	amount = stoi(*c.actions->at(1));
+				actOb->setAmount(&amount);
+				c.Notify();
+				delete actOb;
+				actOb = NULL;
 				computer_process(*c.actions->at(0), stoi(*c.actions->at(1)), p);
 				return;
 			}
@@ -644,14 +675,25 @@ void Actions::computer_action(Player& p, Cards& c) const
 					//do action if any card has them
 					if (*j == "placeArmies")
 					{
-						cout << "\tSelected action: placeArmies" << endl;
+						actOb->setAction(j);
+						int amount;
+						amount = stoi(*c.actions->at(action_index + 1));
+						actOb->setAmount(&amount);
+						c.Notify();
+						delete actOb;
+						actOb = NULL;
 						computer_process(*c.actions->at(action_index), stoi(*c.actions->at(action_index + 1)), p);
 						return;
 					}
 					action_index++;
 				}
 				
-				cout << "\tSelected action: " << *c.actions->at(0) << endl;
+				actOb->setAction(c.actions->at(0));
+				int amount = stoi(*c.actions->at(1));
+				actOb->setAmount(&amount);
+				c.Notify();
+				delete actOb;
+				actOb = NULL;
 				computer_process(*c.actions->at(0), stoi(*c.actions->at(1)), p);
 				return;
 				
@@ -659,8 +701,14 @@ void Actions::computer_action(Player& p, Cards& c) const
 		}
 
 	}
-	else //if only one action, then choose between action and ignore
+	else 
 	{
+		actOb->setAction(c.actions->at(0));
+		int amount = stoi(*c.actions->at(1));
+		actOb->setAmount(&amount);
+		c.Notify();
+		delete actOb;
+		actOb = NULL;
 		computer_process(*c.actions->at(0), stoi(*c.actions->at(1)), p);
 	}
 	cout << endl;
@@ -671,6 +719,9 @@ int random_prime();
 
 void computer_process(const string& action, const int& amount, Player& p)
 {
+	Actions* actionObject;
+	actionObject = new Actions();
+	ProcessActOb* proOb;
 
 		//if it is a place armies card
 		if ("placeArmies" == action)
@@ -687,7 +738,11 @@ void computer_process(const string& action, const int& amount, Player& p)
 					{
 						if (i->occupiedCountry != nullptr && i->occupiedCountry->owningPlayer != &p)
 						{
+							proOb = new ProcessActOb(actionObject, &p, i->occupiedCountry, 1);
+							actionObject->Notify();
 							p.placeNewArmies(i->occupiedCountry, 1);
+							delete proOb;
+							proOb = nullptr;
 							placed = true;
 							break;
 						}
@@ -695,13 +750,25 @@ void computer_process(const string& action, const int& amount, Player& p)
 
 					if (Map::getInstance()->startingCountry->owningPlayer != &p && !placed)
 					{
+						proOb = new ProcessActOb(actionObject, &p, Map::getInstance()->startingCountry, 1);
+						actionObject->Notify();
 						p.placeNewArmies(Map::getInstance()->startingCountry, 1);
+						delete proOb;
+						proOb = nullptr;
+						placed = true;
 						continue;
 					}
 
 					if(!placed)
+					{
+						proOb = new ProcessActOb(actionObject, &p, Map::getInstance()->startingCountry, 1);
+						actionObject->Notify();
 						p.placeNewArmies(Map::getInstance()->startingCountry, 1);
-
+						delete proOb;
+						proOb = nullptr;
+						placed = true;
+					}
+					
 				}
 				else
 				{
@@ -723,7 +790,11 @@ void computer_process(const string& action, const int& amount, Player& p)
 						{
 							if (j->player != &p)
 							{
+								proOb = new ProcessActOb(actionObject, &p, i->occupiedCountry);
+								actionObject->Notify();
 								p.buildCity(i->occupiedCountry);
+								delete proOb;
+								proOb = nullptr;
 								return;
 							}
 						}
@@ -733,7 +804,11 @@ void computer_process(const string& action, const int& amount, Player& p)
 				{
 					if (i->occupiedCountry != nullptr)
 					{
+						proOb = new ProcessActOb(actionObject, &p, i->occupiedCountry);
+						actionObject->Notify();
 						p.buildCity(i->occupiedCountry);
+						delete proOb;
+						proOb = nullptr;
 						return;
 					}
 				}
@@ -789,6 +864,10 @@ void computer_process(const string& action, const int& amount, Player& p)
 					
 					if ("waterMove" == action)
 					{
+						proOb = new ProcessActOb(actionObject, &p, army->occupiedCountry, country);
+						actionObject->Notify();
+						delete proOb;
+						proOb = nullptr;
 						p.moveArmies(army->occupiedCountry, country);
 						placements--;
 						been_placed = true;
@@ -798,6 +877,10 @@ void computer_process(const string& action, const int& amount, Player& p)
 					{
 						if (army->occupiedCountry->parentContinent == country->parentContinent)
 						{
+							proOb = new ProcessActOb(actionObject, &p, army->occupiedCountry, country);
+							actionObject->Notify();
+							delete proOb;
+							proOb = nullptr;
 							p.moveArmies(army->occupiedCountry, country);
 							placements--;
 							been_placed = true;
@@ -849,6 +932,10 @@ void computer_process(const string& action, const int& amount, Player& p)
 				{
 					if (j->occupiedCountry != nullptr)
 					{
+						proOb = new ProcessActOb(actionObject, &p, j->occupiedCountry, enemy);
+						actionObject->Notify();
+						delete proOb;
+						proOb = nullptr;
 						p.destroyArmy(j->occupiedCountry, enemy);
 						return;
 					}

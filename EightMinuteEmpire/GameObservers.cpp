@@ -204,10 +204,10 @@ void ActionOb::display()
 		{
 			if (*_amount->at(i) > 1)
 			{
-				cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " cities~";
+				cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " cities~" << endl;;
 				return;
 			}
-			cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " city~";
+			cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " city~" << endl;
 		}
 		if ("waterMove" == *_action->at(i))
 		{
