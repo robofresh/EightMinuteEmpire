@@ -23,7 +23,6 @@
     <ClCompile Include="BidingFacility.cpp" />
     <ClCompile Include="cards.cpp" />
     <ClCompile Include="computeScore.cpp" />
-    <ClCompile Include="GameStatisticsDriver.cpp" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="Map.cpp" />

@@ -30,7 +30,7 @@ int main()
 	//Other details for setting up the game
 	bool endGame = false;
 	const int MAX_CARDS = 5;
-	Actions* action = new Actions();
+	global::action = new Actions();
 	int supplyVal = 44 - (NUM_COINS_PER_PLAYER * NUM_PLAYERS);
 	int* supply = &supplyVal;
 
@@ -66,7 +66,7 @@ int main()
 		currentPlayer->hand->faceupcards->push_back(chosenCard);//Push address 
 		currentPlayer->payCard(chosenCard, supply);//Pay the correct amount of coins
 
-		action->processAction(currentPlayer, chosenCard, map, global::players);
+		global::action->processAction(currentPlayer, chosenCard, map, global::players);
 
 		cout << *(currentPlayer->name) << " now has " << currentPlayer->hand->faceupcards->size() << " cards" << endl;
 
@@ -119,8 +119,8 @@ int main()
 	delete currentPlayerIndex;
 	currentPlayerIndex = NULL;
 	lastPlayer = NULL;
-	delete action;
-	action = NULL;
+	delete global::action;
+	global::action = NULL;
 	winner = NULL;
 	delete gameWin;
 	gameWin = NULL;
