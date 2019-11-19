@@ -287,7 +287,7 @@ void Player::placeNewArmies(Country* country, int amount)
 }
 
 //Ignore action only prints out that they ignore it
-void Player::ignore()
+void Player::ignore(Cards* card)
 {
 	card->Notify();
 }
@@ -308,7 +308,7 @@ void Player::payCard(Cards* c, int* supply)
 		position++;
 	}
 
-	obCard = new CurrentPOb(this, card, &position, supply);
+	obCard = new CurrentPOb(this, c, &position, supply);
 	
 	switch (position)
 	{

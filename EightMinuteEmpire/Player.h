@@ -79,7 +79,6 @@ public:
 	void moveOverLand(Country*, Country*);
 	void buildCity(Country*);
 	void destroyArmy(Country*, Player*);
-	void ignore();
 	void computeScore();
 	void ignore(Cards*);
 	void payCard(Cards*, int*);

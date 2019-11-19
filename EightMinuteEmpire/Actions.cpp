@@ -80,8 +80,6 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 			//or ignore
 			else if (selection == 2)
 			{
-
-				player->ignore();
 				string* answer = new string("Ignore");
 				actOb->setAction(answer);
 				player->ignore(card);
@@ -135,7 +133,6 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 			}
 			else if (selection == 3)
 			{
-				player->ignore();
 				string* answer= new string("Ignore");
 				actOb->setAction(answer);
 				answer = nullptr;
@@ -179,7 +176,6 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 		}
 		else if (selection == 2)
 		{
-			player->ignore();
 			string* answer = new string("Ignore");
 			actOb->setAction(answer);
 			answer = nullptr;
