@@ -333,6 +333,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 			//if the card's amount of armies to move is greater than the player's placed armies
 			if (armiesAlreadyMoved.size() >= 14 - player->availableArmies())
 			{
+				delete actionObject;
+				actionObject = NULL;
 				return;
 			}
 
@@ -352,6 +354,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 
 				if (armyID == -1)
 				{
+					delete actionObject;
+					actionObject = NULL;
 					return;
 				}
 
@@ -417,8 +421,7 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 					player->moveArmies(army->occupiedCountry, country);
 					delete proOb;
 					proOb = nullptr;
-					delete actionObject;
-					actionObject = NULL;
+
 				}
 			}
 			else
@@ -492,6 +495,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 				}
 			}
 		}
+		delete actionObject;
+		actionObject = NULL;
 	}
 	if ("destroyArmies" == action)
 	{
@@ -505,6 +510,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 			cin >> enemyName;
 			if (enemyName == "-1") 
 			{
+				delete actionObject;
+				actionObject = NULL;
 				return;
 			}
 			for (auto i : *playersVector)
@@ -521,6 +528,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 			cin >> countryName;
 			if (countryName == "-1")
 			{
+				delete actionObject;
+				actionObject = NULL;
 				return;
 			}
 			country = map->getCountry(countryName);

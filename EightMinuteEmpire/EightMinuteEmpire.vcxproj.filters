@@ -13,7 +13,7 @@
     <ClCompile Include="PlayerStrategies.cpp" />
     <ClCompile Include="computeScore.cpp" />
     <ClCompile Include="singletonTest.cpp" />
-    <ClCompile Include="EightMinuteEmpire.cpp" />
+    <ClCompile Include="StrategyDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />
