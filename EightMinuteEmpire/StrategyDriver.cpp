@@ -337,11 +337,26 @@ int main()
 	int lastIndex = 2;
 	lastPlayer = global::players->at(lastIndex);
 
-	cout << "Supply is now at " << *(global::supply) << " coins." << endl;
-	cout << "First player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
-	cout << "First player index is " << *currentPlayerIndex << "\n" << endl;
+	//Attach PlayerOb on each player with their index
+	PlayerObserver* observeP;
+	int* track = new int(*currentPlayerIndex);
+	int* turn = new int(1);
+
+	do
+	{
+		observeP = new PlayerObserver(global::players->at(*track), turn);
+		track = new int((*track + 1 + NUM_PLAYERS) % NUM_PLAYERS);
+		turn = new int(*turn + 1);
+		observeP = NULL;
+
+
+	} while (*track != *currentPlayerIndex);
+
+	delete track;
+	track = NULL;
 
 	cout << "Let the game begin!\n" << endl;
+	currentPlayer->Notify();
 
 	// #################################################
 	//				Part 3: Main Game Loop
@@ -428,6 +443,10 @@ int main()
 	delete global::action;
 	global::action = NULL;
 	winner = NULL;
+	delete observeP;
+	observeP = NULL;
+	delete turn;
+	turn = NULL;
 }
 
 //Run program: Ctrl + F5 or Debug > Start Without Debugging menu
