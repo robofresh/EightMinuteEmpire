@@ -30,6 +30,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerStrategies.cpp" />
     <ClCompile Include="StrategyDriver.cpp" />
+    <ClCompile Include="singletonTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />
