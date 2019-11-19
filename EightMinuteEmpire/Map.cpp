@@ -15,6 +15,7 @@ Map::Map()
 Map* Map::getInstance()
 {
 	if (m_instance == 0) {
+		cout << "Creating new map instance." << endl;
 		m_instance = new Map();
 	}
 	return m_instance;
