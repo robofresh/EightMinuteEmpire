@@ -249,6 +249,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 				player->placeNewArmies(country, 1);
 				delete proOb;
 				proOb = nullptr;
+				delete actionObject;
+				actionObject = NULL;
 
 			}
 			else
@@ -303,6 +305,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 				player->buildCity(country);
 				delete proOb;
 				proOb = nullptr;
+				delete actionObject;
+				actionObject = NULL;
 			}
 			else
 			{
@@ -413,6 +417,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 					player->moveArmies(army->occupiedCountry, country);
 					delete proOb;
 					proOb = nullptr;
+					delete actionObject;
+					actionObject = NULL;
 				}
 			}
 			else
@@ -481,6 +487,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 					player->moveOverLand(army->occupiedCountry, country);
 					delete proOb;
 					proOb = nullptr;
+					delete actionObject;
+					actionObject = NULL;
 				}
 			}
 		}
@@ -528,6 +536,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						player->destroyArmy(country, enemyPlayer);
 						delete proOb;
 						proOb = nullptr;
+						delete actionObject;
+						actionObject = NULL;
 						return;
 					}
 				}
@@ -776,6 +786,8 @@ void computer_process(const string& action, const int& amount, Player& p)
 					break;
 				}
 			}
+			delete actionObject;
+			actionObject = NULL;
 		}
 		if ("createCity" == action) //virtually the same as the last block but for city placement
 		{
@@ -795,6 +807,8 @@ void computer_process(const string& action, const int& amount, Player& p)
 								p.buildCity(i->occupiedCountry);
 								delete proOb;
 								proOb = nullptr;
+								delete actionObject;
+								actionObject = NULL;
 								return;
 							}
 						}
@@ -809,6 +823,8 @@ void computer_process(const string& action, const int& amount, Player& p)
 						p.buildCity(i->occupiedCountry);
 						delete proOb;
 						proOb = nullptr;
+						delete actionObject;
+						actionObject = NULL;
 						return;
 					}
 				}
@@ -817,7 +833,8 @@ void computer_process(const string& action, const int& amount, Player& p)
 			{
 				cout << "\tComputer has no more cities to place. " << endl;
 			}
-
+			delete actionObject;
+			actionObject = NULL;
 			return;
 		}
 		if ("move" == action || "waterMove" == action)
@@ -893,6 +910,9 @@ void computer_process(const string& action, const int& amount, Player& p)
 
 			}
 
+			delete actionObject;
+			actionObject = NULL;
+			
 			if (!been_placed)
 				cout << "The computer could not move any armies." << endl;
 		}
@@ -902,12 +922,16 @@ void computer_process(const string& action, const int& amount, Player& p)
 			if (global::players == nullptr)
 			{
 				cout << "Error: destroy armies was called but players are not set in global." << endl;
+				delete actionObject;
+				actionObject = NULL;
 				return;
 			}
 
 			if (global::players->size() < 2)
 			{
 				cout << "Computer was trying to destroy an army but it is the only one playing." << endl;
+				delete actionObject;
+				actionObject = NULL;
 				return;
 			}
 
@@ -937,13 +961,16 @@ void computer_process(const string& action, const int& amount, Player& p)
 						delete proOb;
 						proOb = nullptr;
 						p.destroyArmy(j->occupiedCountry, enemy);
+						delete actionObject;
+						actionObject = NULL;
 						return;
 					}
 				}
 			}
 
 			cout << "\tComputer had no armies it could destroy." << endl;
-
+			delete actionObject;
+			actionObject = NULL;
 			return;
 
 		}
