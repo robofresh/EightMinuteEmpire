@@ -15,6 +15,7 @@
     <ClCompile Include="singletonTest.cpp" />
     <ClCompile Include="EightMinuteEmpire.cpp" />
     <ClCompile Include="StrategyDriver.cpp" />
+    <ClCompile Include="GameStatisticsDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />
