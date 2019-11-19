@@ -349,7 +349,6 @@ int main()
 		turn = new int(*turn + 1);
 		observeP = NULL;
 
-
 	} while (*track != *currentPlayerIndex);
 
 	delete track;
@@ -385,10 +384,8 @@ int main()
 		cout << endl;
 		cout << "************************************************************" << endl;
 		cout << endl;
-		cout << "Supply is now at " << *(global::supply) << " coins." << endl;
-		cout << "Current player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
-		cout << "Current player index is " << *currentPlayerIndex << "\n" << endl;
-
+		currentPlayer->Notify();
+	
 		// #################################################
 		//			Part 6: Game End, Compute Score
 		// #################################################
@@ -410,8 +407,6 @@ int main()
 	Player* winner = score.determineWinner(global::players);
 
 	cout << "The winner is " << *winner->name << endl;//Print the winner of the game
-
-
 	
 	for (int i = 0; i < global::players->size(); i++)//Prints all the players
 	{

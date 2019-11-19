@@ -26,11 +26,9 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 	*/
 
 	//process action(s)
-
 	//Attach ActionOb
 
 	actOb = new ActionOb(player, card);
-
 
 	std::cout << endl;
 	
@@ -247,7 +245,6 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 				player->placeNewArmies(country, 1);
 				delete proOb;
 				proOb = nullptr;
-
 			}
 			else
 			{
@@ -410,7 +407,6 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 					player->moveArmies(army->occupiedCountry, country);
 					delete proOb;
 					proOb = nullptr;
-
 				}
 			}
 			else
@@ -479,10 +475,12 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 					player->moveOverLand(army->occupiedCountry, country);
 					delete proOb;
 					proOb = nullptr;
+					
 				}
 			}
 		}
 	}
+	delete actionObject;
 	if ("destroyArmies" == action)
 	{
 		Country* country = nullptr;
@@ -534,6 +532,7 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 			}
 		}
 	}
+
 }
 
 

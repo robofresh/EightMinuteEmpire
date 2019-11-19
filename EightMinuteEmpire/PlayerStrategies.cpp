@@ -73,8 +73,6 @@ void Human::execute(Player& p)
 	cardPosition = cardPosition - 1;
 	chosenCard = global::main_deck->cardsSpace->faceupcards->at(cardPosition);
 
-	chosenCard->print();
-
 	p.hand->faceupcards->push_back(chosenCard);//Push address 
 	p.payCard(chosenCard, global::supply);//Pay the correct amount of coins
 
