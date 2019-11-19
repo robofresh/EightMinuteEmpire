@@ -1,7 +1,8 @@
 #include "Player.h"
+#include "cards.h"
 #include "Map.h"
 #include "BidingFacility.h"
-#include "cards.h"
+
 
 struct InsufficientCoinsException : public exception
 {
@@ -228,7 +229,6 @@ void Player::buildCity(Country* country)
 	City* availableCity = this->getAvailableCity();
 	availableCity->occupiedCountry = country;
 	country->addCity(availableCity);
-	cout << *(this->name) << " now has a city built in " << *(country->name) << endl;
 }
 
 void Player::destroyArmy(Country* country, Player* otherPlayer)
@@ -236,7 +236,6 @@ void Player::destroyArmy(Country* country, Player* otherPlayer)
 	Army* selectedArmy = country->getArmy(otherPlayer);
 	selectedArmy->occupiedCountry = nullptr;
 	country->removeArmy(selectedArmy);
-	cout << *(this->name) << " destroyed an army of " << *(otherPlayer->name) << "'s in " << *(country->name) << endl;
 }
 
 void Player::moveArmies(Country* initCountry, Country* finalCountry)
@@ -244,7 +243,6 @@ void Player::moveArmies(Country* initCountry, Country* finalCountry)
 	Army* selectedArmy = initCountry->getArmy(this);
 	selectedArmy->occupiedCountry = finalCountry;
 	initCountry->moveArmy(finalCountry, selectedArmy);
-	cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;
 }
 
 void Player::moveOverLand(Country* initCountry, Country* finalCountry)
@@ -252,7 +250,6 @@ void Player::moveOverLand(Country* initCountry, Country* finalCountry)
 	Army* selectedArmy = initCountry->getArmy(this);
 	selectedArmy->occupiedCountry = finalCountry;
 	initCountry->moveArmy(finalCountry, selectedArmy);
-	cout << *(this->name) << " moved an army from " << *(initCountry->name) << " to " << *(finalCountry->name) << endl;
 }
 
 void Player::payCoin(int amount, int* supply)
@@ -265,6 +262,7 @@ void Player::payCoin(int amount, int* supply)
 		{
 			*(this->numCoins) = *(this->numCoins) - amount;
 			*supply = *supply + amount;
+			computeScore();
 		}
 	}
 	catch (InsufficientCoinsException e)
@@ -273,8 +271,7 @@ void Player::payCoin(int amount, int* supply)
 		return ;
 	}
 
-	cout << *(this->name) << " is paying " << amount << " coins." << endl;
-	cout << *(this->name) << " now has " << *(this->numCoins) << " coins." << endl;
+	Notify();
 
 }
 
@@ -285,34 +282,50 @@ void Player::placeNewArmies(Country* country, int amount)
 		Army* availableArmy = this->getAvailableArmy();
 		availableArmy->occupiedCountry = country;
 		country->addArmy(availableArmy);
-		cout << *(this->name) << " placed an army in " << *(country->name) << endl;
 	}
 }
 
 //Ignore action only prints out that they ignore it
 void Player::ignore(Cards* card)
 {
-	cout << "Player takes the card and ignore the action." << endl;
+	card->Notify();
 }
+
+CurrentPOb* obCard;
 
 //Depending on the position of the cards, the amount to pay is different
 void Player::payCard(Cards* card,int position, int* supply)
 {
+
+	obCard = new CurrentPOb(this, card, &position, supply);
+	
 	switch (position)
 	{
 	case 0:
+		obCard->setCost(new int(0));
 		this->payCoin(0,supply);
+		delete obCard;
+		obCard = NULL;
 		break;
 	case 1:
 	case 2:
+		obCard->setCost(new int(1));
 		this->payCoin(1,supply);
+		delete obCard;
+		obCard = NULL;
 		break;
 	case 3:
 	case 4:
+		obCard->setCost(new int(2));
 		this->payCoin(2,supply);
+		delete obCard;
+		obCard = NULL;
 		break;
 	case 5:
+		obCard->setCost(new int(3));
 		this->payCoin(3,supply);
+		delete obCard;
+		obCard = NULL;
 		break;
 	default:
 		cout << "Invalid input" << endl;
@@ -327,7 +340,6 @@ more armies than other player in a country,
 cities counted as armies, if the numer is the same, no point for everyone
 */
 
-
 int getCoalPoint(Hand* hand)
 {
 	int coal[6] =
@@ -341,10 +353,10 @@ int getCoalPoint(Hand* hand)
 		if (hand->faceupcards->at(i)->good->compare("coal") == 0)
 		{
 			temp++;
-			++* hand->goods;
 		}
 
 	}
+	*hand->goods = *hand->goods + coal[temp];
 	return coal[temp];
 }
 
@@ -361,16 +373,15 @@ int getAnvilPoint(Hand* hand)
 		if (hand->faceupcards->at(i)->good->compare("2anvil") == 0)
 		{
 			temp = temp + 2;
-			*hand->goods = *hand->goods + 2;
 			continue;
 
 		}
 		if (hand->faceupcards->at(i)->good->compare("anvil") == 0)
 		{
 			temp++;
-			++* hand->goods;
 		}
 	}
+	*hand->goods = *hand->goods + anvil[temp];
 	return anvil[temp];
 }
 
@@ -388,9 +399,9 @@ int getTreePoint(Hand* hand)
 		if (hand->faceupcards->at(i)->good->compare("tree") == 0)
 		{
 			temp++;
-			++* hand->goods;
 		}
 	}
+	*hand->goods = *hand->goods + tree[temp];
 	return tree[temp];
 }
 
@@ -407,10 +418,10 @@ int getGemPoint(Hand* hand)
 		if (hand->faceupcards->at(i)->good->compare("gem") == 0)
 		{
 			temp++;
-			++* hand->goods;
 		}
 	
 	}
+	*hand->goods = *hand->goods + gem[temp];
 	return gem[temp];
 }
 
@@ -427,35 +438,23 @@ int getCarrotPoint(Hand* hand)
 		if (hand->faceupcards->at(i)->good->compare("2carrot") == 0)
 		{
 			temp= temp +2;
-			*hand->goods = *hand->goods +2;
 			continue;
 		}
 		if (hand->faceupcards->at(i)->good->compare("carrot") == 0)
 		{
 			temp++;
-			++* hand->goods;
-
 		}
 		
 	}
+	*hand->goods = *hand->goods + carrot[temp];
 	return carrot[temp];
 }
 
 int goodPoints(Hand* hand)
 {
-	//Printing all the hand if needed for TA
-
-	//cout << " Hand's goods are : ";
-	//for (int i = 0; i < hand->faceupcards->size(); i++)
-	//{
-	//	cout << *hand->faceupcards->at(i)->good
-	//		<< " , ";
-	//}
-	//cout << " ." << endl;
-
-	return getCoalPoint(hand) + getAnvilPoint(hand)
-		+ getTreePoint(hand) + getGemPoint(hand)
-		+ getCarrotPoint(hand);
+	*hand->goods = 0;
+	int newGoodPoints = getCoalPoint(hand) + getAnvilPoint(hand) + getTreePoint(hand) + getGemPoint(hand) + getCarrotPoint(hand);
+	return newGoodPoints;
 }
 
 void Player::computeScore()

@@ -143,6 +143,7 @@ string getMapFileName()
 //Iterate and create players for the game
 void createPlayers(const int numPlayers, const int numCoinsPerPlayer, vector<Player*>* players, Deck* deck, const string colors[])
 {
+	
 	for (int i = 0; i < numPlayers; i++)
 	{
 		string name;
@@ -286,11 +287,27 @@ int main()
 	int lastIndex = (*currentPlayerIndex +NUM_PLAYERS - 1) % NUM_PLAYERS;
 	lastPlayer = players->at(lastIndex);
 
-	cout << "Supply is now at " << *(supply) << " coins." << endl;
-	cout << "First player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
-	cout << "First player index is " << *currentPlayerIndex << "\n" << endl;
+	//Attach PlayerOb on each player with their index
+	PlayerObserver* observeP;
+	int* track = new int(*currentPlayerIndex);
+	int* turn = new int(1);
+
+	do
+	{
+		observeP = new PlayerObserver(players->at(*track), turn);
+		track = new int((*track + 1 + NUM_PLAYERS)%NUM_PLAYERS);
+		turn = new int(*turn + 1);
+		observeP = NULL;		
+		
+
+	} while (*track != *currentPlayerIndex);
+
+	delete track;
+	track = NULL;
 
 	cout << "Let the game begin!\n" << endl;
+	currentPlayer->Notify();
+
 
 // #################################################
 //				Part 3: Main Game Loop
@@ -311,7 +328,7 @@ int main()
 			{
 				deck->cardsSpace->print();
 				cout << *currentPlayer->name;
-				cout << "! Select one of the face-up cards" << endl;
+				cout << "! Please select one of the face-up cards" << endl;
 				cin >> cardPosition;
 				if (std::cin.fail())
 					throw InputException();
@@ -349,11 +366,9 @@ int main()
 		cardPosition = cardPosition - 1;
 		chosenCard = deck->cardsSpace->faceupcards->at(cardPosition);
 
-		chosenCard->print();
-
-		currentPlayer->hand->faceupcards->push_back(chosenCard);//Push address 
+		currentPlayer->hand->faceupcards->push_back(chosenCard);//Put card into the player's hand
 		currentPlayer->payCard(chosenCard, cardPosition, supply);//Pay the correct amount of coins
-
+		
 // #################################################
 //				Part 4: Player Actions
 // #################################################
@@ -361,10 +376,6 @@ int main()
 		//Either, do the action or ignore
 
 		action->processAction(currentPlayer, chosenCard, map, players);
-
-		cout << *(currentPlayer->name) << " now has " 
-			<< currentPlayer->hand->faceupcards->size()
-			<< " cards" << endl;
 
 // #################################################
 //				Part 5: After Action
@@ -381,9 +392,7 @@ int main()
 		cout << endl;
 		cout << "************************************************************" << endl;
 		cout << endl;
-		cout << "Supply is now at " << *(supply) << " coins." << endl;
-		cout << "Current player is " << *(currentPlayer->name) << ", now with " << *(currentPlayer->numCoins) << " coins." << endl;
-		cout << "Current player index is " << *currentPlayerIndex << "\n" << endl;
+		currentPlayer->Notify();
 
 // #################################################
 //			Part 6: Game End, Compute Score
@@ -437,6 +446,9 @@ int main()
 	winner = NULL;
 	delete action;
 	action = NULL;
+	delete observeP;
+	observeP = NULL;
+
 
 }
 
