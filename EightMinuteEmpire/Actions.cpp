@@ -26,11 +26,9 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 	*/
 
 	//process action(s)
-
 	//Attach ActionOb
 
 	actOb = new ActionOb(player, card);
-
 
 	std::cout << endl;
 	
@@ -249,9 +247,6 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 				player->placeNewArmies(country, 1);
 				delete proOb;
 				proOb = nullptr;
-				delete actionObject;
-				actionObject = NULL;
-
 			}
 			else
 			{
@@ -305,8 +300,7 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 				player->buildCity(country);
 				delete proOb;
 				proOb = nullptr;
-				delete actionObject;
-				actionObject = NULL;
+			
 			}
 			else
 			{
@@ -417,8 +411,7 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 					player->moveArmies(army->occupiedCountry, country);
 					delete proOb;
 					proOb = nullptr;
-					delete actionObject;
-					actionObject = NULL;
+			
 				}
 			}
 			else
@@ -487,12 +480,12 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 					player->moveOverLand(army->occupiedCountry, country);
 					delete proOb;
 					proOb = nullptr;
-					delete actionObject;
-					actionObject = NULL;
+					
 				}
 			}
 		}
 	}
+	delete actionObject;
 	if ("destroyArmies" == action)
 	{
 		Country* country = nullptr;
@@ -546,6 +539,7 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 			}
 		}
 	}
+
 }
 
 
@@ -786,8 +780,6 @@ void computer_process(const string& action, const int& amount, Player& p)
 					break;
 				}
 			}
-			delete actionObject;
-			actionObject = NULL;
 		}
 		if ("createCity" == action) //virtually the same as the last block but for city placement
 		{
@@ -823,8 +815,6 @@ void computer_process(const string& action, const int& amount, Player& p)
 						p.buildCity(i->occupiedCountry);
 						delete proOb;
 						proOb = nullptr;
-						delete actionObject;
-						actionObject = NULL;
 						return;
 					}
 				}
