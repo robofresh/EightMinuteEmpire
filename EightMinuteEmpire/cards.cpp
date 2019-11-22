@@ -6,7 +6,8 @@
 #include <random>
 #include <exception>
 #include "Player.h"
-#include "Cards.h"
+#include "cards.h"
+#include "Cardsfactory.h"
 #include <ctime>
 
 using namespace std;
@@ -261,473 +262,49 @@ void shuffleAndAddCards(Deck* deck)
 	vector<Cards*>* allCards = new vector<Cards*>();//Vectors of all hardcoded cards
 
 	// create 2 armies
-	allCards->push_back
-	(
-		new Cards(
-			"wild",
-			new vector<string*>
-			{
-				new string("waterMove"), new string("2")
-			}
-		)
-	);
+	allCards->push_back(Cardsfactory::Create("wild", vector<string>{"waterMove"}, vector<string>{"2"}));
+	allCards->push_back(Cardsfactory::Create("wild", vector<string>{"waterMove"}, vector<string>{"2"}));
+	allCards->push_back(Cardsfactory::Create("coal", vector<string>{"placeArmies"}, vector<string>{"3"}));
+	allCards->push_back(Cardsfactory::Create("coal", vector<string>{"waterMove"}, vector<string>{"2"}));
+	allCards->push_back(Cardsfactory::Create("coal", vector<string>{"waterMove"}, vector<string>{"2"}));
+	allCards->push_back(Cardsfactory::Create("coal", vector<string>{"waterMove"}, vector<string>{"3"}));
+	allCards->push_back(Cardsfactory::Create("coal", vector<string>{"move"}, vector<string>{"2"}));
+	allCards->push_back(Cardsfactory::Create("gem", vector<string>{"placeArmies"}, vector<string>{"2"}));
+	allCards->push_back(Cardsfactory::Create("coal", vector<string>{"OR", "placeArmies", "createCity"}, vector<string>{"2", "1"}));
+	allCards->push_back(Cardsfactory::Create("coal", vector<string>{"placeArmies"}, vector<string>{"3"}));
+	allCards->push_back(Cardsfactory::Create("carrot", vector<string>{"move"}, vector<string>{"5"}));
+	allCards->push_back(Cardsfactory::Create("carrot", vector<string>{"move"}, vector<string>{"4"}));
+	allCards->push_back(Cardsfactory::Create("carrot", vector<string>{"placeArmies"}, vector<string>{"3"}));
+	allCards->push_back(Cardsfactory::Create("tree", vector<string>{"move"}, vector<string>{"3"}));
+	allCards->push_back(Cardsfactory::Create("wild", vector<string>{"placeArmies"}, vector<string>{"2"}));
+	allCards->push_back(Cardsfactory::Create("carrot", vector<string>{"createCity"}, vector<string>{"1"}));
+	allCards->push_back(Cardsfactory::Create("gem", vector<string>{"placeArmies"}, vector<string>{"2"}));
+	allCards->push_back(Cardsfactory::Create("gem", vector<string>{"placeArmies"}, vector<string>{"1"}));
+	allCards->push_back(Cardsfactory::Create("gem", vector<string>{"move"}, vector<string>{"2"}));
+	allCards->push_back(Cardsfactory::Create("tree", vector<string>{"OR", "placeArmies", "move"}, vector<string>{"2", "3"}));
+	allCards->push_back(Cardsfactory::Create("tree", vector<string>{"OR", "destroyArmies", "createCity"}, vector<string>{"1", "1"}));
+	allCards->push_back(Cardsfactory::Create("tree", vector<string>{"placeArmies"}, vector<string>{"3"}));
+	allCards->push_back(Cardsfactory::Create("tree", vector<string>{"move"}, vector<string>{"6"}));
+	allCards->push_back(Cardsfactory::Create("tree", vector<string>{"waterMove"}, vector<string>{"4"}));
+	allCards->push_back(Cardsfactory::Create("tree", vector<string>{"createCity"}, vector<string>{"1"}));
+	allCards->push_back(Cardsfactory::Create("tree", vector<string>{"waterMove"}, vector<string>{"3"}));
+	allCards->push_back(Cardsfactory::Create("anvil", vector<string>{"placeArmies"}, vector<string>{"3"}));
+	allCards->push_back(Cardsfactory::Create("anvil", vector<string>{"placeArmies"}, vector<string>{"3"}));
+	allCards->push_back(Cardsfactory::Create("anvil", vector<string>{"createCity"}, vector<string>{"1"}));
+	allCards->push_back(Cardsfactory::Create("anvil", vector<string>{"OR", "placeArmies", "move"}, vector<string>{"3", "3"}));
+	allCards->push_back(Cardsfactory::Create("anvil", vector<string>{"move"}, vector<string>{"4"}));
+	allCards->push_back(Cardsfactory::Create("anvil", vector<string>{"OR", "placeArmies", "move"}, vector<string>{"3", "4"}));
+	allCards->push_back(Cardsfactory::Create("anvil", vector<string>{"move"}, vector<string>{"5"}));
+	allCards->push_back(Cardsfactory::Create("2anvil", vector<string>{"move"}, vector<string>{"4"}));
+	allCards->push_back(Cardsfactory::Create("carrot", vector<string>{"createCity"}, vector<string>{"1"}));
+	allCards->push_back(Cardsfactory::Create("carrot", vector<string>{"move"}, vector<string>{"4"}));
+	allCards->push_back(Cardsfactory::Create("2carrot", vector<string>{"placeArmies"}, vector<string>{"3"}));
+	allCards->push_back(Cardsfactory::Create("carrot", vector<string>{"waterMove"}, vector<string>{"3"}));
+	allCards->push_back(Cardsfactory::Create("carrot", vector<string>{"OR", "placeArmies", "move"}, vector<string>{"4", "2"}));
+	allCards->push_back(Cardsfactory::Create("anvil", vector<string>{"move"}, vector<string>{"3"}));
+	allCards->push_back(Cardsfactory::Create("carrot", vector<string>{"AND", "destroyArmies", "placeArmies"}, vector<string>{"1", "1"}));
+	allCards->push_back(Cardsfactory::Create("gem", vector<string>{"placeArmies"}, vector<string>{"2"}));
 
-	allCards->push_back
-	(
-		new Cards(
-			"wild",
-			new vector<string*>
-			{
-				new string("waterMove"), new string("2")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"coal",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"coal",
-			new vector<string*>
-			{
-				new string("waterMove"), new string("2")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"coal",
-			new vector<string*>
-			{
-				new string("waterMove"), new string("2")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"coal",
-			new vector<string*>
-			{
-				new string("waterMove"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"coal",
-			new vector<string*>
-			{
-				new string("move"), new string("2")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"gem",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("2")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"coal",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("2"), new string("OR"), new string("createCity"),  new string("1")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"coal",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("move"), new string("5")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("move"), new string("4")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"tree",
-			new vector<string*>
-			{
-				new string("move"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"wild",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("2")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("createCity"), new string("1")
-
-			}
-		)
-	);
-
-
-
-	allCards->push_back
-	(
-		new Cards(
-			"gem",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("2")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"gem",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("1")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"gem",
-			new vector<string*>
-			{
-				new string("move"), new string("2")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"tree",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("2"), new string("OR"), new string("move"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"tree",
-			new vector<string*>
-			{
-				new string("destroyArmies"), new string("1"), new string("OR"), new string("createCity"), new string("1")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"tree",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"tree",
-			new vector<string*>
-			{
-				new string("move"), new string("6")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"tree",
-			new vector<string*>
-			{
-				new string("waterMove"), new string("4")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"tree",
-			new vector<string*>
-			{
-				new string("createCity"), new string("1")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"tree",
-			new vector<string*>
-			{
-				new string("waterMove"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"anvil",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"anvil",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("3")
-			}
-		)
-	);
-
-
-
-	allCards->push_back
-	(
-		new Cards(
-			"anvil",
-			new vector<string*>
-			{
-				new string("createCity"), new string("1")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"anvil",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("3"), new string("OR"), new string("move"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"anvil",
-			new vector<string*>
-			{
-				new string("move"), new string("4")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"anvil",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("3"), new string("OR"), new string("move"), new string("4")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"anvil",
-			new vector<string*>
-			{
-				new string("move"), new string("5")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"2anvil",
-			new vector<string*>
-			{
-				new string("move"), new string("4")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("createCity"), new string("1")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("move"), new string("4")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"2carrot",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("waterMove"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("4"), new string("OR"), new string("move"), new string("2")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"anvil",
-			new vector<string*>
-			{
-				new string("move"), new string("3")
-			}
-		)
-	);
-
-	allCards->push_back
-	(
-		new Cards(
-			"carrot",
-			new vector<string*>
-			{
-				new string("destroyArmies"), new string("1"), new string("AND"), new string("placeArmies"), new string("1")
-			}
-		)
-	);
-
-	//gem, create 2 armies
-	allCards->push_back
-	(
-		new Cards(
-			"gem",
-			new vector<string*>
-			{
-				new string("placeArmies"), new string("2")
-			}
-		)
-	);
 	 //Shuffle the vector of cards
 	shuffleCards(allCards);
 	

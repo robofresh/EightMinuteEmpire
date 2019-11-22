@@ -11,6 +11,8 @@
     <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="EightMinuteEmpire.cpp" />
     <ClCompile Include="GameObservers.cpp" />
+    <ClCompile Include="Gamecard.cpp" />
+    <ClCompile Include="CardsfactoryDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />
@@ -21,6 +23,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="computeScore.h" />
     <ClInclude Include="GameObservers.h" />
+    <ClInclude Include="Cardsfactory.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="map1.map" />
