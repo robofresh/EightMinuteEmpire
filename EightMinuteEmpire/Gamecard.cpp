@@ -33,7 +33,7 @@ Cards* Cardsfactory::Create(string good, vector<string> type, vector<string> num
 }
 
 // ############################################
-//					MoveArmiesCard
+//			MoveArmiesCard
 // ############################################
 
 MoveArmiesCard::MoveArmiesCard() : Cards()
@@ -64,7 +64,7 @@ MoveArmiesCard::~MoveArmiesCard()
 };
 
 // ############################################
-//					WaterMoveArmiesCard
+//			WaterMoveArmiesCard
 // ############################################
 
 WaterMoveArmiesCard::WaterMoveArmiesCard() : Cards()
@@ -95,7 +95,7 @@ WaterMoveArmiesCard::~WaterMoveArmiesCard()
 };
 
 // ############################################
-//					PlaceArmiesCard
+//			PlaceArmiesCard
 // ############################################
 
 PlaceArmiesCard::PlaceArmiesCard() : Cards()
@@ -126,7 +126,7 @@ PlaceArmiesCard::~PlaceArmiesCard()
 };
 
 // ############################################
-//					DestroyArmiesCard
+//			DestroyArmiesCard
 // ############################################
 
 DestroyArmiesCard::DestroyArmiesCard() : Cards()
@@ -157,7 +157,7 @@ DestroyArmiesCard::~DestroyArmiesCard()
 };
 
 // ############################################
-//					CreateCityCard
+//			CreateCityCard
 // ############################################
 
 CreateCityCard::CreateCityCard() : Cards()
@@ -185,7 +185,7 @@ CreateCityCard::~CreateCityCard()
 {/*Intentionally Empty*/};
 
 // ############################################
-//					AndCard
+//			AndCard
 // ############################################
 AndCard::AndCard() : Cards()
 {/*Intentionally Empty*/ };
@@ -218,7 +218,7 @@ AndCard::~AndCard()
 };
 
 // ############################################
-//					OrCard
+//			OrCard
 // ############################################
 OrCard::OrCard() : Cards()
 {/*Intentionally Empty*/
