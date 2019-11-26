@@ -8,20 +8,65 @@ private:
 	Cardsfactory();
 };
 
-class SingleActionCard : public Cards {
+class MoveArmiesCard : public Cards {
 public:
-	SingleActionCard();
-	SingleActionCard(string good, vector<string> action, vector<string> num);
-	SingleActionCard(const SingleActionCard&);
-	SingleActionCard& operator=(const SingleActionCard&);
-	~SingleActionCard();
+	MoveArmiesCard();
+	MoveArmiesCard(string good, vector<string> action, vector<string> num);
+	MoveArmiesCard(const MoveArmiesCard&);
+	MoveArmiesCard& operator=(const MoveArmiesCard&);
+	~MoveArmiesCard();
 };
 
-class MultiActionCard : public Cards {
+class WaterMoveArmiesCard : public Cards {
 public:
-	MultiActionCard();
-	MultiActionCard(string good, vector<string> action, vector<string> num);
-	MultiActionCard(const MultiActionCard&);
-	MultiActionCard& operator=(const MultiActionCard&);
-	~MultiActionCard();
+	WaterMoveArmiesCard();
+	WaterMoveArmiesCard(string good, vector<string> action, vector<string> num);
+	WaterMoveArmiesCard(const WaterMoveArmiesCard&);
+	WaterMoveArmiesCard& operator=(const WaterMoveArmiesCard&);
+	~WaterMoveArmiesCard();
+};
+
+class PlaceArmiesCard : public Cards {
+public:
+	PlaceArmiesCard();
+	PlaceArmiesCard(string good, vector<string> action, vector<string> num);
+	PlaceArmiesCard(const PlaceArmiesCard&);
+	PlaceArmiesCard& operator=(const PlaceArmiesCard&);
+	~PlaceArmiesCard();
+};
+
+class DestroyArmiesCard : public Cards {
+public:
+	DestroyArmiesCard();
+	DestroyArmiesCard(string good, vector<string> action, vector<string> num);
+	DestroyArmiesCard(const DestroyArmiesCard&);
+	DestroyArmiesCard& operator=(const DestroyArmiesCard&);
+	~DestroyArmiesCard();
+};
+
+class CreateCityCard : public Cards {
+public:
+	CreateCityCard();
+	CreateCityCard(string good, vector<string> action, vector<string> num);
+	CreateCityCard(const CreateCityCard&);
+	CreateCityCard& operator=(const CreateCityCard&);
+	~CreateCityCard();
+};
+
+class AndCard : public Cards {
+public:
+	AndCard();
+	AndCard(string good, vector<string> action, vector<string> num);
+	AndCard(const AndCard&);
+	AndCard& operator=(const AndCard&);
+	~AndCard();
+};
+
+class OrCard : public Cards {
+public:
+	OrCard();
+	OrCard(string good, vector<string> action, vector<string> num);
+	OrCard(const OrCard&);
+	OrCard& operator=(const OrCard&);
+	~OrCard();
 };
