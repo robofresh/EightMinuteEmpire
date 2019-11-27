@@ -21,7 +21,7 @@ public:
 	Cards();
 	Cards(const Cards&);
 	Cards& operator= (const Cards&);
-	~Cards();
+	virtual ~Cards();
 	string* good; //there are different good(resources) including crystal, lumber,	carrot,	anvil, coal, joker.
 	vector<string*>* actions; //there are actions that gives choice to the player. this needs to be discussed on how to be implemented among us. 
 	void print();
