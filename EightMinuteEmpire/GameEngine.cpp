@@ -53,7 +53,7 @@ GameEngine::GameEngine()
 	//mapLoader = NULL;
 	deck = nullptr;
 	supply = nullptr;
-	players = nullptr;
+	players = new vector<Player*>();
 	startingCountry = nullptr;
 
 }
@@ -65,7 +65,7 @@ GameEngine::GameEngine(string modeChosen)
 	//mapLoader = NULL;
 	deck = nullptr;
 	supply = nullptr;
-	players = nullptr;
+	players = new vector<Player*>();
 	startingCountry = nullptr;
 }
 
@@ -193,7 +193,7 @@ void GameEngine::chooseMap()
 		 cin >> name;
 		 cout << "Enter your age: ";
 		 cin >> age;
-		 Player* player = new Player(name, age, numCoinsPerPlayer, colors[i], deck);
+		 Player* player = new Player(name, age, NUM_COINS_PER_PLAYER, COLORS[i], deck);
 		 players->push_back(player);
 		 player->printPlayer();
 	 }

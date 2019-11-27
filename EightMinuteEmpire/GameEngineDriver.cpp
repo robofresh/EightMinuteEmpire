@@ -29,28 +29,7 @@ struct InsufficientCoinsException : public exception
 	}
 };
 
-//Retrieve numbers of players for the game
-int getNumOfPlayers()
-{
-	int playerInput;
-	while (true)
-	{
-		cout << "Enter the number of players [2-5] who will be playing this game: ";
-		cin >> playerInput;
-		if (cin.fail() || playerInput < 2 || playerInput > 5)
-		{
-			cout << "You've entered a number outside of the correct range. Try again." << endl;
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n'); // See [1]
-		}
-		else
-		{
-			cout << endl;
-			break;
-		}
-	}
-	return playerInput;
-}
+
 
 //Determine the amount of cards per player to reach to end the game
 int determineMaxCards(int num_player)
@@ -75,28 +54,28 @@ int determineMaxCards(int num_player)
 }
 
 //Determine the numbers of coins per player at the beginning of the game
-int getNumCoinsPerPlayer(const int numPlayers)
-{
-	int numCoinsPerPlayer = 0;
-	switch (numPlayers)
-	{
-	case 2:
-		numCoinsPerPlayer = 14;
-		break;
-	case 3:
-		numCoinsPerPlayer = 11;
-		break;
-	case 4:
-		numCoinsPerPlayer = 9;
-		break;
-	case 5:
-		numCoinsPerPlayer = 8;
-		break;
-	default:
-		break;
-	}
-	return numCoinsPerPlayer;
-}
+//int getNumCoinsPerPlayer(const int numPlayers)
+//{
+//	int numCoinsPerPlayer = 0;
+//	switch (numPlayers)
+//	{
+//	case 2:
+//		numCoinsPerPlayer = 14;
+//		break;
+//	case 3:
+//		numCoinsPerPlayer = 11;
+//		break;
+//	case 4:
+//		numCoinsPerPlayer = 9;
+//		break;
+//	case 5:
+//		numCoinsPerPlayer = 8;
+//		break;
+//	default:
+//		break;
+//	}
+//	return numCoinsPerPlayer;
+//}
 
 
 //Iterate and create players for the game
@@ -206,13 +185,8 @@ int main()
 	Deck* deck = new Deck();
 	cout << "All " << deck->stackofCards->size() << " cards are shuffled and then putted into a deck and assigned to the game.\n" << endl;
 
-	// Select number of players.
-	const int NUM_PLAYERS = getNumOfPlayers();
-	const int NUM_COINS_PER_PLAYER = getNumCoinsPerPlayer(NUM_PLAYERS);
-
-	// Create correct number of players.
-	vector<Player*>* players = new vector<Player*>();
-	const string COLORS[5] = { "Red", "Blue", "Green", "Yellow", "White" };
+	game->choosePlayers();
+;
 	createPlayers(NUM_PLAYERS, NUM_COINS_PER_PLAYER, players, deck, COLORS);
 
 	//Other details for setting up the game

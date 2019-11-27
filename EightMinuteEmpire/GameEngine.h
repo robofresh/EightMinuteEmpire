@@ -28,7 +28,6 @@ private:
 	Country* startingCountry;
 	static int NUM_PLAYERS;
 	static int NUM_COINS_PER_PLAYER;
-	int numCoinsPerPlayer;
 	const string COLORS[5] = { "Red", "Blue", "Green", "Yellow", "White" };
 
 
@@ -43,5 +42,6 @@ public:
 	void choosePlayers();//Prompt user to select num of players and set their strategy
 	void getNumOfPlayers();
 	void startGame();// Depending on the mode it will loop differentely
+	void getNumCoinsPerPlayer(const int);
 
 };
