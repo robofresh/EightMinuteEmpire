@@ -54,6 +54,7 @@ GameEngine::GameEngine()
 	deck = nullptr;
 	supply = nullptr;
 	players = nullptr;
+	startingCountry = nullptr;
 
 }
 
@@ -65,16 +66,17 @@ GameEngine::GameEngine(string modeChosen)
 	deck = nullptr;
 	supply = nullptr;
 	players = nullptr;
+	startingCountry = nullptr;
 }
 
 GameEngine::~GameEngine()
 {
-	delete map, mapLoader, deck, supply, players;
-	//map = NULL;
+	delete map, /*mapLoader,*/ deck, supply, players;
+	map = NULL;
 	//mapLoader = NULL;
-	//deck = NULL;
-	//supply = NULL;
-	//players = NULL;
+	deck = NULL;
+	supply = NULL;
+	players = NULL;
 }
 
 void GameEngine::setMode(string modeChosen)
@@ -86,10 +88,12 @@ void GameEngine::setMode(string modeChosen)
 	else
 		cout << "Mode invalid" << endl;// TODO: Need to handle this exception
 }
+
 int GameEngine::getMode()
 {
 	return static_cast<int>(this->mode);
 }
+
 void GameEngine::setStartingCountry(Country* country)
 {
 	startingCountry = country;
@@ -121,4 +125,81 @@ void GameEngine::chooseMap()
 	map->print();
 	cout << endl;
 	setStartingCountry(map->startingCountry); //Starting country is loaded from map
+}
+//Retrieve numbers of players for the game
+ void GameEngine::getNumOfPlayers()
+{
+	int playerInput;
+	while (true)
+	{
+		cout << "Enter the number of players [2-5] who will be playing this game: ";
+		cin >> playerInput;
+		if (cin.fail() || playerInput < 2 || playerInput > 5)
+		{
+			cout << "You've entered a number outside of the correct range. Try again." << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n'); // See [1]
+		}
+		else
+		{
+			cout << endl;
+			break;
+		}
+	}
+	NUM_PLAYERS = playerInput;
+}
+
+ void GameEngine::getNumCoinsPerPlayer(const int numPlayers)
+ {
+	 int numCoinsPerPlayer = 0;
+	 switch (numPlayers)
+	 {
+	 case 2:
+		 numCoinsPerPlayer = 14;
+		 break;
+	 case 3:
+		 numCoinsPerPlayer = 11;
+		 break;
+	 case 4:
+		 numCoinsPerPlayer = 9;
+		 break;
+	 case 5:
+		 numCoinsPerPlayer = 8;
+		 break;
+	 default:
+		 break;
+	 }
+	NUM_COINS_PER_PLAYER= numCoinsPerPlayer;
+ }
+//Will need to implement Strategy pattern here to handle choosePlayer
+//According to the mode
+//Old choosePlayers
+//void GameEngine::choosePlayers()
+//{
+//******TODO: Call createPlayers() from the driver;****
+//}
+
+//New choosePlayers
+ void GameEngine::choosePlayers()
+{
+	 getNumOfPlayers();
+
+	 //TODO: Create CPU player
+	 for (int i = 0; i < NUM_PLAYERS; i++)
+	 {
+		 string name;
+		 int age;
+		 cout << "New player, enter your name: ";
+		 cin >> name;
+		 cout << "Enter your age: ";
+		 cin >> age;
+		 Player* player = new Player(name, age, numCoinsPerPlayer, colors[i], deck);
+		 players->push_back(player);
+		 player->printPlayer();
+	 }
+	 
+	 //TODO: Foreach CPU player choose a strategy
+	
+	 //TODO: Choose the first player
+
 }
