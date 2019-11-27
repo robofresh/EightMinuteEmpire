@@ -15,6 +15,7 @@ Map::Map()
 Map* Map::getInstance()
 {
 	if (m_instance == 0) {
+		cout << "Creating new map instance." << endl;
 		m_instance = new Map();
 	}
 	return m_instance;
@@ -69,6 +70,11 @@ void Map::print() const
 
 Map::~Map()
 {
+	if (0 != m_instance)
+	{
+		m_instance = nullptr;
+	}
+	
 	for (auto i : *mapCountries)
 	{
 		delete i;
@@ -82,6 +88,8 @@ Map::~Map()
 	delete mapCountries, mapContinents;
 	mapContinents = nullptr;
 	mapCountries = nullptr;
+	
+	
 }
 
 //check if their is already a country in the map by the same name and return a pointer to it

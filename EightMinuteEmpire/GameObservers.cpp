@@ -74,8 +74,6 @@ void PlayerObserver::display()
 {
 	cout << "**********Player "<<*this->_index  <<" " 
 		<< *_playerSubject->name << "'s turn.**********" << endl;
-	cout << "Player currently have " << *_playerSubject->numCoins << " coins. " << endl;
-
 }
 
 //CurrentPOb is an to track the chosen card and the person's turn
@@ -204,10 +202,10 @@ void ActionOb::display()
 		{
 			if (*_amount->at(i) > 1)
 			{
-				cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " cities~";
+				cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " cities~" << endl;;
 				return;
 			}
-			cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " city~";
+			cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " city~" << endl;
 		}
 		if ("waterMove" == *_action->at(i))
 		{
@@ -246,8 +244,9 @@ ProcessActOb::ProcessActOb(Actions* aObject, Player* player) : _playerSubject(pl
 }
 
 ProcessActOb::ProcessActOb(Actions* aObject, Player* player, Country* country, int num) : _playerSubject(player)
-, _initCountry(country), _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) 
+, _initCountry(country), _finalCountry(nullptr), _playerTarget(nullptr) 
 {
+	_numArmy =new int(num);
 	this->aObject = aObject;
 	aObject->Attach(this);
 }
