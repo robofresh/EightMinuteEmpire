@@ -77,24 +77,24 @@ int determineMaxCards(int num_player)
 //	return numCoinsPerPlayer;
 //}
 
-
+//
 //Iterate and create players for the game
-void createPlayers(const int numPlayers, const int numCoinsPerPlayer, vector<Player*>* players, Deck* deck, const string colors[])
-{
-
-	for (int i = 0; i < numPlayers; i++)
-	{
-		string name;
-		int age;
-		cout << "New player, enter your name: ";
-		cin >> name;
-		cout << "Enter your age: ";
-		cin >> age;
-		Player* player = new Player(name, age, numCoinsPerPlayer, colors[i], deck);
-		players->push_back(player);
-		player->printPlayer();
-	}
-}
+//void createPlayers(const int numPlayers, const int numCoinsPerPlayer, vector<Player*>* players, Deck* deck, const string colors[])
+//{
+//
+//	for (int i = 0; i < numPlayers; i++)
+//	{
+//		string name;
+//		int age;
+//		cout << "New player, enter your name: ";
+//		cin >> name;
+//		cout << "Enter your age: ";
+//		cin >> age;
+//		Player* player = new Player(name, age, numCoinsPerPlayer, colors[i], deck);
+//		players->push_back(player);
+//		player->printPlayer();
+//	}
+//}
 
 //Placing initial player's armies
 void placeInitialPlayerArmies(vector<Player*>* players, Country* startingCountry)

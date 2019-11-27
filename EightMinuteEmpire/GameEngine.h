@@ -13,7 +13,6 @@
 using namespace std;
 
 
-
 class GameEngine 
 {
 	enum class mode { single, tournament };
@@ -43,5 +42,6 @@ public:
 	void getNumOfPlayers();
 	void startGame();// Depending on the mode it will loop differentely
 	void getNumCoinsPerPlayer(const int);
+	void createPlayers(const int,const int, vector<Player*>*, Deck*,const string*);
 
 };

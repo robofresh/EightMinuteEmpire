@@ -1,5 +1,7 @@
 #pragma once
 #include "GameEngine.h"
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -44,6 +46,36 @@ string getMapFileName()
 		break;
 	}
 	return mapFileName;
+}
+
+
+//Iterate and create players for the game
+void GameEngine::createPlayers(const int numPlayers, const int numCoinsPerPlayer, vector<Player*>* players, Deck* deck, const string colors[])
+{
+
+	for (int i = 0; i < numPlayers; i++)
+	{
+		//TODO: Handle exception of inputs
+		string name;
+		int age;
+		int answer;
+		cout << "New player, enter your name: ";
+		cin >> name;
+		cout << "Enter your age: ";
+		cin >> age;
+		cout << "Select a strategy for the new player:" << endl;
+		cout << "1. Greedy Strategy" << endl;
+		cout << "2. Moderate Strategy" << endl;
+		cin >> answer;
+
+		Player* player = new Player(name, age, numCoinsPerPlayer, colors[i], deck);
+		if (answer == 1)
+			player->set_strategy(new Greedy());
+		if (answer == 2)
+			player->set_strategy(new Greedy());
+		players->push_back(player);
+		player->printPlayer();
+	}
 }
 
 GameEngine::GameEngine() 
