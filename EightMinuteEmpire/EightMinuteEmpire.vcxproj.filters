@@ -13,6 +13,8 @@
     <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="Gamecard.cpp" />
     <ClCompile Include="CardsfactoryDriver.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameEngineDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />
@@ -24,6 +26,7 @@
     <ClInclude Include="computeScore.h" />
     <ClInclude Include="GameObservers.h" />
     <ClInclude Include="Cardsfactory.h" />
+    <ClInclude Include="GameEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="map1.map" />

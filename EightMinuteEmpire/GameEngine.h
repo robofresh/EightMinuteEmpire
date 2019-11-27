@@ -16,9 +16,9 @@ using namespace std;
 
 class GameEngine 
 {
-	enum mode { single, tournament };
+	enum class mode { single, tournament };
 private:
-	mode* mode;
+	mode mode;
 	Map* map;
 	MapLoader mapLoader;
 	Deck* deck;
@@ -29,9 +29,10 @@ private:
 
 public:
 	GameEngine();
-	GameEngine(mode);
+	GameEngine(string);
 	~GameEngine();
-	void setMode(mode);
+	void setMode(string);
+	int getMode();
 	void setStartingCountry(Country*);
 	void chooseMap();//Prompt user to choose map
 	void choosePlayers();//Prompt user to select num of players and set their strategy

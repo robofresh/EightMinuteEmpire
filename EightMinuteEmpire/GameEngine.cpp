@@ -1,6 +1,8 @@
 #pragma once
 #include "GameEngine.h"
 
+using namespace std;
+
 //getMapFileName returns the name of the file
 string getMapFileName()
 {
@@ -46,20 +48,20 @@ string getMapFileName()
 
 GameEngine::GameEngine() 
 {
-	mode = NULL;
+	mode= ( GameEngine::mode::single);
 	map = nullptr;
-	mapLoader = nullptr;
+	//mapLoader = NULL;
 	deck = nullptr;
 	supply = nullptr;
 	players = nullptr;
 
 }
 
-GameEngine::GameEngine(mode modeChosen) 
+GameEngine::GameEngine(string modeChosen) 
 {
-	mode = (modeChosen == tournament ? tournament : single);//default mode will be single game
+	mode = (modeChosen == "tournament" ? GameEngine::mode::tournament: GameEngine::mode::single);//default mode will be single game
 	map = nullptr;
-	mapLoader = nullptr;
+	//mapLoader = NULL;
 	deck = nullptr;
 	supply = nullptr;
 	players = nullptr;
@@ -67,32 +69,34 @@ GameEngine::GameEngine(mode modeChosen)
 
 GameEngine::~GameEngine()
 {
-	delete mode, map, mapLoader, deck, supply, players;
-	mode = NULL;
-	map = NULL;
-	mapLoader = NULL;
-	deck = NULL;
-	supply = NULL;
-	players = NULL;
+	delete map, mapLoader, deck, supply, players;
+	//map = NULL;
+	//mapLoader = NULL;
+	//deck = NULL;
+	//supply = NULL;
+	//players = NULL;
 }
 
-GameEngine::setMode(mode modeChosen)
+void GameEngine::setMode(string modeChosen)
 {
-	if (modeChosen == tournament)
-		mode = tournament;
-	if (modeChosen == single)
-		mode = single;
+	if (modeChosen == "tournament")
+		mode =GameEngine::mode:: tournament;
+	if (modeChosen == "single")
+		mode = GameEngine::mode::single;
 	else
 		cout << "Mode invalid" << endl;// TODO: Need to handle this exception
 }
-
-GameEngine::setStartingCountry(Country* country)
+int GameEngine::getMode()
+{
+	return static_cast<int>(this->mode);
+}
+void GameEngine::setStartingCountry(Country* country)
 {
 	startingCountry = country;
 
 }
 
-GameEngine::chooseMap()
+void GameEngine::chooseMap()
 {
 	// Select map from list of files.
 	map = Map::getInstance();

@@ -26,6 +26,8 @@
     <ClCompile Include="computeScore.cpp" />
     <ClCompile Include="EightMinuteEmpire.cpp" />
     <ClCompile Include="Gamecard.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameEngineDriver.cpp" />
     <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapLoader.cpp" />
@@ -37,6 +39,7 @@
     <ClInclude Include="cards.h" />
     <ClInclude Include="Cardsfactory.h" />
     <ClInclude Include="computeScore.h" />
+    <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameObservers.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapLoader.h" />
