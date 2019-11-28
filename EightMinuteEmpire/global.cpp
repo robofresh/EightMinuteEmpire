@@ -11,7 +11,7 @@ namespace global
 	Actions* action = nullptr;
 	int* supply;
 	Player* currentPlayer = nullptr;
-	int* currentPlayerIndex;
+	int* currentPlayerIndex = new int(0);
 	Player* random_player()
 	{
 		if(players != nullptr)

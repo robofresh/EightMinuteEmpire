@@ -116,12 +116,6 @@ int main()
 	const int MAX_CARDS = determineMaxCards(*game->getNumOfPlayers());
 
 
-
-
-
-
-
-
 	//Keep track of the last player of each round
 	Player* lastPlayer;
 	int lastIndex = (*global::currentPlayerIndex + *game->getNumOfPlayers() - 1) % *game->getNumOfPlayers();

@@ -79,7 +79,6 @@ void TournamentMode::execute(GameEngine& game)
 }
 
 
-
 void SingleMode::execute(GameEngine& game)
 {
 	game.setNumOfPlayers();
@@ -100,11 +99,9 @@ void SingleMode::execute(GameEngine& game)
 		global::players->push_back(player);
 		player->printPlayer();
 
-
 	}
 
-	//BIDDING TO KNNOW WHO GOES FIRST
-	//First Player bids
+	//Bidding process to know who goes first
 	bidFirstPlayer(global::players, *game.getNumCoinsPerPlayer(), global::supply);
 	global::currentPlayer = global::players->at(0)->bidFacObj->winner;
 	auto it = find(global::players->begin(), global::players->end(), global::currentPlayer);
