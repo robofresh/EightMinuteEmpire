@@ -44,7 +44,6 @@ public:
 	void setNumOfPlayers();
 	int* getNumOfPlayers();
 	Deck* getDeck();
-	void startGame();// Depending on the mode it will loop differentely
 	void setSupply();
 	int* getSupply();
 	void setNumCoinsPerPlayer(const int);

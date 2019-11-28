@@ -217,23 +217,28 @@ int main()
 	}
 	delete global::players;
 	global::players = NULL;
+
 	delete global::main_deck;
 	global::main_deck = NULL;
+
 	delete Map::getInstance();
+
 	global::supply = NULL;
 	global::currentPlayer = NULL;
+	winner = NULL;
+	lastPlayer = NULL;
+
 	delete global::currentPlayerIndex;
 	global::currentPlayerIndex = NULL;
-	lastPlayer = NULL;
+
 	delete global::action;
 	global::action = NULL;
-	winner = NULL;
+
 	delete observeP;
 	observeP = NULL;
+
 	delete turn;
 	turn = NULL;
-
-
 
 }
 

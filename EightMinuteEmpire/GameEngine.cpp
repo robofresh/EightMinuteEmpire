@@ -51,6 +51,7 @@ string getMapFileName()
 
 
 //Iterate and create players for the game
+//Only called for TournamentMode
 void GameEngine::createPlayers()
 {
 
@@ -76,6 +77,8 @@ void GameEngine::createPlayers()
 			player->set_strategy(new Greedy());
 		players->push_back(player);
 		player->printPlayer();
+		player = NULL;
+		delete player;
 	}
 }
 
@@ -88,6 +91,9 @@ GameEngine::GameEngine()
 	global::supply= supply = nullptr;
 	global::players = players = new vector<Player*>();
 	startingCountry = nullptr;
+	NUM_PLAYERS = nullptr;
+	NUM_COINS_PER_PLAYER = nullptr;
+	strategy = nullptr;
 
 }
 
@@ -100,16 +106,24 @@ GameEngine::GameEngine(string modeChosen)
 	global::supply= supply = nullptr;
 	global::players = players = new vector<Player*>();
 	startingCountry = nullptr;
+	NUM_PLAYERS = nullptr;
+	NUM_COINS_PER_PLAYER = nullptr;
+	strategy = nullptr;
+
 }
 
 GameEngine::~GameEngine()
 {
-	delete map, /*mapLoader,*/ deck, supply, players;
+	delete map, /*mapLoader,*/ deck, supply, players, startingCountry, NUM_COINS_PER_PLAYER, NUM_PLAYERS, strategy;
 	map = NULL;
 	//mapLoader = NULL;
 	deck = NULL;
 	supply = NULL;
 	players = NULL;
+	startingCountry = NULL;
+	NUM_COINS_PER_PLAYER = NULL;
+	NUM_PLAYERS = NULL;
+	strategy = NULL;
 }
 
 void GameEngine::setMode(string modeChosen)
@@ -215,13 +229,6 @@ void GameEngine::chooseMap()
 	 }
 	NUM_COINS_PER_PLAYER = new int(numCoinsPerPlayer);
  }
-//Will need to implement Strategy pattern here to handle choosePlayer
-//According to the mode
-//Old choosePlayers
-//void GameEngine::choosePlayers()
-//{
-//******TODO: Call createPlayers() from the driver;****
-//}
 
  int* GameEngine::getNumOfPlayers()
  {

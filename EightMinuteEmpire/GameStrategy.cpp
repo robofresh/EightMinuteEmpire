@@ -98,7 +98,8 @@ void SingleMode::execute(GameEngine& game)
 		player->set_strategy(new Human());
 		global::players->push_back(player);
 		player->printPlayer();
-
+		player = NULL;//point to null and delete the pointer
+		delete player;
 	}
 
 	//Bidding process to know who goes first
