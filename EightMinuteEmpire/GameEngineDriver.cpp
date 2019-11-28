@@ -82,19 +82,28 @@ int main()
 	cout << "\tEight Minute Empire" << endl;
 	cout << "########################################\n" << endl;
 
-	string answerMode;
+	int answerMode;
+	GameEngine* game;
 
 	cout << "Game starts!" << endl;
 
 	//Selection of mode of Game
 	cout << " Select mode " << endl;
+	cout << "1. Single mode" << endl;
+	cout << "2. Tournament mode" << endl;
+
 	cin >> answerMode;
-	GameEngine* game = new GameEngine(answerMode);
-	cout << "GameEngine mode set to :" << game->getMode() << endl;
-	if (game->getMode() == 1)
+	if (answerMode == 2)
+	{
+		game = new GameEngine("tournament");
 		game->set_strategy(new TournamentMode());
+	}
+
 	else
+	{
+		game = new GameEngine("single");
 		game->set_strategy(new SingleMode());
+	}
 
 	//Selection of Map
 	game->chooseMap();
