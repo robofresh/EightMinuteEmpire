@@ -1,5 +1,8 @@
 #pragma once
 #include <string>
+#include "cards.h"
+#include "Player.h"
+#include "Actions.h"
 
 class Player;
 

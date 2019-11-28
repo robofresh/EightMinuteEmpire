@@ -25,8 +25,8 @@ private:
 	int* supply;
 	vector<Player*>* players;
 	Country* startingCountry;
-	static int NUM_PLAYERS;
-	static int NUM_COINS_PER_PLAYER;
+	int* NUM_PLAYERS;
+	int* NUM_COINS_PER_PLAYER;
 	const string COLORS[5] = { "Red", "Blue", "Green", "Yellow", "White" };
 
 
@@ -37,11 +37,17 @@ public:
 	void setMode(string);
 	int getMode();
 	void setStartingCountry(Country*);
+	Country* getStartingCountry();
 	void chooseMap();//Prompt user to choose map
 	void choosePlayers();//Prompt user to select num of players and set their strategy
-	void getNumOfPlayers();
+	void setNumOfPlayers();
+	int* getNumOfPlayers();
+	Deck* getDeck();
 	void startGame();// Depending on the mode it will loop differentely
-	void getNumCoinsPerPlayer(const int);
-	void createPlayers(const int,const int, vector<Player*>*, Deck*,const string*);
+	void setSupply();
+	int* getSupply();
+	void setNumCoinsPerPlayer(const int);
+	int* getNumCoinsPerPlayer();
+	void createPlayers();
 
 };

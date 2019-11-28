@@ -2,6 +2,7 @@
 #include "GameEngine.h"
 #include <string>
 #include <vector>
+#include "global.h"
 
 using namespace std;
 
@@ -50,10 +51,10 @@ string getMapFileName()
 
 
 //Iterate and create players for the game
-void GameEngine::createPlayers(const int numPlayers, const int numCoinsPerPlayer, vector<Player*>* players, Deck* deck, const string colors[])
+void GameEngine::createPlayers()
 {
 
-	for (int i = 0; i < numPlayers; i++)
+	for (int i = 0; i < *NUM_PLAYERS; i++)
 	{
 		//TODO: Handle exception of inputs
 		string name;
@@ -68,7 +69,7 @@ void GameEngine::createPlayers(const int numPlayers, const int numCoinsPerPlayer
 		cout << "2. Moderate Strategy" << endl;
 		cin >> answer;
 
-		Player* player = new Player(name, age, numCoinsPerPlayer, colors[i], deck);
+		Player* player = new Player(name, age, *NUM_COINS_PER_PLAYER, COLORS[i], deck);
 		if (answer == 1)
 			player->set_strategy(new Greedy());
 		if (answer == 2)
@@ -83,9 +84,9 @@ GameEngine::GameEngine()
 	mode= ( GameEngine::mode::single);
 	map = nullptr;
 	//mapLoader = NULL;
-	deck = nullptr;
-	supply = nullptr;
-	players = new vector<Player*>();
+	global::main_deck = deck = nullptr;
+	global::supply= supply = nullptr;
+	global::players = players = new vector<Player*>();
 	startingCountry = nullptr;
 
 }
@@ -95,9 +96,9 @@ GameEngine::GameEngine(string modeChosen)
 	mode = (modeChosen == "tournament" ? GameEngine::mode::tournament: GameEngine::mode::single);//default mode will be single game
 	map = nullptr;
 	//mapLoader = NULL;
-	deck = nullptr;
-	supply = nullptr;
-	players = new vector<Player*>();
+	global::main_deck=deck = nullptr;
+	global::supply= supply = nullptr;
+	global::players = players = new vector<Player*>();
 	startingCountry = nullptr;
 }
 
@@ -132,6 +133,11 @@ void GameEngine::setStartingCountry(Country* country)
 
 }
 
+Country* GameEngine::getStartingCountry()
+{
+	return startingCountry;
+}
+
 void GameEngine::chooseMap()
 {
 	// Select map from list of files.
@@ -159,7 +165,7 @@ void GameEngine::chooseMap()
 	setStartingCountry(map->startingCountry); //Starting country is loaded from map
 }
 //Retrieve numbers of players for the game
- void GameEngine::getNumOfPlayers()
+ void GameEngine::setNumOfPlayers()
 {
 	int playerInput;
 	while (true)
@@ -178,10 +184,16 @@ void GameEngine::chooseMap()
 			break;
 		}
 	}
-	NUM_PLAYERS = playerInput;
+	NUM_PLAYERS = new int(playerInput);
+	setNumCoinsPerPlayer(*NUM_PLAYERS);
 }
 
- void GameEngine::getNumCoinsPerPlayer(const int numPlayers)
+ int* GameEngine::getNumCoinsPerPlayer()
+ {
+	 return NUM_COINS_PER_PLAYER;
+ }
+
+ void GameEngine::setNumCoinsPerPlayer(const int numPlayers)
  {
 	 int numCoinsPerPlayer = 0;
 	 switch (numPlayers)
@@ -201,7 +213,7 @@ void GameEngine::chooseMap()
 	 default:
 		 break;
 	 }
-	NUM_COINS_PER_PLAYER= numCoinsPerPlayer;
+	NUM_COINS_PER_PLAYER = new int(numCoinsPerPlayer);
  }
 //Will need to implement Strategy pattern here to handle choosePlayer
 //According to the mode
@@ -211,27 +223,31 @@ void GameEngine::chooseMap()
 //******TODO: Call createPlayers() from the driver;****
 //}
 
+ int* GameEngine::getNumOfPlayers()
+ {
+	 return NUM_PLAYERS;
+ }
+
+ Deck* GameEngine::getDeck()
+ {
+	 return deck;
+ }
+
+ void GameEngine::setSupply()
+ {
+	 supply = new int (44 - (*NUM_COINS_PER_PLAYER * *NUM_PLAYERS));
+	 global::supply = supply;
+	 cout << "Total supply of coins was 44, but since each player took " << *NUM_COINS_PER_PLAYER << " coins, supply is now at " << *supply << " coins.\n" << endl;
+ }
+
+ int* GameEngine::getSupply()
+ {
+	 return supply;
+ }
 //New choosePlayers
  void GameEngine::choosePlayers()
 {
-	 getNumOfPlayers();
-
-	 //TODO: Create CPU player
-	 for (int i = 0; i < NUM_PLAYERS; i++)
-	 {
-		 string name;
-		 int age;
-		 cout << "New player, enter your name: ";
-		 cin >> name;
-		 cout << "Enter your age: ";
-		 cin >> age;
-		 Player* player = new Player(name, age, NUM_COINS_PER_PLAYER, COLORS[i], deck);
-		 players->push_back(player);
-		 player->printPlayer();
-	 }
-	 
-	 //TODO: Foreach CPU player choose a strategy
-	
-	 //TODO: Choose the first player
+	 setNumOfPlayers();
+	 createPlayers();//+ set their strategy
 
 }

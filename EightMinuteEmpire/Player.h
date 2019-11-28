@@ -19,6 +19,7 @@ class Player;
 class Country;
 class Continent;
 class BidingFacility;
+class Strategy;
 
 class Army
 {
