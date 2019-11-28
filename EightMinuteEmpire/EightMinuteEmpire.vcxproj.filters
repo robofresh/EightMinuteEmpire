@@ -20,7 +20,7 @@
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameEngineDriver.cpp" />
     <ClCompile Include="StrategyDriver.cpp" />
-    <ClCompile Include="GameStatisticsDriver.cpp" />
+    <ClCompile Include="GameStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />
@@ -37,6 +37,7 @@
     <ClInclude Include="Cardsfactory.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="PlayerStrategies.h" />
+    <ClInclude Include="GameStrategy.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="map1.map" />

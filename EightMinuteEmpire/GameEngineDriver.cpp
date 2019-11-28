@@ -72,33 +72,6 @@ void placeInitialPlayerArmies(vector<Player*>* players, Country* startingCountry
 	cout << endl;
 }
 
-//First Player bids
-void bidFirstPlayer(vector<Player*>* players, const int numCoinsPerPlayer, int* supply)
-{
-	cout << "Beginning the bid for first player." << endl;
-	for (int i = 0; i < players->size(); i++)
-	{
-		int bidAmount;
-		while (true)
-		{
-			cout << *(players->at(i)->name) << ", please enter a bid amount between 0 and " << numCoinsPerPlayer << ": ";
-			cin >> bidAmount;
-			if (bidAmount < 0 || bidAmount > numCoinsPerPlayer)
-			{
-				cout << "You've entered a number outside of the correct range. Try again." << endl;
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n'); // See [1]
-			}
-			else
-			{
-				players->at(i)->bidFacObj->bidCoins(bidAmount);
-				break;
-			}
-		}
-	}
-	players->at(0)->bidFacObj->startBidProcess(supply);
-}
-
 int main()
 {
 	// ######################################################################
@@ -118,6 +91,10 @@ int main()
 	cin >> answerMode;
 	GameEngine* game = new GameEngine(answerMode);
 	cout << "GameEngine mode set to :" << game->getMode() << endl;
+	if (game->getMode() == 1)
+		game->set_strategy(new TournamentMode());
+	else
+		game->set_strategy(new SingleMode());
 
 	//Selection of Map
 	game->chooseMap();
@@ -126,11 +103,10 @@ int main()
 	global::main_deck = new Deck();
 	cout << "All " << global::main_deck->stackofCards->size() << " cards are shuffled and then putted into a deck and assigned to the game.\n" << endl;
 
-	//Selection of Players
-	game->choosePlayers();
+	//Selection of Players by executing strategy
+	game->execute_strategy();
 
 	//Preparation for starting the game
-	game->setSupply();
 	global::action = new Actions();
 	placeInitialPlayerArmies(global::players, game->getStartingCountry());
 	global::main_deck->initialDraw();
@@ -139,35 +115,21 @@ int main()
 	bool endGame = false;
 	const int MAX_CARDS = determineMaxCards(*game->getNumOfPlayers());
 
-	// Choose First player to go
-	Player* currentPlayer;
-	int* currentPlayerIndex = new int(0);
 
-	cout << "Please choose the first player to start: " << endl;
-	for (int i = 0; i < global::players->size(); i++)
-	{
-		cout << (i+1) << ". Player " + (i + 1) 
-			<< " : " + *global::players->at(i)->name << endl;
-	}
 
-	int answerP;
-	cin >> answerP;
 
-	currentPlayer = global::players->at(answerP - 1);
-	auto it = find(global::players->begin(), global::players->end(), currentPlayer);
-	if (it != global::players->end())
-	{
-		*currentPlayerIndex = static_cast<int>(distance(global::players->begin(), it));
-	}
+
+
+
 
 	//Keep track of the last player of each round
 	Player* lastPlayer;
-	int lastIndex = (*currentPlayerIndex + *game->getNumOfPlayers() - 1) % *game->getNumOfPlayers();
+	int lastIndex = (*global::currentPlayerIndex + *game->getNumOfPlayers() - 1) % *game->getNumOfPlayers();
 	lastPlayer = global::players->at(lastIndex);
 
 	//Attach PlayerOb on each player with their index
 	PlayerObserver* observeP;
-	int* track = new int(*currentPlayerIndex);
+	int* track = new int(*global::currentPlayerIndex);
 	int* turn = new int(1);
 
 	do
@@ -178,13 +140,13 @@ int main()
 		observeP = NULL;
 
 
-	} while (*track != *currentPlayerIndex);
+	} while (*track != *global::currentPlayerIndex);
 
 	delete track;
 	track = NULL;
 
 	cout << "Let the game begin!\n" << endl;
-	currentPlayer->Notify();
+	global::currentPlayer->Notify();
 
 
 	// #################################################
@@ -194,10 +156,10 @@ int main()
 	int newIndex;
 	do
 	{
-		currentPlayer->execute_strategy();
+		global::currentPlayer->execute_strategy();
 		
-		cout << *(currentPlayer->name) << " now has "
-			<< currentPlayer->hand->faceupcards->size()
+		cout << *(global::currentPlayer->name) << " now has "
+			<< global::currentPlayer->hand->faceupcards->size()
 			<< " cards" << endl;
 
 		// #################################################
@@ -205,14 +167,14 @@ int main()
 		// #################################################
 
 		//Loop to the next player
-		newIndex = *currentPlayerIndex + 1;//Increasing the index position is clockwise 
-		*currentPlayerIndex = newIndex % *game->getNumOfPlayers();
-		currentPlayer = global::players->at(*currentPlayerIndex);//update current player
+		newIndex = *global::currentPlayerIndex + 1;//Increasing the index position is clockwise 
+		*global::currentPlayerIndex = newIndex % *game->getNumOfPlayers();
+		global::currentPlayer = global::players->at(*global::currentPlayerIndex);//update current player
 
 		cout << endl;
 		cout << "************************************************************" << endl;
 		cout << endl;
-		currentPlayer->Notify();
+		global::currentPlayer->Notify();
 	
 		// #################################################
 		//			Part 6: Game End, Compute Score
@@ -221,7 +183,7 @@ int main()
 		if (lastPlayer->hand->faceupcards->size() >= MAX_CARDS)
 		{
 			cout << "Every Players has ";
-			cout << currentPlayer->hand->faceupcards->size() << " cards. " << endl;
+			cout << global::currentPlayer->hand->faceupcards->size() << " cards. " << endl;
 			cout << "Max cards each player can own has been reach. " << endl;
 			endGame = true;
 		}
@@ -256,9 +218,9 @@ int main()
 	global::main_deck = NULL;
 	delete Map::getInstance();
 	global::supply = NULL;
-	currentPlayer = NULL;
-	delete currentPlayerIndex;
-	currentPlayerIndex = NULL;
+	global::currentPlayer = NULL;
+	delete global::currentPlayerIndex;
+	global::currentPlayerIndex = NULL;
 	lastPlayer = NULL;
 	delete global::action;
 	global::action = NULL;

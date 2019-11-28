@@ -10,6 +10,8 @@ namespace global
 	vector<Player*>* players = nullptr;
 	Actions* action = nullptr;
 	int* supply;
+	Player* currentPlayer = nullptr;
+	int* currentPlayerIndex;
 	Player* random_player()
 	{
 		if(players != nullptr)

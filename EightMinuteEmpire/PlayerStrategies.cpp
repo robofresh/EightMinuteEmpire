@@ -184,10 +184,6 @@ void Moderate::execute(Player& p)
 }
 
 
-
-
-
-
 Human::Human()
 {
 	Strategy::type = new string("human");

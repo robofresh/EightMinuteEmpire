@@ -28,6 +28,7 @@
     <ClCompile Include="Gamecard.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameEngineDriver.cpp" />
+    <ClCompile Include="GameStrategy.cpp" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="Cardsfactory.h" />
     <ClInclude Include="computeScore.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="GameStrategy.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="GameObservers.h" />
     <ClInclude Include="Map.h" />

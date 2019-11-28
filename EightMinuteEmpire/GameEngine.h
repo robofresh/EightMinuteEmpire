@@ -1,17 +1,18 @@
 #pragma once
 #include <string>
 #include <vector>
-
 #include "cards.h"
 #include "Player.h"
 #include "Map.h"
 #include "MapLoader.h"
 #include "Actions.h"
 #include "computeScore.h"
+#include "GameStrategy.h"
 
 
 using namespace std;
 
+class StrategyG;
 
 class GameEngine 
 {
@@ -27,10 +28,10 @@ private:
 	Country* startingCountry;
 	int* NUM_PLAYERS;
 	int* NUM_COINS_PER_PLAYER;
-	const string COLORS[5] = { "Red", "Blue", "Green", "Yellow", "White" };
-
+	StrategyG* strategy;//strategy is the mode of the game
 
 public:
+	const string COLORS[5] = { "Red", "Blue", "Green", "Yellow", "White" };//TODO: mght need to move this to Global
 	GameEngine();
 	GameEngine(string);
 	~GameEngine();
@@ -49,5 +50,9 @@ public:
 	void setNumCoinsPerPlayer(const int);
 	int* getNumCoinsPerPlayer();
 	void createPlayers();
+	void set_strategy(StrategyG* strat);
+	void execute_strategy();
+	StrategyG* get_strategy();
+
 
 };

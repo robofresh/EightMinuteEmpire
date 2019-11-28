@@ -251,3 +251,19 @@ void GameEngine::chooseMap()
 	 createPlayers();//+ set their strategy
 
 }
+
+ void GameEngine::set_strategy(StrategyG* mode)
+ {
+	 delete strategy;
+	 strategy = mode;
+ }
+
+ void GameEngine::execute_strategy()
+ {
+	 strategy->execute(*this);
+ }
+
+ StrategyG* GameEngine::get_strategy()
+ {
+	 return strategy;
+ }
