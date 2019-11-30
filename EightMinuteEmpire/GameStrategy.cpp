@@ -2,8 +2,15 @@
 #include "GameStrategy.h"
 #include "global.h"
 
-
 using namespace std;
+//Exception struct of Wrong input type
+struct InputException : public exception
+{
+	const char* what() const throw()
+	{
+		return "Your input is invalid.";
+	}
+};
 
 void bidFirstPlayer(vector<Player*>* players, const int numCoinsPerPlayer, int* supply)
 {
@@ -60,12 +67,14 @@ void TournamentMode::execute(GameEngine& game)
 	global::currentPlayerIndex = new int(0);
 
 	cout << "Please choose the first player to start: " << endl;
+
 	for (int i = 0; i < global::players->size(); i++)
 	{
-		cout << (i + 1) << ". Player " + (i + 1)
-			<< " : " + *global::players->at(i)->name << endl;
+		cout << " " << (i + 1) << ")Player " << (i + 1) << " : ";
+		cout << *global::players->at(i)->name << endl;
 	}
 
+	cout << endl;
 	int answerP;
 	cin >> answerP;
 
@@ -88,11 +97,27 @@ void SingleMode::execute(GameEngine& game)
 		//TODO: Handle exception of inputs
 		string name;
 		int age;
-		int answer;
 		cout << "New player, enter your name: ";
 		cin >> name;
-		cout << "Enter your age: ";
-		cin >> age;
+
+		while (true)
+		{
+			cout << "Enter your age: ";
+			try
+			{
+				cin >> age;
+				if (cin.fail() || age > 100 || age < 1)
+					throw InputException();
+			}
+			catch (InputException e)
+			{
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << e.what() << endl;
+			}
+			if (age > 0 && age < 100)
+				break;
+		}
 
 		Player* player = new Player(name, age, *game.getNumCoinsPerPlayer(), global::COLORS[i], global::main_deck);
 		player->set_strategy(new Human());
