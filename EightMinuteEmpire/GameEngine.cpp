@@ -5,6 +5,14 @@
 #include "global.h"
 
 using namespace std;
+//Exception struct of Wrong input type
+struct InputException : public exception
+{
+	const char* what() const throw()
+	{
+		return "Your input is invalid.";
+	}
+};
 
 //getMapFileName returns the name of the file
 string getMapFileName()
@@ -57,18 +65,55 @@ void GameEngine::createPlayers()
 
 	for (int i = 0; i < *NUM_PLAYERS; i++)
 	{
-		//TODO: Handle exception of inputs
+	
 		string name;
 		int age;
 		int answer;
 		cout << "New player, enter your name: ";
 		cin >> name;
-		cout << "Enter your age: ";
-		cin >> age;
-		cout << "Select a strategy for the new player:" << endl;
-		cout << "1. Greedy Strategy" << endl;
-		cout << "2. Moderate Strategy" << endl;
-		cin >> answer;
+		
+		while (true)
+		{
+			cout << "Enter your age: ";
+			try
+			{
+				cin >> age;
+				if (cin.fail()||age>100||age<1)
+					throw InputException();
+			}
+			catch (InputException e)
+			{
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << e.what() << endl;
+			}
+			if (age > 0 && age < 100)
+				break;
+		}
+
+		while (true)
+		{
+			cout << "Select a strategy for the new player:" << endl;
+			cout << "1. Greedy Strategy" << endl;
+			cout << "2. Moderate Strategy" << endl;
+			try
+			{
+				cin >> answer;
+				if (cin.fail() || answer !=1 || answer!=2)
+					throw InputException();
+			}
+			catch (InputException e)
+			{
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << e.what() << endl;
+			}
+			if (answer ==1 || answer ==2)
+				break;
+		}
+
+
+
 
 		Player* player = new Player(name, age, *NUM_COINS_PER_PLAYER, COLORS[i], deck);
 		if (answer == 1)
