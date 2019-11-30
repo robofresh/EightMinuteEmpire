@@ -29,7 +29,6 @@ private:
 	StrategyG* strategy;//strategy is the mode of the game
 
 public:
-	const string COLORS[5] = { "Red", "Blue", "Green", "Yellow", "White" };//TODO: mght need to move this to Global
 	GameEngine();
 	GameEngine(string);
 	~GameEngine();
@@ -37,8 +36,8 @@ public:
 	int getMode();
 	void setStartingCountry(Country*);
 	Country* getStartingCountry();
-	void chooseMap();//Prompt user to choose map
-	void choosePlayers();//Prompt user to select num of players and set their strategy
+	void chooseMap();
+	void choosePlayers();
 	void setNumOfPlayers();
 	int* getNumOfPlayers();
 	Deck* getDeck();
@@ -50,6 +49,4 @@ public:
 	void set_strategy(StrategyG* strat);
 	void execute_strategy();
 	StrategyG* get_strategy();
-
-
 };

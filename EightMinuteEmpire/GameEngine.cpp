@@ -113,7 +113,7 @@ void GameEngine::createPlayers()
 			}
 		}
 
-		Player* player = new Player(name, age, *NUM_COINS_PER_PLAYER, COLORS[i], deck);
+		Player* player = new Player(name, age, *NUM_COINS_PER_PLAYER, global::COLORS[i], deck);
 		if (answer == 1)
 			player->set_strategy(new Greedy());
 		if (answer == 2)

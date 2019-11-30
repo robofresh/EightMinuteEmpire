@@ -94,7 +94,7 @@ void SingleMode::execute(GameEngine& game)
 		cout << "Enter your age: ";
 		cin >> age;
 
-		Player* player = new Player(name, age, *game.getNumCoinsPerPlayer(), game.COLORS[i], global::main_deck);
+		Player* player = new Player(name, age, *game.getNumCoinsPerPlayer(), global::COLORS[i], global::main_deck);
 		player->set_strategy(new Human());
 		global::players->push_back(player);
 		player->printPlayer();

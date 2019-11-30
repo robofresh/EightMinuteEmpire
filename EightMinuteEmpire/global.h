@@ -14,4 +14,5 @@ namespace global
 	extern int* supply;
 	extern Player* random_player();
 	extern int random_range_int(int, int);
+	extern const string COLORS[5] ;
 }

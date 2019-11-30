@@ -11,6 +11,7 @@ namespace global
 	int* supply;
 	Player* currentPlayer = nullptr;
 	int* currentPlayerIndex = new int(0);
+	const string COLORS[5] = { "Red", "Blue", "Green", "Yellow", "White" };
 	Player* random_player()
 	{
 		if(players != nullptr)
