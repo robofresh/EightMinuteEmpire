@@ -114,12 +114,10 @@ int main()
 	if (answerMode == 2)
 	{
 		game = new GameEngine("tournament");
-		game->set_strategy(new TournamentMode());
 	}
 	else//While loop is taking care that mode should be 1 or 2
 	{
 		game = new GameEngine("single");
-		game->set_strategy(new SingleMode());
 	}
 
 	//Selection of Map
@@ -158,7 +156,6 @@ int main()
 		track = new int((*track + 1 + *game->getNumOfPlayers()) % *game->getNumOfPlayers());
 		turn = new int(*turn + 1);
 		observeP = NULL;
-
 
 	} while (*track != *global::currentPlayerIndex);
 

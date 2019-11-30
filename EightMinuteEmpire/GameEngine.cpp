@@ -98,7 +98,11 @@ void GameEngine::createPlayers()
 			try
 			{
 				cin >> answer;
-				if (cin.fail() || answer !=1 || answer!=2)
+				if (cin.fail())
+					throw InputException();
+				if (answer == 1 || answer == 2)
+					break;
+				else
 					throw InputException();
 			}
 			catch (InputException e)
@@ -107,8 +111,6 @@ void GameEngine::createPlayers()
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				cout << e.what() << endl;
 			}
-			if (answer ==1 || answer ==2)
-				break;
 		}
 
 		Player* player = new Player(name, age, *NUM_COINS_PER_PLAYER, COLORS[i], deck);
@@ -148,6 +150,11 @@ GameEngine::GameEngine(string modeChosen)
 	NUM_PLAYERS = nullptr;
 	NUM_COINS_PER_PLAYER = nullptr;
 	strategy = nullptr;
+	if (modeChosen == "tournament")
+		set_strategy(new TournamentMode());
+	if (modeChosen == "single")
+		set_strategy(new SingleMode());
+
 }
 
 GameEngine::~GameEngine()
@@ -170,8 +177,6 @@ void GameEngine::setMode(string modeChosen)
 		mode =new Mode(GameEngine::Mode:: tournament);
 	if (modeChosen == "single")
 		mode = new Mode(GameEngine::Mode::single);
-	else
-		cout << "Mode invalid" << endl;// TODO: Need to handle this exception
 }
 
 int GameEngine::getMode()
@@ -182,7 +187,6 @@ int GameEngine::getMode()
 void GameEngine::setStartingCountry(Country* country)
 {
 	startingCountry = country;
-
 }
 
 Country* GameEngine::getStartingCountry()
