@@ -496,11 +496,16 @@ void GameWinningScores::display()
 	cout << string(80, '#') << endl;
 	cout << "\t\tPlayers and scores" << endl;
 	cout << string(80, '-') << endl;
-	cout << "| Players  | Victory Pts | Coins | Armies on Board | Owned Countries" << endl;
+	cout << "| Players  | Cards | Victory Pts | Coins | Armies on Board | Owned Countries" << endl;
 	cout << string(80, '-') << endl;
 	for (int i = 0; i < players->size(); i++)
 	{
 		cout << "| Player " << (i)+1 << " | ";
+		cout << players->at(i)->hand->faceupcards->size() << string(3, ' ');
+		if (players->at(i)->hand->faceupcards->size() < 10) {
+			cout << " ";
+		}
+		cout << " | ";
 		cout << *players->at(i)->victoryPoint << string(9, ' ');
 		if (*players->at(i)->victoryPoint < 10) {
 			cout << " ";

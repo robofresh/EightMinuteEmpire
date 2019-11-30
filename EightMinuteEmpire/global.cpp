@@ -6,6 +6,7 @@
 
 namespace global
 {
+	Map* map = nullptr;
 	Deck* main_deck = nullptr;
 	vector<Player*>* players = nullptr;
 	Actions* action = nullptr;

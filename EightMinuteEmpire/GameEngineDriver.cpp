@@ -148,6 +148,8 @@ int main()
 	delete track;
 	track = NULL;
 
+	GameStatistics* gameStats = new GameStatistics(global::map, global::players);
+
 	cout << "Let the game begin!\n" << endl;
 	global::currentPlayer->Notify();
 
@@ -199,12 +201,14 @@ int main()
 	computeScore score = computeScore();
 	Player* winner = score.determineWinner(global::players);
 
-	cout << "The winner is " << *winner->name << endl;//Print the winner of the game
-	
-	for (int i = 0; i < global::players->size(); i++)//Prints all the players
-	{
-		global::players->at(i)->printPlayer();
-	}
+	//cout << "The winner is " << *winner->name << endl;//Print the winner of the game
+	//
+	//for (int i = 0; i < global::players->size(); i++)//Prints all the players
+	//{
+	//	global::players->at(i)->printPlayer();
+	//}
+	GameWinningScores* gameWin = new GameWinningScores(global::map, global::players, winner);
+	global::map->Notify();
 
 
 	// #################################################
@@ -239,6 +243,12 @@ int main()
 
 	delete turn;
 	turn = NULL;
+
+	delete gameWin;
+	gameWin = NULL;
+
+	delete gameStats;
+	gameStats = NULL;
 
 }
 

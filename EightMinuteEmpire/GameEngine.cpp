@@ -155,7 +155,7 @@ Country* GameEngine::getStartingCountry()
 void GameEngine::chooseMap()
 {
 	// Select map from list of files.
-	map = Map::getInstance();
+	global::map = map = Map::getInstance();
 	MapLoader* mapLoader = nullptr;
 	while (true)
 	{

@@ -5,6 +5,7 @@
 
 namespace global
 {
+	extern Map* map;
 	extern Deck* main_deck;
 	extern vector<Player*>* players;
 	extern Actions* action;

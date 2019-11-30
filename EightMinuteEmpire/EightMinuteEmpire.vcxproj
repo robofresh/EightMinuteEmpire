@@ -28,6 +28,7 @@
     <ClCompile Include="Gamecard.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameEngineDriver.cpp" />
+    <ClCompile Include="GameStatisticsDriver.cpp" />
     <ClCompile Include="GameStrategy.cpp" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="GameObservers.cpp" />
