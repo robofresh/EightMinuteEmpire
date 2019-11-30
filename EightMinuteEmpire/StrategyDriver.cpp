@@ -142,7 +142,6 @@
 ////Iterate and create players for the game
 //void createPlayers(const int numPlayers, const int numCoinsPerPlayer, vector<Player*>* players, Deck* deck, const string colors[])
 //{
-//	
 //	for (int i = 0; i < numPlayers; i++)
 //	{
 //		string name;
@@ -152,6 +151,57 @@
 //		cout << "Enter your age: ";
 //		cin >> age;
 //		Player* player = new Player(name, age, numCoinsPerPlayer, colors[i], deck);
+//		players->push_back(player);
+//		player->printPlayer();
+//	}
+//}
+//
+//void createHuman(const int numPlayers, const int numCoinsPerPlayer, vector<Player*>* players, Deck* deck, const string colors[])
+//{
+//	for (int i = 0; i < numPlayers; i++)
+//	{
+//		string name;
+//		int age;
+//		cout << "New player, enter your name: ";
+//		cin >> name;
+//		cout << "Enter your age: ";
+//		cin >> age;
+//		Player* player = new Player(name, age, numCoinsPerPlayer, colors[i], deck);
+//		player->set_strategy(new Human());
+//		players->push_back(player);
+//		player->printPlayer();
+//	}
+//}
+//
+//void createModerate(const int numPlayers, const int numCoinsPerPlayer, vector<Player*>* players, Deck* deck, const string colors[])
+//{
+//	for (int i = 0; i < numPlayers; i++)
+//	{
+//		string name;
+//		int age;	
+//		cout << "New moderate computer, enter name: ";
+//		cin >> name;
+//		cout << "Enter your age: ";
+//		cin >> age;
+//		Player* player = new Player(name, age, numCoinsPerPlayer, colors[i], deck);
+//		player->set_strategy(new Moderate());
+//		players->push_back(player);
+//		player->printPlayer();
+//	}
+//}
+//
+//void createGreedy(const int numPlayers, const int numCoinsPerPlayer, vector<Player*>* players, Deck* deck, const string colors[])
+//{
+//	for (int i = 0; i < numPlayers; i++)
+//	{
+//		string name;
+//		int age;
+//		cout << "New greedy computer, enter name: ";
+//		cin >> name;
+//		cout << "Enter your age: ";
+//		cin >> age;
+//		Player* player = new Player(name, age, numCoinsPerPlayer, colors[i], deck);
+//		player->set_strategy(new Greedy());
 //		players->push_back(player);
 //		player->printPlayer();
 //	}
@@ -203,14 +253,14 @@
 //
 //int main()
 //{
-//// ######################################################################
-////				Part 1: Game Start
-//// ######################################################################
+//	// ######################################################################
+//	//				Part 1: Game Start
+//	// ######################################################################
 //
 //	cout << "########################################" << endl;
 //	cout << "\tEight Minute Empire" << endl;
 //	cout << "########################################\n" << endl;
-//	
+//
 //	// Select map from list of files.
 //	MapLoader* mapLoader = nullptr;
 //	while (true)
@@ -221,7 +271,7 @@
 //			mapLoader = new MapLoader(mapFileName, Map::getInstance());
 //			break;
 //		}
-//		catch (const MapLoaderException & e)
+//		catch (const MapLoaderException& e)
 //		{
 //			cout << e.message << endl;
 //			cout << "Try again." << endl;
@@ -237,29 +287,31 @@
 //	// Create deck with 42 cards. Shuffle method is done when creating a deck
 //	global::main_deck = new Deck();
 //	cout << "All " << global::main_deck->stackofCards->size() << " cards are shuffled and then putted into a deck and assigned to the game.\n" << endl;
-//		
+//
 //	// Select number of players.
-//	const int NUM_PLAYERS = getNumOfPlayers();
+//	const int NUM_PLAYERS = 3;
 //	const int NUM_COINS_PER_PLAYER = getNumCoinsPerPlayer(NUM_PLAYERS);
 //
 //	// Create correct number of players.
 //	global::players = new vector<Player*>();
 //	const string COLORS[5] = { "Red", "Blue", "Green", "Yellow", "White" };
-//	createPlayers(NUM_PLAYERS, NUM_COINS_PER_PLAYER, global::players, global::main_deck, COLORS);
-//
+//	
+//	createHuman(1, NUM_COINS_PER_PLAYER, global::players, global::main_deck, COLORS);
+//	createModerate(1, NUM_COINS_PER_PLAYER, global::players, global::main_deck, COLORS);
+//	createGreedy(1, NUM_COINS_PER_PLAYER, global::players, global::main_deck, COLORS);
+//	
 //	//Other details for setting up the game
 //	bool endGame = false;
 //	const int MAX_CARDS = determineMaxCards(NUM_PLAYERS);
 //	global::action = new Actions();
 //
-//// #######################################################################
-////				Part 2: Startup Phase
-//// #######################################################################
+//	// #######################################################################
+//	//				Part 2: Startup Phase
+//	// #######################################################################
 //
-//	// Create the supply of coins (value after each player has taken the appropriate amount of coins for themselves).
-//	int supplyVal = 44 - (NUM_COINS_PER_PLAYER * NUM_PLAYERS);
-//	int* supply = &supplyVal;
-//	cout << "Total supply of coins was 44, but since each player took " << NUM_COINS_PER_PLAYER << " coins, supply is now at " << supplyVal << " coins.\n" << endl;
+//		// Create the supply of coins (value after each player has taken the appropriate amount of coins for themselves).
+//	global::supply = new int(44 - (NUM_COINS_PER_PLAYER * NUM_PLAYERS));
+//	cout << "Total supply of coins was 44, but since each player took " << NUM_COINS_PER_PLAYER << " coins, supply is now at " << global::supply << " coins.\n" << endl;
 //
 //	// Place 3 armies of each player on the starting country.
 //	placeInitialPlayerArmies(global::players, startingCountry);
@@ -271,7 +323,7 @@
 //	Player* currentPlayer;
 //	int* currentPlayerIndex = new int(0);
 //
-//	bidFirstPlayer(global::players, NUM_COINS_PER_PLAYER, supply);
+//	bidFirstPlayer(global::players, NUM_COINS_PER_PLAYER, global::supply);
 //	currentPlayer = global::players->at(0)->bidFacObj->winner;
 //	auto it = find(global::players->begin(), global::players->end(), currentPlayer);
 //	if (it != global::players->end())
@@ -282,7 +334,7 @@
 //
 //	//Keep track of the last player of each round
 //	Player* lastPlayer;
-//	int lastIndex = (*currentPlayerIndex +NUM_PLAYERS - 1) % NUM_PLAYERS;
+//	int lastIndex = 2;
 //	lastPlayer = global::players->at(lastIndex);
 //
 //	//Attach PlayerOb on each player with their index
@@ -293,10 +345,9 @@
 //	do
 //	{
 //		observeP = new PlayerObserver(global::players->at(*track), turn);
-//		track = new int((*track + 1 + NUM_PLAYERS)%NUM_PLAYERS);
+//		track = new int((*track + 1 + NUM_PLAYERS) % NUM_PLAYERS);
 //		turn = new int(*turn + 1);
-//		observeP = NULL;		
-//		
+//		observeP = NULL;
 //
 //	} while (*track != *currentPlayerIndex);
 //
@@ -306,81 +357,24 @@
 //	cout << "Let the game begin!\n" << endl;
 //	currentPlayer->Notify();
 //
+//	// #################################################
+//	//				Part 3: Main Game Loop
+//	// #################################################
 //
-//// #################################################
-////				Part 3: Main Game Loop
-//// #################################################
-//	
 //	int newIndex;
 //	do
 //	{
-//		//Current user takes one face-up card & pay the cost of the card
-//		Cards* chosenCard;
-//		int cardPosition;
-//		bool enoughCoins;
-//
-//		do
-//		{
-//			enoughCoins = true;
-//			try
-//			{
-//				global::main_deck->cardsSpace->print();
-//				cout << *currentPlayer->name;
-//				cout << "! Please select one of the face-up cards" << endl;
-//				cin >> cardPosition;
-//				if (std::cin.fail())
-//					throw InputException();
-//
-//				//Situations when player's ownCoins are limited
-//				if (*currentPlayer->numCoins <= 3)
-//				{
-//					if (*currentPlayer->numCoins == 0 && cardPosition != 1)
-//						throw InsufficientCoinsException();
-//					if(*currentPlayer->numCoins == 1 && 
-//						(cardPosition == 6 || cardPosition == 5 || cardPosition == 4))
-//						throw InsufficientCoinsException();
-//					if (*currentPlayer->numCoins == 2 &&
-//						(cardPosition == 6))
-//						throw InsufficientCoinsException();
-//				}	
-//			}
-//			catch (InputException e)
-//			{
-//				cout << e.what() << endl;
-//				cout << "Game will close down!" << endl;
-//				exit(0);
-//
-//			}
-//			catch (InsufficientCoinsException e)
-//			{
-//				cout << e.what() << endl;
-//				enoughCoins = false;
-//			}
-//
-//		} while (!(cardPosition >= 1 && cardPosition <= 6)|| !enoughCoins );
-//		//Continue loop if not enough Coins to pay for the card 
-//		//OR if the Card position chosen is NOT between 1 and 6
-//	
-//		cardPosition = cardPosition - 1;
-//		chosenCard = global::main_deck->cardsSpace->faceupcards->at(cardPosition);
-//
-//		currentPlayer->hand->faceupcards->push_back(chosenCard);//Put card into the player's hand
-//		currentPlayer->payCard(chosenCard, supply);//Pay the correct amount of coins
+//		currentPlayer->execute_strategy();
 //		
-//// #################################################
-////				Part 4: Player Actions
-//// #################################################
-//		//Display current player's action
-//		//Either, do the action or ignore
+//		cout << *(currentPlayer->name) << " now has "
+//			<< currentPlayer->hand->faceupcards->size()
+//			<< " cards" << endl;
 //
-//		global::action->processAction(currentPlayer, chosenCard, Map::getInstance(), global::players);
+//		// #################################################
+//		//				Part 5: After Action
+//		// #################################################
 //
-//// #################################################
-////				Part 5: After Action
-//// #################################################
 //
-//		//Update face-ups cards
-//		global::main_deck->updateCardsSpace(global::main_deck, chosenCard);
 //
 //		//Loop to the next player
 //		newIndex = *currentPlayerIndex + 1;//Increasing the index position is clockwise 
@@ -391,15 +385,15 @@
 //		cout << "************************************************************" << endl;
 //		cout << endl;
 //		currentPlayer->Notify();
-//
-//// #################################################
-////			Part 6: Game End, Compute Score
-//// #################################################
+//	
+//		// #################################################
+//		//			Part 6: Game End, Compute Score
+//		// #################################################
 //
 //		if (lastPlayer->hand->faceupcards->size() >= MAX_CARDS)
 //		{
-//			cout << "Every Players has " ;
-//			cout << currentPlayer->hand->faceupcards->size() << " cards. "<<endl;
+//			cout << "Every Players has ";
+//			cout << currentPlayer->hand->faceupcards->size() << " cards. " << endl;
 //			cout << "Max cards each player can own has been reach. " << endl;
 //			endGame = true;
 //		}
@@ -413,15 +407,16 @@
 //	Player* winner = score.determineWinner(global::players);
 //
 //	cout << "The winner is " << *winner->name << endl;//Print the winner of the game
-//
+//	
 //	for (int i = 0; i < global::players->size(); i++)//Prints all the players
 //	{
 //		global::players->at(i)->printPlayer();
 //	}
 //
-//// #################################################
-////						Cleanup
-//// #################################################
+//	system("PAUSE");
+//	// #################################################
+//	//						Cleanup
+//	// #################################################
 //
 //	for (int i = 0; i < NUM_PLAYERS; i++)
 //	{
@@ -435,7 +430,7 @@
 //	mapLoader = NULL;
 //	delete Map::getInstance();
 //	startingCountry = NULL;
-//	supply = NULL;
+//	global::supply = NULL;
 //	currentPlayer = NULL;
 //	delete currentPlayerIndex;
 //	currentPlayerIndex = NULL;
@@ -443,25 +438,22 @@
 //	delete global::action;
 //	global::action = NULL;
 //	winner = NULL;
-//	delete global::action;
-//	global::action = NULL;
 //	delete observeP;
 //	observeP = NULL;
 //	delete turn;
 //	turn = NULL;
-//
 //}
 //
-// //Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// //Debug program: F5 or Debug > Start Debugging menu
+////Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+////Debug program: F5 or Debug > Start Debugging menu
 //
-// //Tips for Getting Started: 
-// //  1. Use the Solution Explorer window to add/manage files
-// //  2. Use the Team Explorer window to connect to source control
-// //  3. Use the Output window to see build output and other messages
-// //  4. Use the Error List window to view errors
-// //  5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-// //  6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+////Tips for Getting Started: 
+////  1. Use the Solution Explorer window to add/manage files
+////  2. Use the Team Explorer window to connect to source control
+////  3. Use the Output window to see build output and other messages
+////  4. Use the Error List window to view errors
+////  5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+////  6. In the future, to open this project again, go to File > Open > Project and select the .sln file
 //
 //// References
 //// [1] https://www.hackerearth.com/practice/notes/validating-user-input-in-c/

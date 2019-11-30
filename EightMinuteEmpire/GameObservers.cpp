@@ -74,8 +74,6 @@ void PlayerObserver::display()
 {
 	cout << "**********Player "<<*this->_index  <<" " 
 		<< *_playerSubject->name << "'s turn.**********" << endl;
-	cout << "Player currently have " << *_playerSubject->numCoins << " coins. " << endl;
-
 }
 
 //CurrentPOb is an to track the chosen card and the person's turn
@@ -204,10 +202,10 @@ void ActionOb::display()
 		{
 			if (*_amount->at(i) > 1)
 			{
-				cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " cities~";
+				cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " cities~" << endl;;
 				return;
 			}
-			cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " city~";
+			cout << "~ACTION TAKEN :Create " << *_amount->at(i) << " city~" << endl;
 		}
 		if ("waterMove" == *_action->at(i))
 		{
@@ -246,8 +244,9 @@ ProcessActOb::ProcessActOb(Actions* aObject, Player* player) : _playerSubject(pl
 }
 
 ProcessActOb::ProcessActOb(Actions* aObject, Player* player, Country* country, int num) : _playerSubject(player)
-, _initCountry(country), _finalCountry(nullptr), _playerTarget(nullptr), _numArmy(nullptr) 
+, _initCountry(country), _finalCountry(nullptr), _playerTarget(nullptr) 
 {
+	_numArmy =new int(num);
 	this->aObject = aObject;
 	aObject->Attach(this);
 }
@@ -497,11 +496,16 @@ void GameWinningScores::display()
 	cout << string(80, '#') << endl;
 	cout << "\t\tPlayers and scores" << endl;
 	cout << string(80, '-') << endl;
-	cout << "| Players  | Victory Pts | Coins | Armies on Board | Owned Countries" << endl;
+	cout << "| Players  | Cards | Victory Pts | Coins | Armies on Board | Owned Countries" << endl;
 	cout << string(80, '-') << endl;
 	for (int i = 0; i < players->size(); i++)
 	{
 		cout << "| Player " << (i)+1 << " | ";
+		cout << players->at(i)->hand->faceupcards->size() << string(3, ' ');
+		if (players->at(i)->hand->faceupcards->size() < 10) {
+			cout << " ";
+		}
+		cout << " | ";
 		cout << *players->at(i)->victoryPoint << string(9, ' ');
 		if (*players->at(i)->victoryPoint < 10) {
 			cout << " ";
@@ -525,7 +529,15 @@ void GameWinningScores::display()
 	}
 	cout << string(80, '-') << endl;
 	cout << endl;
-	cout << "The winner is " << *winningPlayer->name << "!" << endl;
-	cout << string(80, '#') << endl;
+	if (winningPlayer != nullptr)
+	{
+		cout << "The winner is " << *winningPlayer->name << "!" << endl;
+		cout << string(80, '#') << endl;
+	}
+	else
+	{
+		cout << "No winner!" << endl;
+	}
+
 }
 

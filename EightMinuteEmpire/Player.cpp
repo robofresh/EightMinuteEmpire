@@ -2,7 +2,7 @@
 #include "cards.h"
 #include "Map.h"
 #include "BidingFacility.h"
-
+#include "global.h"
 
 struct InsufficientCoinsException : public exception
 {
@@ -60,6 +60,7 @@ Player::Player()
 	bidFacObj = new BidingFacility(this);
 	victoryPoint = new int(0);
 	scores = new vector <Player*>();
+	strategy = new Human();
 }
 
 Player::Player(string inputName, int inputAge, int coinAmount, string selectedColor, Deck* mainDeck)
@@ -294,10 +295,20 @@ void Player::ignore(Cards* card)
 CurrentPOb* obCard;
 
 //Depending on the position of the cards, the amount to pay is different
-void Player::payCard(Cards* card,int position, int* supply)
+void Player::payCard(Cards* c, int* supply)
 {
+	int position = 0;
 
-	obCard = new CurrentPOb(this, card, &position, supply);
+	for (auto i : *global::main_deck->cardsSpace->faceupcards)
+	{
+		if (i == c)
+		{
+			break;
+		}
+		position++;
+	}
+
+	obCard = new CurrentPOb(this, c, &position, supply);
 	
 	switch (position)
 	{
@@ -350,7 +361,7 @@ int getCoalPoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("coal") == 0)
+		if (*(hand->faceupcards->at(i)->good) == "coal")
 		{
 			temp++;
 		}
@@ -370,13 +381,13 @@ int getAnvilPoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("2anvil") == 0)
+		if (*(hand->faceupcards->at(i)->good) == "2anvil")
 		{
 			temp = temp + 2;
 			continue;
 
 		}
-		if (hand->faceupcards->at(i)->good->compare("anvil") == 0)
+		if(*(hand->faceupcards->at(i)->good) == "anvil")
 		{
 			temp++;
 		}
@@ -396,7 +407,7 @@ int getTreePoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("tree") == 0)
+		if (*(hand->faceupcards->at(i)->good) == "tree")
 		{
 			temp++;
 		}
@@ -415,7 +426,7 @@ int getGemPoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("gem") == 0)
+		if (*(hand->faceupcards->at(i)->good) == "gem")
 		{
 			temp++;
 		}
@@ -435,12 +446,12 @@ int getCarrotPoint(Hand* hand)
 	int temp = 0;
 	for (int i = 0; i < hand->faceupcards->size(); i++)
 	{
-		if (hand->faceupcards->at(i)->good->compare("2carrot") == 0)
+		if (*(hand->faceupcards->at(i)->good) == "2carrot")
 		{
 			temp= temp +2;
 			continue;
 		}
-		if (hand->faceupcards->at(i)->good->compare("carrot") == 0)
+		if (*(hand->faceupcards->at(i)->good) == "carrot")
 		{
 			temp++;
 		}
@@ -504,6 +515,22 @@ bool Player::removeOwnedContinent(Continent* to_remove)
 		}
 	}
 	return false;
+}
+
+void Player::set_strategy(Strategy* strat)
+{
+	delete strategy;
+	strategy = strat;
+}
+
+void Player::execute_strategy()
+{
+	strategy->execute(*this);
+}
+
+Strategy* Player::get_strategy()
+{
+	return strategy;
 }
 
 

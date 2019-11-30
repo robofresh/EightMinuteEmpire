@@ -1,13 +1,16 @@
 #include "Actions.h"
 #include <string>
+#include "global.h"
 #include <iostream>
 #include "GameObservers.h"
 
 using namespace std;
 
+ActionOb* actOb;
+
 void actionProcess(const string&, const int&, Player* player, Map* map, vector<Player*>*);
 void actionPrint(const string&, const int&);
-ActionOb* actOb;
+void computer_process(const string&, const int&, Player&);
 
 void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player*>* playerVector) const
 {
@@ -23,11 +26,9 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 	*/
 
 	//process action(s)
-
 	//Attach ActionOb
 
 	actOb = new ActionOb(player, card);
-
 
 	std::cout << endl;
 	
@@ -189,8 +190,6 @@ void Actions::processAction(Player* player, Cards *card, Map *map, vector<Player
 
 void actionProcess(const string& action, const int& amount, Player *player, Map* map, vector<Player*>* playersVector)
 {
-	Actions* actionObject;
-	actionObject = new Actions();
 	ProcessActOb* proOb;
 
 
@@ -241,12 +240,11 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						}
 					}
 				}
-				proOb = new ProcessActOb(actionObject, player,country, 1);
-				actionObject->Notify();
+				proOb = new ProcessActOb(global::action, player,country, 1);
+				global::action->Notify();
 				player->placeNewArmies(country, 1);
 				delete proOb;
 				proOb = nullptr;
-
 			}
 			else
 			{
@@ -254,7 +252,6 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 				break;
 			}
 		}
-
 		return;
 	}
 	if ("createCity" == action) //virtually the same as the last block but for city placement
@@ -295,8 +292,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 							std::cout << "\t" <<*player->name << " does not have an army in " << *country->name << endl;
 					}
 				}
-				proOb = new ProcessActOb(actionObject, player, country);
-				actionObject->Notify();
+				proOb = new ProcessActOb(global::action, player, country);
+				global::action->Notify();
 				player->buildCity(country);
 				delete proOb;
 				proOb = nullptr;
@@ -405,8 +402,8 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						continue;
 					}
 					armiesAlreadyMoved.push_back(armyID + 1);
-					proOb = new ProcessActOb(actionObject, player, army->occupiedCountry, country);
-					actionObject->Notify();
+					proOb = new ProcessActOb(global::action, player, army->occupiedCountry, country);
+					global::action->Notify();
 					player->moveArmies(army->occupiedCountry, country);
 					delete proOb;
 					proOb = nullptr;
@@ -472,12 +469,13 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 						j--;
 						continue;
 					}
-					proOb = new ProcessActOb(actionObject, player, army->occupiedCountry, country);
+					proOb = new ProcessActOb(global::action, player, army->occupiedCountry, country);
 					armiesAlreadyMoved.push_back(armyID + 1);
-					actionObject->Notify();
+					global::action->Notify();
 					player->moveOverLand(army->occupiedCountry, country);
 					delete proOb;
 					proOb = nullptr;
+					
 				}
 			}
 		}
@@ -519,9 +517,9 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 				{
 					if (enemyName == *i->player->name)
 					{
-						proOb = new ProcessActOb(actionObject, player, country, enemyPlayer );
+						proOb = new ProcessActOb(global::action, player, country, enemyPlayer );
 						country = i->occupiedCountry;
-						actionObject->Notify();
+						global::action->Notify();
 						player->destroyArmy(country, enemyPlayer);
 						delete proOb;
 						proOb = nullptr;
@@ -533,6 +531,7 @@ void actionProcess(const string& action, const int& amount, Player *player, Map*
 			}
 		}
 	}
+
 }
 
 
@@ -583,4 +582,382 @@ void actionPrint(const string& action, const int& amount)
 		}
 		std::cout << "Destroy " << amount << " army";
 	}
+}
+
+
+void Actions::computer_action(Player& p, Cards& c) const
+{
+
+	actOb = new ActionOb(&p, &c);
+
+	cout << endl;
+
+	//if there is more than one action
+	if (c.actions->size() > 2)
+	{
+
+		int selection = 0;
+
+		//if it is a 'and' card, then choose between both actions or ignoring
+		if ("AND" == *c.actions->at(2))
+		{
+			actOb->setAction(c.actions->at(0));
+			int amount;
+			amount = stoi(*c.actions->at(1));
+			actOb->setAmount(&amount);
+			actOb->setAction(c.actions->at(3));
+			int amount2;
+			amount2 = stoi(*c.actions->at(4));
+			actOb->setAmount(&amount2);
+			c.Notify();
+			delete actOb;
+			actOb = NULL;
+			computer_process(*c.actions->at(0), stoi(*c.actions->at(1)), p);
+			computer_process(*c.actions->at(3), stoi(*c.actions->at(4)), p);
+		}
+
+		// if it is an 'or' card
+		// same as last block
+		if ("OR" == *c.actions->at(2))
+		{
+			if (*(p.get_strategy()->type) == "greedy")
+			{
+				auto action_index = 0;
+				//go through all actions of face-up cards
+				for (auto j : *c.actions)
+				{
+					//do action if any card has them
+					if (*j == "destroyArmies")
+					{
+						actOb->setAction(j);
+						int amount;
+						amount = stoi(*c.actions->at(action_index + 1));
+						actOb->setAmount(&amount);
+						c.Notify();
+						delete actOb;
+						actOb = NULL;
+						computer_process(*c.actions->at(action_index), stoi(*c.actions->at(action_index +1)), p);
+						return;
+					}
+					if (*j == "createCity")
+					{
+						actOb->setAction(j);
+						int amount;
+						amount = stoi(*c.actions->at(action_index + 1));
+						actOb->setAmount(&amount);
+						c.Notify();
+						delete actOb;
+						actOb = NULL;
+						computer_process(*c.actions->at(action_index), stoi(*c.actions->at(action_index +1)), p);
+						return;
+					}
+					action_index++;
+				}
+				actOb->setAction(c.actions->at(0));
+				int	amount = stoi(*c.actions->at(1));
+				actOb->setAmount(&amount);
+				c.Notify();
+				delete actOb;
+				actOb = NULL;
+				computer_process(*c.actions->at(0), stoi(*c.actions->at(1)), p);
+				return;
+			}
+			else if (*(p.get_strategy()->type) == "moderate")
+			{
+				auto action_index = 0;
+				//go through all actions of face-up cards
+				for (auto j : *c.actions)
+				{
+					//do action if any card has them
+					if (*j == "placeArmies")
+					{
+						actOb->setAction(j);
+						int amount;
+						amount = stoi(*c.actions->at(action_index + 1));
+						actOb->setAmount(&amount);
+						c.Notify();
+						delete actOb;
+						actOb = NULL;
+						computer_process(*c.actions->at(action_index), stoi(*c.actions->at(action_index + 1)), p);
+						return;
+					}
+					action_index++;
+				}
+				
+				actOb->setAction(c.actions->at(0));
+				int amount = stoi(*c.actions->at(1));
+				actOb->setAmount(&amount);
+				c.Notify();
+				delete actOb;
+				actOb = NULL;
+				computer_process(*c.actions->at(0), stoi(*c.actions->at(1)), p);
+				return;
+				
+			}
+		}
+
+	}
+	else 
+	{
+		actOb->setAction(c.actions->at(0));
+		int amount = stoi(*c.actions->at(1));
+		actOb->setAmount(&amount);
+		c.Notify();
+		delete actOb;
+		actOb = NULL;
+		delete actOb;
+		actOb = NULL;
+		computer_process(*c.actions->at(0), stoi(*c.actions->at(1)), p);
+	}
+	cout << endl;
+}
+
+
+int random_prime();
+
+void computer_process(const string& action, const int& amount, Player& p)
+{
+
+	ProcessActOb* proOb;
+
+		//if it is a place armies card
+		if ("placeArmies" == action)
+		{
+			
+			for (int i = 0; i < amount; i++) //for every army to be placed
+			{
+				bool placed = false;
+
+				if (p.availableArmies() > 0) //if the player has any available armies
+				{
+					//computer will get a country that is the starting country or a country it has a city in but does not own
+					for (auto i : *p.cities)
+					{
+						if (i->occupiedCountry != nullptr && i->occupiedCountry->owningPlayer != &p)
+						{
+							proOb = new ProcessActOb(global::action, &p, i->occupiedCountry, 1);
+							global::action->Notify();
+							p.placeNewArmies(i->occupiedCountry, 1);
+							delete proOb;
+							proOb = nullptr;
+							placed = true;
+							break;
+						}
+					}
+
+					if (Map::getInstance()->startingCountry->owningPlayer != &p && !placed)
+					{
+						proOb = new ProcessActOb(global::action, &p, Map::getInstance()->startingCountry, 1);
+						global::action->Notify();
+						p.placeNewArmies(Map::getInstance()->startingCountry, 1);
+						delete proOb;
+						proOb = nullptr;
+						placed = true;
+						continue;
+					}
+
+					if(!placed)
+					{
+						proOb = new ProcessActOb(global::action, &p, Map::getInstance()->startingCountry, 1);
+						global::action->Notify();
+						p.placeNewArmies(Map::getInstance()->startingCountry, 1);
+						delete proOb;
+						proOb = nullptr;
+						placed = true;
+					}
+					
+				}
+				else
+				{
+					cout << "\tComputer has no more armies to place. " << endl;
+					break;
+				}
+			}
+		}
+		if ("createCity" == action) //virtually the same as the last block but for city placement
+		{
+
+			if (p.availableCities() > 0)
+			{
+				for (auto i : *p.armies)
+				{
+					if (i->occupiedCountry != nullptr)
+					{
+						for (auto j : *i->occupiedCountry->cities)
+						{
+							if (j->player != &p)
+							{
+								proOb = new ProcessActOb(global::action, &p, i->occupiedCountry);
+								global::action->Notify();
+								p.buildCity(i->occupiedCountry);
+								delete proOb;
+								proOb = nullptr;
+								return;
+							}
+						}
+					}
+				}
+				for (auto i : *p.armies)
+				{
+					if (i->occupiedCountry != nullptr)
+					{
+						proOb = new ProcessActOb(global::action, &p, i->occupiedCountry);
+						global::action->Notify();
+						p.buildCity(i->occupiedCountry);
+						delete proOb;
+						proOb = nullptr;
+						return;
+					}
+				}
+			}
+			else
+			{
+				cout << "\tComputer has no more cities to place. " << endl;
+			}
+			return;
+		}
+		if ("move" == action || "waterMove" == action)
+		{
+
+			if (p.availableArmies() == 14) // check if any armies have been placed
+			{
+				cout << "\tThe computer player has not placed and armies." << endl;
+				return;
+			}
+
+			Army* army = nullptr;
+			
+			int placements = amount;
+
+			bool been_placed = false;
+
+			int t = global::random_range_int(0, p.armies->size() - 1);
+			
+			for (auto k = 0; k < p.armies->size(); k++, t++)
+			{
+				if (placements < 0)
+					break;
+
+				if (t > p.armies->size() - 1)
+					t = 0;
+
+				army = p.armies->at(k);
+
+				if (army->occupiedCountry == nullptr)
+				{
+					continue;
+				}
+								
+				int count = 0;
+				int i = global::random_range_int(0, army->occupiedCountry->adjCountries->size()-1);
+				
+				while (count < army->occupiedCountry->adjCountries->size())
+				{
+					if (i > army->occupiedCountry->adjCountries->size()-1)
+						i = 0;
+				
+					Country* country = army->occupiedCountry->adjCountries->at(i);
+					
+					if ("waterMove" == action)
+					{
+						proOb = new ProcessActOb(global::action, &p, army->occupiedCountry, country);
+						global::action->Notify();
+						delete proOb;
+						proOb = nullptr;
+						p.moveArmies(army->occupiedCountry, country);
+						placements--;
+						been_placed = true;
+						break;
+					}
+					if ("move" == action)
+					{
+						if (army->occupiedCountry->parentContinent == country->parentContinent)
+						{
+							proOb = new ProcessActOb(global::action, &p, army->occupiedCountry, country);
+							global::action->Notify();
+							delete proOb;
+							proOb = nullptr;
+							p.moveArmies(army->occupiedCountry, country);
+							placements--;
+							been_placed = true;
+							break;
+						}
+					}
+					i++;
+					count++;
+				}
+
+			}
+
+			
+			if (!been_placed)
+				cout << "The computer could not move any armies." << endl;
+		}
+		if ("destroyArmies" == action)
+		{
+
+			if (global::players == nullptr)
+			{
+				cout << "Error: destroy armies was called but players are not set in global." << endl;
+				return;
+			}
+
+			if (global::players->size() < 2)
+			{
+				cout << "Computer was trying to destroy an army but it is the only one playing." << endl;
+				return;
+			}
+
+			Player* enemy = nullptr;
+
+			//choose random ish player order 
+			const auto prime = random_prime();
+			const int size = global::players->size();
+			auto q = prime % size;
+			auto t = q;
+
+			for (auto k = 0; k < size; k++, q = (q + prime) % size)
+			{
+				enemy = global::players->at(q);
+
+				if (enemy == &p)
+				{
+					continue;
+				}
+
+				for (auto j : *enemy->armies)
+				{
+					if (j->occupiedCountry != nullptr)
+					{
+						proOb = new ProcessActOb(global::action, &p, j->occupiedCountry, enemy);
+						global::action->Notify();
+						delete proOb;
+						proOb = nullptr;
+						p.destroyArmy(j->occupiedCountry, enemy);
+						return;
+					}
+				}
+			}
+
+			cout << "\tComputer had no armies it could destroy." << endl;
+			return;
+
+		}
+	
+}
+
+#include <random> 
+
+int random_prime()
+{
+	//need a random prime larger than player count
+	const int arr[] =
+	{
+		 31,    37,    41,    43,    47,    53,    59,    61,    67,    71,
+		 73,    79,    83,    89,    97,   101,   103,   107,   109,   113,
+		127,   131,   137,   139,   149,   151,   157,   163,   167,   173,
+		179,   181,   191,   193,   197,   199,   211,   223,   227,   229,
+	};
+
+	return arr[global::random_range_int(0, 39)];
 }

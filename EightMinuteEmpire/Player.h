@@ -7,6 +7,7 @@
 #include "Map.h"
 #include "BidingFacility.h"
 #include "cards.h"
+#include "PlayerStrategies.h"
 #include "GameObservers.h"
 
 using namespace std;
@@ -18,6 +19,7 @@ class Player;
 class Country;
 class Continent;
 class BidingFacility;
+class Strategy;
 
 class Army
 {
@@ -80,10 +82,17 @@ public:
 	void destroyArmy(Country*, Player*);
 	void computeScore();
 	void ignore(Cards*);
-	void payCard(Cards*, int, int*);
+	void payCard(Cards*, int*);
 	void addOwnedCountry(Country*);
 	void addOwnedContinent(Continent*);
 	bool removeOwnedCountry(Country*);
 	bool removeOwnedContinent(Continent*);
 	
+	void set_strategy(Strategy* strat);
+	void execute_strategy();
+	Strategy* get_strategy();
+	
+private:
+	Strategy* strategy;
+
 };

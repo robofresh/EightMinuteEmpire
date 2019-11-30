@@ -4,26 +4,42 @@
     <ClCompile Include="Actions.cpp" />
     <ClCompile Include="BidingFacility.cpp" />
     <ClCompile Include="cards.cpp" />
+    <ClCompile Include="computeScore.cpp" />
+    <ClCompile Include="global.cpp" />
+    <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapLoader.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerStrategies.cpp" />
     <ClCompile Include="computeScore.cpp" />
-    <ClCompile Include="GameObservers.cpp" />
+    <ClCompile Include="singletonTest.cpp" />
     <ClCompile Include="EightMinuteEmpire.cpp" />
     <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="Gamecard.cpp" />
     <ClCompile Include="CardsfactoryDriver.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameEngineDriver.cpp" />
+    <ClCompile Include="StrategyDriver.cpp" />
+    <ClCompile Include="GameStrategy.cpp" />
+    <ClCompile Include="GameStatisticsDriver.cpp" />
+    <ClCompile Include="DrawGameDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />
     <ClInclude Include="BidingFacility.h" />
     <ClInclude Include="cards.h" />
+    <ClInclude Include="computeScore.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="GameObservers.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapLoader.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="computeScore.h" />
     <ClInclude Include="GameObservers.h" />
     <ClInclude Include="Cardsfactory.h" />
+    <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="PlayerStrategies.h" />
+    <ClInclude Include="GameStrategy.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="map1.map" />

@@ -114,12 +114,13 @@ void computeScore::continentScore(Map* map, vector<Player*>* players)
 }
 
 Player* computeScore::determineWinner(vector<Player*>* players) {
-	Player* winner = players->at(0);//Winner initialize to the first player at first
+	Player* winner;
+	winner = players->at(0);
 
 	for (auto i : *players)
 	{
 		i->computeScore();
-		if (*i->victoryPoint > * winner->victoryPoint)//Update Winner by comparing Points
+		if (*i->victoryPoint > *winner->victoryPoint)//Update Winner by comparing Points
 		{
 			winner = i;
 			continue;
@@ -144,9 +145,16 @@ Player* computeScore::determineWinner(vector<Player*>* players) {
 					{
 						winner = i;
 					}
+					if (i->ownedCountries->size() == winner->ownedCountries->size())
+						winner = nullptr;
 				}
 			}
 		}
 	}
+	if (winner == nullptr)
+	{
+		cout << "No winner! Draw Game!" << endl;
+	}
+
 	return winner;
 }
