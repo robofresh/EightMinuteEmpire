@@ -96,7 +96,11 @@ int main()
 		try
 		{
 			cin >> answerMode;
-			if (cin.fail() || answerMode != 1 || answerMode != 2)
+			if (cin.fail())
+				throw InputException();
+			if (answerMode == 1 || answerMode == 2)
+				break;
+			else
 				throw InputException();
 		}
 		catch (InputException e)
@@ -105,8 +109,6 @@ int main()
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout << e.what() << endl;
 		}
-		if (answerMode == 1 || answerMode == 2)
-			break;
 	}
 
 	if (answerMode == 2)

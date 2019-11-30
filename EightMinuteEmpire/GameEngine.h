@@ -16,9 +16,9 @@ class StrategyG;
 
 class GameEngine 
 {
-	enum class mode { single, tournament };
+	enum class Mode { single, tournament };
 private:
-	mode mode;
+	Mode* mode;
 	Map* map;
 	Deck* deck;
 	int* supply;

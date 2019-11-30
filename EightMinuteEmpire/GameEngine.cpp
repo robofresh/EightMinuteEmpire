@@ -125,7 +125,7 @@ void GameEngine::createPlayers()
 
 GameEngine::GameEngine() 
 {
-	mode= ( GameEngine::mode::single);
+	mode= new Mode( GameEngine::Mode::single);
 	global::map = map = nullptr;
 	global::main_deck = deck = nullptr;
 	global::supply= supply = nullptr;
@@ -139,7 +139,7 @@ GameEngine::GameEngine()
 
 GameEngine::GameEngine(string modeChosen) 
 {
-	mode = (modeChosen == "tournament" ? GameEngine::mode::tournament: GameEngine::mode::single);//default mode will be single game
+	mode = new Mode(modeChosen == "tournament" ? GameEngine::Mode::tournament: GameEngine::Mode::single);//default mode will be single game
 	global::map = map = nullptr;
 	global::main_deck=deck = nullptr;
 	global::supply= supply = nullptr;
@@ -148,14 +148,13 @@ GameEngine::GameEngine(string modeChosen)
 	NUM_PLAYERS = nullptr;
 	NUM_COINS_PER_PLAYER = nullptr;
 	strategy = nullptr;
-
 }
 
 GameEngine::~GameEngine()
 {
-	delete map, /*mapLoader,*/ deck, supply, players, startingCountry, NUM_COINS_PER_PLAYER, NUM_PLAYERS, strategy;
+	delete map, mode, deck, supply, players, startingCountry, NUM_COINS_PER_PLAYER, NUM_PLAYERS, strategy;
 	map = NULL;
-	//mapLoader = NULL;
+	mode = NULL;
 	deck = NULL;
 	supply = NULL;
 	players = NULL;
@@ -168,16 +167,16 @@ GameEngine::~GameEngine()
 void GameEngine::setMode(string modeChosen)
 {
 	if (modeChosen == "tournament")
-		mode =GameEngine::mode:: tournament;
+		mode =new Mode(GameEngine::Mode:: tournament);
 	if (modeChosen == "single")
-		mode = GameEngine::mode::single;
+		mode = new Mode(GameEngine::Mode::single);
 	else
 		cout << "Mode invalid" << endl;// TODO: Need to handle this exception
 }
 
 int GameEngine::getMode()
 {
-	return static_cast<int>(this->mode);
+	return static_cast<int>(*this->mode);
 }
 
 void GameEngine::setStartingCountry(Country* country)
