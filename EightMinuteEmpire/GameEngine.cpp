@@ -62,7 +62,6 @@ string getMapFileName()
 //Only called for TournamentMode
 void GameEngine::createPlayers()
 {
-
 	for (int i = 0; i < *NUM_PLAYERS; i++)
 	{
 	
@@ -90,7 +89,7 @@ void GameEngine::createPlayers()
 			if (age > 0 && age < 100)
 				break;
 		}
-
+		//Selection of strategy
 		while (true)
 		{
 			cout << "Select a strategy for the new player:" << endl;
@@ -112,9 +111,6 @@ void GameEngine::createPlayers()
 				break;
 		}
 
-
-
-
 		Player* player = new Player(name, age, *NUM_COINS_PER_PLAYER, COLORS[i], deck);
 		if (answer == 1)
 			player->set_strategy(new Greedy());
@@ -130,8 +126,7 @@ void GameEngine::createPlayers()
 GameEngine::GameEngine() 
 {
 	mode= ( GameEngine::mode::single);
-	map = nullptr;
-	//mapLoader = NULL;
+	global::map = map = nullptr;
 	global::main_deck = deck = nullptr;
 	global::supply= supply = nullptr;
 	global::players = players = new vector<Player*>();
@@ -145,8 +140,7 @@ GameEngine::GameEngine()
 GameEngine::GameEngine(string modeChosen) 
 {
 	mode = (modeChosen == "tournament" ? GameEngine::mode::tournament: GameEngine::mode::single);//default mode will be single game
-	map = nullptr;
-	//mapLoader = NULL;
+	global::map = map = nullptr;
 	global::main_deck=deck = nullptr;
 	global::supply= supply = nullptr;
 	global::players = players = new vector<Player*>();
@@ -202,6 +196,7 @@ void GameEngine::chooseMap()
 	// Select map from list of files.
 	global::map = map = Map::getInstance();
 	MapLoader* mapLoader = nullptr;
+
 	while (true)
 	{
 		string mapFileName = getMapFileName();
@@ -222,6 +217,7 @@ void GameEngine::chooseMap()
 	map->print();
 	cout << endl;
 	setStartingCountry(map->startingCountry); //Starting country is loaded from map
+	delete mapLoader;
 }
 //Retrieve numbers of players for the game
  void GameEngine::setNumOfPlayers()

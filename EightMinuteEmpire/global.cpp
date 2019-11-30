@@ -1,6 +1,4 @@
-
 #pragma once
-
 #include "global.h"
 #include <random>
 
@@ -32,6 +30,4 @@ namespace global
 		std::uniform_int_distribution<int> dis(a, b);
 		return dis(gen);
 	}
-	
-
 }

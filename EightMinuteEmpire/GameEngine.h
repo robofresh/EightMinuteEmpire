@@ -20,8 +20,6 @@ class GameEngine
 private:
 	mode mode;
 	Map* map;
-	MapLoader mapLoader;//TODO: Will need to change this to a ptr since 
-	//all member of a class needs to be ptr
 	Deck* deck;
 	int* supply;
 	vector<Player*>* players;

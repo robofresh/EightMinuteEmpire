@@ -87,19 +87,34 @@ int main()
 
 	cout << "Game starts!" << endl;
 
-	//Selection of mode of Game
-	cout << " Select mode " << endl;
-	cout << "1. Single mode" << endl;
-	cout << "2. Tournament mode" << endl;
+	while (true)
+	{
+		//Selection of mode of Game
+		cout << " Select mode " << endl;
+		cout << "1. Single mode" << endl;
+		cout << "2. Tournament mode" << endl;
+		try
+		{
+			cin >> answerMode;
+			if (cin.fail() || answerMode != 1 || answerMode != 2)
+				throw InputException();
+		}
+		catch (InputException e)
+		{
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << e.what() << endl;
+		}
+		if (answerMode == 1 || answerMode == 2)
+			break;
+	}
 
-	cin >> answerMode;
 	if (answerMode == 2)
 	{
 		game = new GameEngine("tournament");
 		game->set_strategy(new TournamentMode());
 	}
-
-	else
+	else//While loop is taking care that mode should be 1 or 2
 	{
 		game = new GameEngine("single");
 		game->set_strategy(new SingleMode());
@@ -148,6 +163,7 @@ int main()
 	delete track;
 	track = NULL;
 
+	//GameStat Observer
 	GameStatistics* gameStats = new GameStatistics(global::map, global::players);
 
 	cout << "Let the game begin!\n" << endl;
@@ -200,13 +216,6 @@ int main()
 	//Compute Scores
 	computeScore score = computeScore();
 	Player* winner = score.determineWinner(global::players);
-
-	//cout << "The winner is " << *winner->name << endl;//Print the winner of the game
-	//
-	//for (int i = 0; i < global::players->size(); i++)//Prints all the players
-	//{
-	//	global::players->at(i)->printPlayer();
-	//}
 	GameWinningScores* gameWin = new GameWinningScores(global::map, global::players, winner);
 	global::map->Notify();
 
@@ -244,12 +253,17 @@ int main()
 	delete turn;
 	turn = NULL;
 
+	delete track;
+	track = NULL;
+
 	delete gameWin;
 	gameWin = NULL;
 
 	delete gameStats;
 	gameStats = NULL;
 
+	delete game;
+	game = NULL;
 }
 
 //Run program: Ctrl + F5 or Debug > Start Without Debugging menu
