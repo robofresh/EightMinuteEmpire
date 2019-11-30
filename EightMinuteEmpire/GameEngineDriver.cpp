@@ -30,8 +30,6 @@ struct InsufficientCoinsException : public exception
 	}
 };
 
-
-
 //Determine the amount of cards per player to reach to end the game
 int determineMaxCards(int num_player)
 {
