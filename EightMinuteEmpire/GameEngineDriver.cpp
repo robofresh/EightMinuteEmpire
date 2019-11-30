@@ -220,6 +220,11 @@ int main()
 	// #################################################
 	//						Cleanup
 	// #################################################
+	delete gameWin;
+	gameWin = NULL;
+
+	delete gameStats;
+	gameStats = NULL;
 
 	for (int i = 0; i < *game->getNumOfPlayers(); i++)
 	{
@@ -252,12 +257,6 @@ int main()
 
 	delete track;
 	track = NULL;
-
-	delete gameWin;
-	gameWin = NULL;
-
-	delete gameStats;
-	gameStats = NULL;
 
 	delete game;
 	game = NULL;
