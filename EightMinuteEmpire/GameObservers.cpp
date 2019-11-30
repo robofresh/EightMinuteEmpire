@@ -529,7 +529,15 @@ void GameWinningScores::display()
 	}
 	cout << string(80, '-') << endl;
 	cout << endl;
-	cout << "The winner is " << *winningPlayer->name << "!" << endl;
-	cout << string(80, '#') << endl;
+	if (winningPlayer != nullptr)
+	{
+		cout << "The winner is " << *winningPlayer->name << "!" << endl;
+		cout << string(80, '#') << endl;
+	}
+	else
+	{
+		cout << "No winner!" << endl;
+	}
+
 }
 

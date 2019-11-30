@@ -22,6 +22,7 @@
     <ClCompile Include="StrategyDriver.cpp" />
     <ClCompile Include="GameStrategy.cpp" />
     <ClCompile Include="GameStatisticsDriver.cpp" />
+    <ClCompile Include="DrawGameDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />

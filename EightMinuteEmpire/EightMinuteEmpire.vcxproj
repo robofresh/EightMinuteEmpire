@@ -24,6 +24,7 @@
     <ClCompile Include="cards.cpp" />
     <ClCompile Include="CardsfactoryDriver.cpp" />
     <ClCompile Include="computeScore.cpp" />
+    <ClCompile Include="DrawGameDriver.cpp" />
     <ClCompile Include="EightMinuteEmpire.cpp" />
     <ClCompile Include="Gamecard.cpp" />
     <ClCompile Include="GameEngine.cpp" />

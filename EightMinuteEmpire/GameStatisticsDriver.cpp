@@ -22,7 +22,7 @@
 //	global::players = new vector<Player*>();
 //	const int NUM_COINS_PER_PLAYER = 20;
 //	const int NUM_PLAYERS = 2;
-//	Player* player1 = new Player("Alice", 23, NUM_COINS_PER_PLAYER, "Red", global::main_deck);
+//	Player* player1 = new Player("Alice", 25, NUM_COINS_PER_PLAYER, "Red", global::main_deck);
 //	global::players->push_back(player1);
 //	Player* player2 = new Player("Bob", 25, NUM_COINS_PER_PLAYER, "Blue", global::main_deck);
 //	global::players->push_back(player2);
