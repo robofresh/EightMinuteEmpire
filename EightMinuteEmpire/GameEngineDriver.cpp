@@ -226,21 +226,13 @@ int main()
 	delete gameStats;
 	gameStats = NULL;
 
-	for (int i = 0; i < *game->getNumOfPlayers(); i++)
-	{
-		delete global::players->at(i);
-	}
-	delete global::players;
-	global::players = NULL;
-
-	delete global::main_deck;
-	global::main_deck = NULL;
-
-	delete Map::getInstance();
-
-	global::supply = NULL;
+	delete global::currentPlayer;
 	global::currentPlayer = NULL;
+
+	delete winner;
 	winner = NULL;
+
+	delete lastPlayer;
 	lastPlayer = NULL;
 
 	delete global::currentPlayerIndex;
@@ -254,9 +246,6 @@ int main()
 
 	delete turn;
 	turn = NULL;
-
-	delete track;
-	track = NULL;
 
 	delete game;
 	game = NULL;
