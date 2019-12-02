@@ -226,13 +226,9 @@ int main()
 	delete gameStats;
 	gameStats = NULL;
 
-	delete global::currentPlayer;
+
 	global::currentPlayer = NULL;
-
-	delete winner;
 	winner = NULL;
-
-	delete lastPlayer;
 	lastPlayer = NULL;
 
 	delete global::currentPlayerIndex;
