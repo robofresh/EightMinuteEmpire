@@ -145,20 +145,18 @@ int main()
 
 	//Attach PlayerOb on each player with their index
 	PlayerObserver* observeP;
-	int* track = new int(*global::currentPlayerIndex);
-	int* turn = new int(1);
+	int track = *global::currentPlayerIndex;
+	int turn = 1;
 
 	do
 	{
-		observeP = new PlayerObserver(global::players->at(*track), turn);
-		track = new int((*track + 1 + *game->getNumOfPlayers()) % *game->getNumOfPlayers());
-		turn = new int(*turn + 1);
+		observeP = new PlayerObserver(global::players->at(track), turn);
+		track = ((track + 1 + *game->getNumOfPlayers()) % *game->getNumOfPlayers());
+		turn = (turn + 1);
 		observeP = NULL;
 
-	} while (*track != *global::currentPlayerIndex);
+	} while (track != *global::currentPlayerIndex);
 
-	delete track;
-	track = NULL;
 
 	//GameStat Observer
 	GameStatistics* gameStats = new GameStatistics(global::map, global::players);
@@ -239,9 +237,6 @@ int main()
 
 	delete observeP;
 	observeP = NULL;
-
-	delete turn;
-	turn = NULL;
 
 	delete game;
 	game = NULL;

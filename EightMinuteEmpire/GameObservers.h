@@ -39,7 +39,7 @@ class PlayerObserver : public Observer
 {
 public:
 	PlayerObserver();
-	PlayerObserver(Player*, int* );
+	PlayerObserver(Player*, int );
 	~PlayerObserver();
 	void Update();
 	void display();
