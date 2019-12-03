@@ -220,20 +220,13 @@ int main()
 	// #################################################
 	//						Cleanup
 	// #################################################
+	delete gameWin;
+	gameWin = NULL;
 
-	for (int i = 0; i < *game->getNumOfPlayers(); i++)
-	{
-		delete global::players->at(i);
-	}
-	delete global::players;
-	global::players = NULL;
+	delete gameStats;
+	gameStats = NULL;
 
-	delete global::main_deck;
-	global::main_deck = NULL;
 
-	delete Map::getInstance();
-
-	global::supply = NULL;
 	global::currentPlayer = NULL;
 	winner = NULL;
 	lastPlayer = NULL;
@@ -249,15 +242,6 @@ int main()
 
 	delete turn;
 	turn = NULL;
-
-	delete track;
-	track = NULL;
-
-	delete gameWin;
-	gameWin = NULL;
-
-	delete gameStats;
-	gameStats = NULL;
 
 	delete game;
 	game = NULL;

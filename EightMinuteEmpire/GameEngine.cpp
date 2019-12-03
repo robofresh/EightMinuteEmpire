@@ -141,7 +141,6 @@ GameEngine::GameEngine()
 
 GameEngine::GameEngine(string modeChosen) 
 {
-	mode = new Mode(modeChosen == "tournament" ? GameEngine::Mode::tournament: GameEngine::Mode::single);//default mode will be single game
 	global::map = map = nullptr;
 	global::main_deck=deck = nullptr;
 	global::supply= supply = nullptr;
@@ -150,33 +149,43 @@ GameEngine::GameEngine(string modeChosen)
 	NUM_PLAYERS = nullptr;
 	NUM_COINS_PER_PLAYER = nullptr;
 	strategy = nullptr;
-	if (modeChosen == "tournament")
-		set_strategy(new TournamentMode());
-	if (modeChosen == "single")
-		set_strategy(new SingleMode());
-
+	mode = nullptr;
+	setMode(modeChosen);
 }
 
 GameEngine::~GameEngine()
 {
-	delete map, mode, deck, supply, players, startingCountry, NUM_COINS_PER_PLAYER, NUM_PLAYERS, strategy;
+	for (int i = 0; i < *NUM_PLAYERS; i++)
+	{
+		delete players->at(i);
+	}
+	delete players;
+	players = NULL;
+
+	delete map, mode, deck, supply, startingCountry, NUM_COINS_PER_PLAYER, NUM_PLAYERS, strategy;
 	map = NULL;
 	mode = NULL;
 	deck = NULL;
 	supply = NULL;
-	players = NULL;
 	startingCountry = NULL;
 	NUM_COINS_PER_PLAYER = NULL;
 	NUM_PLAYERS = NULL;
 	strategy = NULL;
+
 }
 
 void GameEngine::setMode(string modeChosen)
 {
 	if (modeChosen == "tournament")
+	{
 		mode =new Mode(GameEngine::Mode:: tournament);
+		set_strategy(new TournamentMode());
+	}
 	if (modeChosen == "single")
+	{
 		mode = new Mode(GameEngine::Mode::single);
+		set_strategy(new SingleMode());
+	}
 }
 
 int GameEngine::getMode()
