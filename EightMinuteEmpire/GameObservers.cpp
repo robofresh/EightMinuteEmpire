@@ -51,11 +51,11 @@ PlayerObserver::PlayerObserver():_playerSubject(nullptr), _index(nullptr)
 {//Empty
 }
 
-PlayerObserver::PlayerObserver(Player* player, int* index)
+PlayerObserver::PlayerObserver(Player* player, int index)
 {
 	_playerSubject = player;
 	_playerSubject->Attach(this);
-	_index = index;
+	_index = new int(index);
 }
 
 PlayerObserver::~PlayerObserver()
