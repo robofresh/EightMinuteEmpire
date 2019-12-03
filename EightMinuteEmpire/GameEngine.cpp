@@ -251,6 +251,7 @@ void GameEngine::chooseMap()
 			break;
 		}
 	}
+	delete NUM_PLAYERS;
 	NUM_PLAYERS = new int(playerInput);
 	setNumCoinsPerPlayer(*NUM_PLAYERS);
 }
@@ -280,6 +281,7 @@ void GameEngine::chooseMap()
 	 default:
 		 break;
 	 }
+	delete NUM_COINS_PER_PLAYER;
 	NUM_COINS_PER_PLAYER = new int(numCoinsPerPlayer);
  }
 
@@ -295,6 +297,7 @@ void GameEngine::chooseMap()
 
  void GameEngine::setSupply()
  {
+	delete supply;
 	 supply = new int (44 - (*NUM_COINS_PER_PLAYER * *NUM_PLAYERS));
 	 global::supply = supply;
 	 cout << "Total supply of coins was 44, but since each player took " << *NUM_COINS_PER_PLAYER << " coins, supply is now at " << *supply << " coins.\n" << endl;
