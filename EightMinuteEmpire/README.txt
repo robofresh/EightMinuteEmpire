@@ -1,7 +1,7 @@
-Name: Scott Smith - 40101573 
-Name: Samantha Kerr - 40007328
-Name: Hai Ha Nguyen - 40052116 
-Name: Eunsuk Choi - 40002230
+Name: Scott Smith 
+Name: Samantha Kerr
+Name: Hai Ha Nguyen 
+Name: Eunsuk Choi
 
 1. Open the project in Visual Studio
   --> File --> Open --> Project/Solution --> Find project folder and open .sln file
